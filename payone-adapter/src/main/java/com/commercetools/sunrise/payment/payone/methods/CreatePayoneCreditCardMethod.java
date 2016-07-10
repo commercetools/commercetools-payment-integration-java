@@ -1,9 +1,9 @@
 package com.commercetools.sunrise.payment.payone.methods;
 
 import com.commercetools.sunrise.payment.actions.OperationResult;
-import com.commercetools.sunrise.payment.domain.CreatePaymentData;
-import com.commercetools.sunrise.payment.domain.PaymentCreationResult;
 import com.commercetools.sunrise.payment.domain.PaymentCreationResultBuilder;
+import com.commercetools.sunrise.payment.model.CreatePaymentData;
+import com.commercetools.sunrise.payment.model.PaymentCreationResult;
 import com.commercetools.sunrise.payment.payone.PayoneHelper;
 import com.commercetools.sunrise.payment.utils.PaymentLookupHelper;
 

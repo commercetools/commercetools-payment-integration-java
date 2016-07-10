@@ -1,5 +1,7 @@
 package com.commercetools.sunrise.payment.domain;
 
+import com.commercetools.sunrise.payment.model.CreatePaymentData;
+import com.commercetools.sunrise.payment.model.HttpRequestInfo;
 import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.client.SphereClient;
 import io.sphere.sdk.customers.Customer;
@@ -46,14 +48,14 @@ public class CreatePaymentDataTest {
 
     @Test
     public void of() {
-        CreatePaymentData cpd = CreatePaymentData.of(mockClient, mockCart);
+        CreatePaymentData cpd = CreatePaymentDataBuilder.of(mockClient, mockCart).build();
         assertEquals(CLIENT_TO_STRING, cpd.getSphereClient().toString());
         assertEquals(CART_TO_STRING, cpd.getCart().toString());
     }
 
     @Test
     public void addCustomer() {
-        CreatePaymentData cpd = CreatePaymentData.of(mockClient, mockCart).withCustomer(mockCustomer);
+        CreatePaymentData cpd = CreatePaymentDataBuilder.of(mockClient, mockCart).withCustomer(mockCustomer).build();
 
         assertTrue(cpd.getCustomer().isPresent());
         assertEquals(CUSTOMER_TO_STRING, cpd.getCustomer().get().toString());
@@ -61,7 +63,7 @@ public class CreatePaymentDataTest {
 
     @Test
     public void addHttpRequestInformation() {
-        CreatePaymentData cpd = CreatePaymentData.of(mockClient, mockCart).withHttpRequestInfo(mockRequestInfo);
+        CreatePaymentData cpd = CreatePaymentDataBuilder.of(mockClient, mockCart).withHttpRequestInfo(mockRequestInfo).build();
 
         assertTrue(cpd.getHttpRequestInfo().isPresent());
         assertEquals(REQUEST_TO_STRING, cpd.getHttpRequestInfo().get().toString());

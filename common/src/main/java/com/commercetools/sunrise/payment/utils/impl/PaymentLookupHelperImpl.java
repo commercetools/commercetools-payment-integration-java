@@ -1,5 +1,6 @@
-package com.commercetools.sunrise.payment.utils;
+package com.commercetools.sunrise.payment.utils.impl;
 
+import com.commercetools.sunrise.payment.utils.PaymentLookupHelper;
 import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.client.SphereClient;
 import io.sphere.sdk.models.Reference;

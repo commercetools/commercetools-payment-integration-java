@@ -1,5 +1,6 @@
 package com.commercetools.sunrise.payment.domain;
 
+import com.commercetools.sunrise.payment.model.HttpRequestInfo;
 import org.junit.Before;
 import org.junit.Test;
 

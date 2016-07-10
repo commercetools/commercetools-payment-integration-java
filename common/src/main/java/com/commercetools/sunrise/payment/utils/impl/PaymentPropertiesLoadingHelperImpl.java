@@ -1,5 +1,6 @@
-package com.commercetools.sunrise.payment.utils;
+package com.commercetools.sunrise.payment.utils.impl;
 
+import com.commercetools.sunrise.payment.utils.PaymentPropertiesLoadingHelper;
 import io.sphere.sdk.models.LocalizedString;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentMethodInfoBuilder;
@@ -38,8 +39,6 @@ public class PaymentPropertiesLoadingHelperImpl implements PaymentPropertiesLoad
         Set<Object> keys = properties.keySet().stream().filter(key -> key.toString().startsWith(prefix + "name.")).collect(Collectors.toSet());
 
         // load localized values
-
-
         LocalizedString localizedName = LocalizedString.ofStringToStringMap(
                 properties.keySet().stream()
                         .map(key -> key.toString())

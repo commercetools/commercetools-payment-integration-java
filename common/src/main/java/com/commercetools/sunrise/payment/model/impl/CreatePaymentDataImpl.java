@@ -1,7 +1,7 @@
-package com.commercetools.sunrise.payment.model;
+package com.commercetools.sunrise.payment.model.impl;
 
-import com.commercetools.sunrise.payment.domain.CreatePaymentData;
-import com.commercetools.sunrise.payment.domain.HttpRequestInfo;
+import com.commercetools.sunrise.payment.model.CreatePaymentData;
+import com.commercetools.sunrise.payment.model.HttpRequestInfo;
 import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.client.SphereClient;
 import io.sphere.sdk.customers.Customer;
@@ -20,14 +20,17 @@ public class CreatePaymentDataImpl extends InteractionDataBase implements Create
     @Nullable
     private HttpRequestInfo httpRequestInfo;
 
-    public CreatePaymentDataImpl(SphereClient client, Cart c) {
+    public CreatePaymentDataImpl(SphereClient client, Cart c, @Nullable Customer customer, @Nullable HttpRequestInfo requestInfo) {
         super(client);
 
         this.cart = c;
+        this.customer = customer;
+        this.httpRequestInfo = requestInfo;
     }
 
     @Override
     public Cart getCart() {
+
         return this.cart;
     }
 
@@ -38,19 +41,8 @@ public class CreatePaymentDataImpl extends InteractionDataBase implements Create
     }
 
     @Override
-    public CreatePaymentData withCustomer(Customer c) {
-        this.customer = c;
-        return this;
-    }
-
-    @Override
     public Optional<HttpRequestInfo> getHttpRequestInfo() {
-        return Optional.ofNullable(httpRequestInfo);
-    }
 
-    @Override
-    public CreatePaymentData withHttpRequestInfo(HttpRequestInfo hri) {
-        this.httpRequestInfo = hri;
-        return this;
+        return Optional.ofNullable(httpRequestInfo);
     }
 }

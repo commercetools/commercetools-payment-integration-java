@@ -1,9 +1,12 @@
 package com.commercetools.sunrise.payment.domain;
 
+import com.commercetools.sunrise.payment.model.CreatePaymentData;
+import com.commercetools.sunrise.payment.model.PaymentCreationResult;
 import io.sphere.sdk.payments.Payment;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -22,9 +25,16 @@ public interface PaymentServiceProvider {
     String getId();
 
     /**
-     * @return a list of payment methods this PSP supports
+     * @return an unfiltered list of payment methods this PSP supports
      */
     List<PaymentMethodInfo> getAvailablePaymentMethods();
+
+    /**
+     * Create a (filtered) list of payment methods.
+     * @param filter a filter function that can be applied to the whole list of payment methods before returning them
+     * @return a list of payment methods this PSP supports
+     */
+    List<PaymentMethodInfo> getAvailablePaymentMethods(@Nullable Function<List<PaymentMethodInfo>, List<PaymentMethodInfo>> filter);
 
     /**
      * Create a function that can create a payment for the passed method Id

@@ -1,5 +1,6 @@
 package com.commercetools.sunrise.payment.utils;
 
+import com.commercetools.sunrise.payment.utils.impl.PaymentPropertiesLoadingHelperImpl;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 
 import java.io.IOException;

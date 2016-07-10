@@ -2,7 +2,8 @@ package com.commercetools.sunrise.payment.domain;
 
 import com.commercetools.sunrise.payment.actions.HandlingTask;
 import com.commercetools.sunrise.payment.actions.OperationResult;
-import com.commercetools.sunrise.payment.model.PaymentCreationResultImpl;
+import com.commercetools.sunrise.payment.model.PaymentCreationResult;
+import com.commercetools.sunrise.payment.model.impl.PaymentCreationResultImpl;
 import io.sphere.sdk.payments.Payment;
 
 /**

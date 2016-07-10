@@ -1,6 +1,6 @@
-package com.commercetools.sunrise.payment.domain;
+package com.commercetools.sunrise.payment.model;
 
-import com.commercetools.sunrise.payment.model.HttpRequestInfoImpl;
+import com.commercetools.sunrise.payment.model.impl.HttpRequestInfoImpl;
 
 import java.net.Inet4Address;
 import java.net.Inet6Address;

@@ -1,4 +1,4 @@
-package com.commercetools.sunrise.payment.domain;
+package com.commercetools.sunrise.payment.model;
 
 import io.sphere.sdk.client.SphereClient;
 

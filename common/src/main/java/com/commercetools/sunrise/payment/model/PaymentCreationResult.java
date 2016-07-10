@@ -1,4 +1,4 @@
-package com.commercetools.sunrise.payment.domain;
+package com.commercetools.sunrise.payment.model;
 
 import com.commercetools.sunrise.payment.actions.HandlingTask;
 import com.commercetools.sunrise.payment.actions.OperationResult;

@@ -1,4 +1,4 @@
-package com.commercetools.sunrise.payment.domain;
+package com.commercetools.sunrise.payment.model;
 
 /**
  * Created by mgatz on 7/18/16.

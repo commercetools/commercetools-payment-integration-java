@@ -1,6 +1,6 @@
-package com.commercetools.sunrise.payment.model;
+package com.commercetools.sunrise.payment.model.impl;
 
-import com.commercetools.sunrise.payment.domain.InteractionData;
+import com.commercetools.sunrise.payment.model.InteractionData;
 import io.sphere.sdk.client.SphereClient;
 
 /**

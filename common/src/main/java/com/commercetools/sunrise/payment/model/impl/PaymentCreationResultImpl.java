@@ -1,8 +1,8 @@
-package com.commercetools.sunrise.payment.model;
+package com.commercetools.sunrise.payment.model.impl;
 
 import com.commercetools.sunrise.payment.actions.HandlingTask;
 import com.commercetools.sunrise.payment.actions.OperationResult;
-import com.commercetools.sunrise.payment.domain.PaymentCreationResult;
+import com.commercetools.sunrise.payment.model.PaymentCreationResult;
 import io.sphere.sdk.payments.Payment;
 
 import javax.annotation.Nullable;

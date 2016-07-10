@@ -1,7 +1,7 @@
 package com.commercetools.sunrise.payment.service;
 
-import com.commercetools.sunrise.payment.domain.CreatePaymentData;
 import com.commercetools.sunrise.payment.domain.PaymentServiceProvider;
+import com.commercetools.sunrise.payment.model.CreatePaymentData;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
 

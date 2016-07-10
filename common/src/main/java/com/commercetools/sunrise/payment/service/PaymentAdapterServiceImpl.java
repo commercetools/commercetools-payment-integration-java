@@ -2,6 +2,7 @@ package com.commercetools.sunrise.payment.service;
 
 import com.commercetools.sunrise.payment.domain.PaymentServiceProvider;
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
+import com.commercetools.sunrise.payment.model.PaymentCreationResult;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
 
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
+import java.util.concurrent.CompletionStage;
 
 /**
  * Provides access to the payment service provider handling methods.
@@ -41,8 +43,12 @@ public class PaymentAdapterServiceImpl implements PaymentAdapterService {
     }
 
     @Override
-    public void createPayment(String methodID, CreatePaymentData data) {
+    public CompletionStage<PaymentCreationResult> createPayment(String interfaceId, String methodID, CreatePaymentData data) {
+        // lookup implementation needed to be called
+        PaymentServiceProvider provider = findAllPaymentServiceProviders().stream().filter(psp -> psp.getId().equals(interfaceId)).findFirst().get();
 
+        // let the method be created and apply the passed data
+        return provider.provideCreatePaymentHandler(methodID).apply(data);
     }
 
     @Override

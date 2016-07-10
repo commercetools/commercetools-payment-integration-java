@@ -7,8 +7,7 @@ import com.commercetools.sunrise.payment.model.PaymentCreationResult;
 import io.sphere.sdk.payments.Payment;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -19,7 +18,7 @@ public class PaymentCreationResultTest {
     @Test
     public void getOperationResult() {
         PaymentCreationResult pcr = PaymentCreationResultBuilder.of(OperationResult.SUCCESS).build();
-        assertEquals(OperationResult.SUCCESS, pcr.getOperationResult());
+        assertThat(pcr.getOperationResult()).isEqualTo(OperationResult.SUCCESS);
     }
 
     @Test
@@ -28,15 +27,8 @@ public class PaymentCreationResultTest {
         when(pMock.getExternalId()).thenReturn("foo"); // just to check that the returned payment object is the same
 
         PaymentCreationResult pcr = PaymentCreationResultBuilder.of(OperationResult.SUCCESS).payment(pMock).build();
-        assertTrue(pcr.getCreatedPaymentObject().isPresent());
-        assertEquals("foo", pcr.getCreatedPaymentObject().get().getExternalId());
-    }
-
-    @Test
-    public void hasCancelledPayments() {
-        PaymentCreationResult pcr = PaymentCreationResultBuilder.of(OperationResult.SUCCESS).hasCancelledPayments(true).build();
-
-        assertTrue(pcr.hasCancelledPayments());
+        assertThat(pcr.getCreatedPaymentObject().isPresent()).isTrue();
+        assertThat(pcr.getCreatedPaymentObject().get().getExternalId()).isEqualTo("foo");
     }
 
     @Test
@@ -45,6 +37,6 @@ public class PaymentCreationResultTest {
         when(ht.getAction()).thenReturn(ShopAction.CUSTOM);
 
         PaymentCreationResult pcr = PaymentCreationResultBuilder.of(OperationResult.FAILED).handlingTask(ht).build();
-        assertThat(pcr.getHandlingTask().getAction(), is(ShopAction.CUSTOM));
+        assertThat(pcr.getHandlingTask().getAction()).isEqualTo(ShopAction.CUSTOM);
     }
 }

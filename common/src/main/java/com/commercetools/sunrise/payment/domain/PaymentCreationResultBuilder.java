@@ -13,7 +13,6 @@ import io.sphere.sdk.payments.Payment;
 public class PaymentCreationResultBuilder {
     private OperationResult operationResult;
     private Payment payment;
-    private boolean hasCancelledPayments;
     private HandlingTask handlingTask;
 
     private PaymentCreationResultBuilder(OperationResult operationResult) {
@@ -40,16 +39,6 @@ public class PaymentCreationResultBuilder {
     }
 
     /**
-     * Add a information if there were payments cancelled.
-     * @param has true if payments were cancelled
-     * @return enriched self
-     */
-    public PaymentCreationResultBuilder hasCancelledPayments(boolean has) {
-        this.hasCancelledPayments = has;
-        return this;
-    }
-
-    /**
      * Add information of the {@link HandlingTask} the shop will recieve.
      * @param task the handling task describing the next action to be taken
      * @return enriched self
@@ -63,6 +52,6 @@ public class PaymentCreationResultBuilder {
      * @return the created {@link PaymentCreationResult} object.
      */
     public PaymentCreationResult build() {
-        return new PaymentCreationResultImpl(this.operationResult, this.payment, this.hasCancelledPayments, this.handlingTask);
+        return new PaymentCreationResultImpl(this.operationResult, this.payment, this.handlingTask);
     }
 }

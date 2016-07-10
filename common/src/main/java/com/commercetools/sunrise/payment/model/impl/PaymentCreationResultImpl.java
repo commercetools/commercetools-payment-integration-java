@@ -16,13 +16,11 @@ public class PaymentCreationResultImpl implements PaymentCreationResult {
     private OperationResult operationResult;
     @Nullable
     private Payment payment;
-    private boolean hasCancelledPayments;
     private HandlingTask handlingTask;
 
-    public PaymentCreationResultImpl(OperationResult operationResult, Payment payment, boolean hasCancelledPayments, HandlingTask handlingTask) {
+    public PaymentCreationResultImpl(OperationResult operationResult, Payment payment, HandlingTask handlingTask) {
         this.operationResult = operationResult;
         this.payment = payment;
-        this.hasCancelledPayments = hasCancelledPayments;
         this.handlingTask = handlingTask;
     }
 
@@ -36,12 +34,6 @@ public class PaymentCreationResultImpl implements PaymentCreationResult {
     public Optional<Payment> getCreatedPaymentObject() {
 
         return Optional.ofNullable(this.payment);
-    }
-
-    @Override
-    public boolean hasCancelledPayments() {
-
-        return this.hasCancelledPayments;
     }
 
     @Override

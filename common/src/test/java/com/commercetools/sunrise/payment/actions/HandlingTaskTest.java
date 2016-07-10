@@ -5,9 +5,7 @@ import org.junit.Test;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by mgatz on 7/20/16.
@@ -15,8 +13,8 @@ import static org.junit.Assert.assertThat;
 public class HandlingTaskTest {
     @Test
     public void createNew() {
-        assertThat(HandlingTask.of(ShopAction.CONTINUE), instanceOf(HandlingTask.class));
-        assertThat(HandlingTask.of(ShopAction.REDIRECT).getAction(), is(ShopAction.REDIRECT));
+        assertThat(HandlingTask.of(ShopAction.CONTINUE)).isInstanceOf(HandlingTask.class);
+        assertThat(HandlingTask.of(ShopAction.REDIRECT).getAction()).isEqualTo(ShopAction.REDIRECT);
     }
 
     @Test
@@ -25,10 +23,10 @@ public class HandlingTaskTest {
 
         // optional test without a url given
         HandlingTask t1 = HandlingTask.of(ShopAction.CONTINUE);
-        assertThat(t1.getRedirectUrl().isPresent(), is(false));
+        assertThat(t1.getRedirectUrl().isPresent()).isFalse();
 
         HandlingTask t2 = HandlingTask.of(ShopAction.CONTINUE).redirectUrl(toTest);
-        assertThat(t2.getRedirectUrl().get(), is(toTest));
+        assertThat(t2.getRedirectUrl().get()).isEqualTo(toTest);
     }
 
     @Test
@@ -37,7 +35,7 @@ public class HandlingTaskTest {
         Object value = "bar";
 
         HandlingTask t = HandlingTask.of(ShopAction.CONTINUE).addData(key, value);
-        assertThat(t.getAdditionalData().size(), is(1));
-        assertThat(t.getAdditionalData().get(key), is(value));
+        assertThat(t.getAdditionalData().size()).isEqualTo(1);
+        assertThat(t.getAdditionalData().get(key)).isEqualTo(value);
     }
 }

@@ -2,11 +2,13 @@ package com.commercetools.sunrise.payment.service;
 
 import com.commercetools.sunrise.payment.domain.PaymentServiceProvider;
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
+import com.commercetools.sunrise.payment.model.PaymentCreationResult;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletionStage;
 
 /**
  * Defines the methods that the shop could call to handle its payment.
@@ -38,10 +40,11 @@ public interface PaymentAdapterService {
     /**
      * Creates a new payment object at the CTP and theirby starts a new payment transaction workflow.
      * Possibly existing payments will be cancelled but not deleted.
+     * @param interfaceId the PSP interface ID
      * @param methodID the ID of the selected payment method
      * @param data the wrapper object for all possibly needed data
      */
-    void createPayment(String methodID, CreatePaymentData data);
+    CompletionStage<PaymentCreationResult> createPayment(String interfaceId, String methodID, CreatePaymentData data);
 
     /**
      * Create a new payment transaction for the payment with the passed reference.

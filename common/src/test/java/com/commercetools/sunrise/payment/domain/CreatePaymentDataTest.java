@@ -9,8 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -49,23 +48,23 @@ public class CreatePaymentDataTest {
     @Test
     public void of() {
         CreatePaymentData cpd = CreatePaymentDataBuilder.of(mockClient, mockCart).build();
-        assertEquals(CLIENT_TO_STRING, cpd.getSphereClient().toString());
-        assertEquals(CART_TO_STRING, cpd.getCart().toString());
+        assertThat(cpd.getSphereClient().toString()).isEqualTo(CLIENT_TO_STRING);
+        assertThat(cpd.getCart().toString()).isEqualTo(CART_TO_STRING);
     }
 
     @Test
     public void addCustomer() {
         CreatePaymentData cpd = CreatePaymentDataBuilder.of(mockClient, mockCart).withCustomer(mockCustomer).build();
 
-        assertTrue(cpd.getCustomer().isPresent());
-        assertEquals(CUSTOMER_TO_STRING, cpd.getCustomer().get().toString());
+        assertThat(cpd.getCustomer().isPresent()).isTrue();
+        assertThat(cpd.getCustomer().get().toString()).isEqualTo(CUSTOMER_TO_STRING);
     }
 
     @Test
     public void addHttpRequestInformation() {
         CreatePaymentData cpd = CreatePaymentDataBuilder.of(mockClient, mockCart).withHttpRequestInfo(mockRequestInfo).build();
 
-        assertTrue(cpd.getHttpRequestInfo().isPresent());
-        assertEquals(REQUEST_TO_STRING, cpd.getHttpRequestInfo().get().toString());
+        assertThat(cpd.getHttpRequestInfo().isPresent()).isTrue();
+        assertThat(cpd.getHttpRequestInfo().get().toString()).isEqualTo(REQUEST_TO_STRING);
     }
 }

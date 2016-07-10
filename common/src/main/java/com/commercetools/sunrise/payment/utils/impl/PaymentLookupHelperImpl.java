@@ -52,9 +52,10 @@ public class PaymentLookupHelperImpl implements PaymentLookupHelper {
                 .plusPredicates(p -> p.paymentMethodInfo().paymentInterface().is(pspId))
                 .plusPredicates(p -> p.paymentMethodInfo().method().is(methodId))
                 .plusSort(p -> p.createdAt().sort().desc());
-
-        for (Reference<Payment> ref : cart.getPaymentInfo().getPayments()) {
-            queryAllRefPayments = queryAllRefPayments.plusPredicates(p -> p.id().is(ref.getId()));
+        if(null != cart.getPaymentInfo()) {
+            for (Reference<Payment> ref : cart.getPaymentInfo().getPayments()) {
+                queryAllRefPayments = queryAllRefPayments.plusPredicates(p -> p.id().is(ref.getId()));
+            }
         }
         return queryAllRefPayments;
     }

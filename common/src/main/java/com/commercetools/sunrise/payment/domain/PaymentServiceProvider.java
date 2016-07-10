@@ -9,6 +9,7 @@ import io.sphere.sdk.payments.PaymentStatus;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletionStage;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -41,7 +42,7 @@ public interface PaymentServiceProvider {
      * @param methodId the ID of the payment method to be used for the payment object
      * @return a function method creating the payment object for the passed method Id
      */
-    Function<CreatePaymentData, PaymentCreationResult> provideCreatePaymentHandler(String methodId);
+    Function<CreatePaymentData, CompletionStage<PaymentCreationResult>> provideCreatePaymentHandler(String methodId);
 
     /**
      * Create a function that can create a payment transaction for a payment object

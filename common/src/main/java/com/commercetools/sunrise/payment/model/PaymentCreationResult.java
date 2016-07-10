@@ -23,11 +23,6 @@ public interface PaymentCreationResult {
     Optional<Payment> getCreatedPaymentObject();
 
     /**
-     * @return true if there were other payment objects at the CTP that were cancelled before creating this new payment object
-     */
-    boolean hasCancelledPayments();
-
-    /**
      * Get the task that describes what actions the shop should do next.
      * @return the task description object
      */

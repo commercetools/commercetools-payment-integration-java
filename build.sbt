@@ -4,7 +4,7 @@ name := "commercetools-sunrise-payment"
 
 organization := "com.commercetools.sunrise.payment"
 
-lazy val jvmSdkVersion = "1.1.0"
+lazy val jvmSdkVersion = "1.3.0"
 
 /**
  * PROJECT DEFINITIONS
@@ -28,7 +28,8 @@ lazy val `common` = project
     libraryDependencies ++= Seq(
       "com.commercetools.sdk.jvm.core" % "commercetools-models" % jvmSdkVersion,
       "com.commercetools.sdk.jvm.core" % "commercetools-java-client" % jvmSdkVersion,
-      "org.mockito" % "mockito-all" % "1.9.5"
+      "org.mockito" % "mockito-all" % "1.9.5",
+      "com.google.code.findbugs" % "jsr305" % "3.0.0"
     )
   )
 

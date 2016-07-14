@@ -1,0 +1,23 @@
+sudo: false
+cache:
+  directories:
+    - "$HOME/.ivy2/cache"
+    - "$HOME/.sbt/boot/"
+
+language: scala
+scala:
+- 2.11.8
+
+script:
+- "sbt test it:test unidoc"
+- if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then sbt
+  "gitPublish target/javaunidoc https://$GH_TOKEN:x-oauth-basic@github.com/$TRAVIS_REPO_SLUG.git
+  javadoc sphere-oss automation@commercetools.de"; fi\
+
+jdk:
+- oraclejdk8
+
+notifications:
+  email:
+    on_success: never
+    on_failure: change

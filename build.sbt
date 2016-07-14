@@ -36,7 +36,7 @@ lazy val `payone` = project
  * COMMON SETTINGS
  */
 
-lazy val commonSettings = releaseSettings ++ Seq (
+lazy val commonSettings = Seq (
   scalaVersion := "2.11.8",
   javacOptions in (Compile, doc) := Seq("-quiet", "-notimestamp"),
   javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
@@ -64,23 +64,5 @@ def configCommonTestSettings(scopes: String) = Seq(
   libraryDependencies ++= Seq (
     "com.novocode" % "junit-interface" % "0.11" % scopes,
     "org.assertj" % "assertj-core" % "3.4.1" % scopes
-  )
-)
-
-/**
- * RELEASE SETTINGS
- */
-
-lazy val releaseSettings = Seq(
-  releaseProcess := Seq[ReleaseStep](
-    checkSnapshotDependencies,
-    inquireVersions,
-    runTest,
-    setReleaseVersion,
-    commitReleaseVersion,
-    tagRelease,
-    setNextVersion,
-    commitNextVersion,
-    pushChanges
   )
 )

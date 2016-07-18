@@ -1,5 +1,4 @@
 import sbt.Keys._
-import ReleaseTransformations._
 
 name := "commercetools-sunrise-payment"
 
@@ -12,7 +11,7 @@ lazy val jvmSdkVersion = "1.1.0"
  */
 
 lazy val `commercetools-sunrise-payment` = (project in file("."))
-  .aggregate(`common`, `payone`)
+  .aggregate(`common`, `payone-adapter`)
   .settings(javaUnidocSettings ++ commonSettings : _*)
 
 lazy val `common` = project
@@ -20,13 +19,11 @@ lazy val `common` = project
   .settings(commonSettings ++ commonTestSettings : _*)
   .settings(
     libraryDependencies ++= Seq(
-      "com.commercetools.sdk.jvm.core" % "commercetools-models" % jvmSdkVersion,
-      "com.commercetools.sdk.jvm.core" % "commercetools-java-client" % jvmSdkVersion,
-      "com.google.code.findbugs" % "jsr305" % "3.0.0"
+      "com.commercetools.sdk.jvm.core" % "commercetools-models" % jvmSdkVersion
     )
   )
 
-lazy val `payone` = project
+lazy val `payone-adapter` = project
   .configs(IntegrationTest)
   .settings(commonSettings ++ commonTestSettings : _*)
   .dependsOn(`common`)

@@ -1,14 +1,16 @@
 package com.commercetools.sunrise.payment.domain;
 
+import io.sphere.sdk.payments.Payment;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * A payment service provider provides functions and consumers that can be used to handle payment related tasks in
+ * A payment service provider provides functions that can be used to handle payment related tasks in
  * a PSP specific way.
  * @author mgatz
  */
@@ -25,11 +27,18 @@ public interface PaymentServiceProvider {
     List<PaymentMethodInfo> getAvailablePaymentMethods(); // TODO decide parameters
 
     /**
-     * Create a consumer that can create a payment for the passed method Id
+     * Create a function that can create a payment for the passed method Id
      * @param methodId the ID of the payment method to be used for the payment object
-     * @return a consumer method creating the payment object for the passed method Id
+     * @return a function method creating the payment object for the passed method Id
      */
-    Consumer<CreatePaymentDataProvider> provideCreatePaymentHandler(String methodId);
+    Function<CreatePaymentDataProvider, Payment> provideCreatePaymentHandler(String methodId);
+
+    /**
+     * Create a function that can create a payment transaction for a payment object
+     * and has the ability to handle overriding of configuration values via given key value pairs.
+     * @return a function method creating a payment transaction
+     */
+    BiFunction<Payment, Map<String, String>, Payment> provideCreatePaymentTransactionHandler();
 
     /**
      * Create a function that can return the payment status for a passed payment reference.

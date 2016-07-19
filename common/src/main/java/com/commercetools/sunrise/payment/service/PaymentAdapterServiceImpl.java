@@ -5,26 +5,63 @@ import com.commercetools.sunrise.payment.domain.PaymentServiceProvider;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletionStage;
+import java.util.Map;
+import java.util.ServiceLoader;
 
 /**
+ * Provides access to the payment service provider handling methods.
+ *
  * Created by mgatz on 7/18/16.
  */
 public class PaymentAdapterServiceImpl implements PaymentAdapterService {
 
-    @Override
-    public List<PaymentServiceProvider> findAllPaymentServiceProviders() {
-        return null;
+    private ServiceLoader<PaymentServiceProvider> pspLoader;
+
+    public PaymentAdapterServiceImpl() {
+
+        pspLoader = ServiceLoader.load(PaymentServiceProvider.class);
     }
 
     @Override
-    public CompletionStage<List<PaymentMethodInfo>> findAvailablePaymentMethods() {
+    public List<PaymentServiceProvider> findAllPaymentServiceProviders() {
+        List<PaymentServiceProvider> result = new ArrayList<>();
+
+        pspLoader.forEach(psp -> {
+            result.add(psp);
+        });
+
+        return result;
+    }
+
+    @Override
+    public List<PaymentMethodInfo> findAvailablePaymentMethods() {
         return null;
     }
 
     @Override
     public void createPayment(String methodID, CreatePaymentDataProvider data) {
+
+    }
+
+    @Override
+    public void createPaymentTransaction(String paymentRef) {
+
+    }
+
+    @Override
+    public void createPaymentTransaction(String paymentRef, Map<String, String> configData) {
+
+    }
+
+    @Override
+    public void createPaymentTransaction(CreatePaymentDataProvider data) {
+
+    }
+
+    @Override
+    public void createPaymentTransaction(CreatePaymentDataProvider data, Map<String, String> configData) {
 
     }
 

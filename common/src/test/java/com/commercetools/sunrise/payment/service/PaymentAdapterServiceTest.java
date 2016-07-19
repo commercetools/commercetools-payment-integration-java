@@ -9,6 +9,7 @@ import static org.junit.Assert.assertThat;
  * Created by mgatz on 7/18/16.
  */
 public class PaymentAdapterServiceTest {
+
     @Test
     public void ofReturnsDefaultInstance() {
         assertThat(PaymentAdapterService.of(), instanceOf(PaymentAdapterServiceImpl.class));

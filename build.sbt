@@ -13,6 +13,13 @@ lazy val jvmSdkVersion = "1.1.0"
 lazy val `commercetools-sunrise-payment` = (project in file("."))
   .aggregate(`common`, `payone-adapter`)
   .settings(javaUnidocSettings ++ commonSettings : _*)
+  .settings(
+      libraryDependencies ++= Seq (
+        "com.novocode" % "junit-interface" % "0.11",
+        "org.assertj" % "assertj-core" % "3.4.1"
+      )
+  )
+  .dependsOn(`common`, `payone-adapter`)
 
 lazy val `common` = project
   .configs(IntegrationTest)

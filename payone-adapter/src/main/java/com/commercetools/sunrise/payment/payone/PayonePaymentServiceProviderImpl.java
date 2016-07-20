@@ -18,16 +18,19 @@ import java.util.stream.Collectors;
  */
 public class PayonePaymentServiceProviderImpl implements PaymentServiceProvider {
 
-    private static final String PAYMENT_SERVICE_ID = "payone";
+    private PaymentPropertiesLoadingHelper propertiesLoadingHelper;
+
+    public PayonePaymentServiceProviderImpl() {
+        propertiesLoadingHelper = PaymentPropertiesLoadingHelper.createFromResource("methods/payone.properties");
+    }
 
     @Override
     public String getId() {
-        return PAYMENT_SERVICE_ID;
+        return propertiesLoadingHelper.getProperty("methods.interface");
     }
 
     @Override
     public List<PaymentMethodInfo> getAvailablePaymentMethods() {
-        PaymentPropertiesLoadingHelper propertiesLoadingHelper = PaymentPropertiesLoadingHelper.createFromResource("methods/payone.properties");
         return propertiesLoadingHelper.getAvaiableMethodIds().stream().map(id -> propertiesLoadingHelper.getMethodInfo(id)).collect(Collectors.toList());
     }
 

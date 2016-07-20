@@ -1,6 +1,6 @@
 package com.commercetools.sunrise.payment.domain;
 
-import com.commercetools.sunrise.payment.model.CreatePaymentDataProviderImpl;
+import com.commercetools.sunrise.payment.model.CreatePaymentDataImpl;
 import io.sphere.sdk.customers.Customer;
 
 import javax.annotation.Nullable;
@@ -12,12 +12,12 @@ import java.util.Optional;
  *
  * Created by mgatz on 7/18/16.
  */
-public interface CreatePaymentDataProvider {
+public interface CreatePaymentData {
 
     // TODO add support for more data like cart, http request, etc.
 
-    static CreatePaymentDataProvider of() {
-        return new CreatePaymentDataProviderImpl();
+    static CreatePaymentData of() {
+        return new CreatePaymentDataImpl();
     }
 
     /**
@@ -31,5 +31,5 @@ public interface CreatePaymentDataProvider {
      * @param c the customer object to be added
      * @return the object itself
      */
-    CreatePaymentDataProvider plusCustomer(Customer c);
+    CreatePaymentData plusCustomer(Customer c);
 }

@@ -31,7 +31,7 @@ public interface PaymentServiceProvider {
      * @param methodId the ID of the payment method to be used for the payment object
      * @return a function method creating the payment object for the passed method Id
      */
-    Function<CreatePaymentDataProvider, Payment> provideCreatePaymentHandler(String methodId);
+    Function<CreatePaymentData, PaymentCreationResult> provideCreatePaymentHandler(String methodId);
 
     /**
      * Create a function that can create a payment transaction for a payment object

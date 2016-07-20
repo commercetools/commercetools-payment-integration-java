@@ -1,6 +1,7 @@
 package com.commercetools.sunrise.payment.payone;
 
-import com.commercetools.sunrise.payment.domain.CreatePaymentDataProvider;
+import com.commercetools.sunrise.payment.domain.CreatePaymentData;
+import com.commercetools.sunrise.payment.domain.PaymentCreationResult;
 import com.commercetools.sunrise.payment.domain.PaymentServiceProvider;
 import com.commercetools.sunrise.payment.utils.PaymentPropertiesLoadingHelper;
 import io.sphere.sdk.payments.Payment;
@@ -35,7 +36,7 @@ public class PayonePaymentServiceProviderImpl implements PaymentServiceProvider 
     }
 
     @Override
-    public Function<CreatePaymentDataProvider, Payment> provideCreatePaymentHandler(String methodId) {
+    public Function<CreatePaymentData, PaymentCreationResult> provideCreatePaymentHandler(String methodId) {
         return null;
     }
 

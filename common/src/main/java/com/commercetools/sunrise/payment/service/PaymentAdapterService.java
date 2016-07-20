@@ -1,6 +1,6 @@
 package com.commercetools.sunrise.payment.service;
 
-import com.commercetools.sunrise.payment.domain.CreatePaymentDataProvider;
+import com.commercetools.sunrise.payment.domain.CreatePaymentData;
 import com.commercetools.sunrise.payment.domain.PaymentServiceProvider;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
@@ -41,7 +41,7 @@ public interface PaymentAdapterService {
      * @param methodID the ID of the selected payment method
      * @param data the wrapper object for all possibly needed data
      */
-    void createPayment(String methodID, CreatePaymentDataProvider data);
+    void createPayment(String methodID, CreatePaymentData data);
 
     /**
      * Create a new payment transaction for the payment with the passed reference.
@@ -61,14 +61,14 @@ public interface PaymentAdapterService {
      * Create a new payment transaction and a payment object in one action.
      * @param data the wrapper object for all possibly needed data
      */
-    void createPaymentTransaction(CreatePaymentDataProvider data);
+    void createPaymentTransaction(CreatePaymentData data);
 
     /**
      * Create  new payment transaction and a payment object in one action and allow overriding of configuration values.
      * @param data the wrapper object for all possibly needed data
      * @param configData a map that can hold values overriding defaults
      */
-    void createPaymentTransaction(CreatePaymentDataProvider data, Map<String, String> configData);
+    void createPaymentTransaction(CreatePaymentData data, Map<String, String> configData);
 
     /**
      * Get the status of the payment object referenced by the passed parameter.

@@ -1,6 +1,6 @@
 package com.commercetools.sunrise.payment.service;
 
-import com.commercetools.sunrise.payment.domain.CreatePaymentDataProvider;
+import com.commercetools.sunrise.payment.domain.CreatePaymentData;
 import com.commercetools.sunrise.payment.domain.PaymentServiceProvider;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
@@ -41,7 +41,7 @@ public class PaymentAdapterServiceImpl implements PaymentAdapterService {
     }
 
     @Override
-    public void createPayment(String methodID, CreatePaymentDataProvider data) {
+    public void createPayment(String methodID, CreatePaymentData data) {
 
     }
 
@@ -56,12 +56,12 @@ public class PaymentAdapterServiceImpl implements PaymentAdapterService {
     }
 
     @Override
-    public void createPaymentTransaction(CreatePaymentDataProvider data) {
+    public void createPaymentTransaction(CreatePaymentData data) {
 
     }
 
     @Override
-    public void createPaymentTransaction(CreatePaymentDataProvider data, Map<String, String> configData) {
+    public void createPaymentTransaction(CreatePaymentData data, Map<String, String> configData) {
 
     }
 

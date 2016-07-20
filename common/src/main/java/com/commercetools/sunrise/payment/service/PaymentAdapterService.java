@@ -30,7 +30,7 @@ public interface PaymentAdapterService {
      List<PaymentServiceProvider> findAllPaymentServiceProviders();
 
     /**
-     * Get a list of available payment methods collected from all available {@link PaymentServiceProvider} instances {@see findAllPaymentServiceProviders}
+     * Get a list of available payment methods collected from all available {@link PaymentServiceProvider} instances {@link #findAllPaymentServiceProviders()}
      * @return list of payment method objects
      */
     List<PaymentMethodInfo> findAvailablePaymentMethods(); // TODO: add parameters possibly required

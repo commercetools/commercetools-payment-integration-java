@@ -7,6 +7,7 @@ import io.sphere.sdk.payments.Payment;
 import java.util.Optional;
 
 /**
+ * Provides all information a payment create operation creates for the calling shop system.
  * Created by mgatz on 7/20/16.
  */
 public interface PaymentCreationResult {

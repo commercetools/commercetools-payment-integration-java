@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by mgatz on 7/18/16.
  */
-public class PayonePaymentServiceProviderImplTest {
+public class PayonePaymentServiceProviderTest {
 
     private static final String METHOD_NAME_CC = "PayoneCC";
     private static final String METHOD_NAME_PAYPAL = "PayonePP";
@@ -20,12 +20,12 @@ public class PayonePaymentServiceProviderImplTest {
 
     @Test
     public void getId() throws Exception {
-        assertThat(new PayonePaymentServiceProviderImpl().getId(), is(METHOD_ID));
+        assertThat(new PayonePaymentServiceProvider().getId(), is(METHOD_ID));
     }
 
     @Test
     public void getAvailablePaymentMethods() throws Exception {
-        PaymentServiceProvider psp = new PayonePaymentServiceProviderImpl();
+        PaymentServiceProvider psp = new PayonePaymentServiceProvider();
         assertThat(psp.getAvailablePaymentMethods().size(), is(3));
 
         PaymentMethodInfo pmi = psp.getAvailablePaymentMethods().get(0); // credit card

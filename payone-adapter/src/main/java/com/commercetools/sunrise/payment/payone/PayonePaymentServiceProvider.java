@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 /**
  * Created by mgatz on 7/18/16.
  */
-public class PayonePaymentServiceProviderImpl implements PaymentServiceProvider {
+public class PayonePaymentServiceProvider implements PaymentServiceProvider {
 
     private PaymentPropertiesLoadingHelper propertiesLoadingHelper;
 
-    public PayonePaymentServiceProviderImpl() {
+    public PayonePaymentServiceProvider() {
         propertiesLoadingHelper = PaymentPropertiesLoadingHelper.createFromResource("methods/payone.properties");
     }
 

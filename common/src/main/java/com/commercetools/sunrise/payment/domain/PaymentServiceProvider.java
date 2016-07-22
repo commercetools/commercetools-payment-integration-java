@@ -24,7 +24,7 @@ public interface PaymentServiceProvider {
     /**
      * @return a list of payment methods this PSP supports
      */
-    List<PaymentMethodInfo> getAvailablePaymentMethods(); // TODO decide parameters
+    List<PaymentMethodInfo> getAvailablePaymentMethods();
 
     /**
      * Create a function that can create a payment for the passed method Id

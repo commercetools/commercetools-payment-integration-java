@@ -55,4 +55,9 @@ public class PaymentPropertiesLoadingHelperImpl implements PaymentPropertiesLoad
                 .name(localizedName)
                 .build();
     }
+
+    @Override
+    public String getPaymentServiceId() {
+        return getProperty("methods.interface");
+    }
 }

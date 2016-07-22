@@ -45,4 +45,10 @@ public interface PaymentPropertiesLoadingHelper {
      * @return a {@link PaymentMethodInfo} object
      */
     PaymentMethodInfo getMethodInfo(String methodId);
+
+    /**
+     * Get the payment service Id this properties belong to.
+     * @return the payment service provider Id
+     */
+    String getPaymentServiceId();
 }

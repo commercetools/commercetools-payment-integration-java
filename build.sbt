@@ -27,6 +27,7 @@ lazy val `common` = project
   .settings(
     libraryDependencies ++= Seq(
       "com.commercetools.sdk.jvm.core" % "commercetools-models" % jvmSdkVersion,
+      "com.commercetools.sdk.jvm.core" % "commercetools-java-client" % jvmSdkVersion,
       "org.mockito" % "mockito-all" % "1.9.5"
     )
   )

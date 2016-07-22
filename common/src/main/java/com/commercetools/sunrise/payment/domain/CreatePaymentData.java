@@ -1,6 +1,8 @@
 package com.commercetools.sunrise.payment.domain;
 
 import com.commercetools.sunrise.payment.model.CreatePaymentDataImpl;
+import io.sphere.sdk.carts.Cart;
+import io.sphere.sdk.client.SphereClient;
 import io.sphere.sdk.customers.Customer;
 
 import javax.annotation.Nullable;
@@ -12,13 +14,17 @@ import java.util.Optional;
  *
  * Created by mgatz on 7/18/16.
  */
-public interface CreatePaymentData {
+public interface CreatePaymentData extends InteractionData {
 
-    // TODO add support for more data like cart, http request, etc.
+    static CreatePaymentData of(SphereClient client, Cart c) {
 
-    static CreatePaymentData of() {
-        return new CreatePaymentDataImpl();
+        return new CreatePaymentDataImpl(client, c);
     }
+
+    /**
+     * @return the cart object that is needed to create a payment for
+     */
+    Cart getCart();
 
     /**
      * @return the attached customer
@@ -29,7 +35,19 @@ public interface CreatePaymentData {
     /**
      * Add a customer object to this data provider instance.
      * @param c the customer object to be added
-     * @return the object itself
+     * @return enriched self
      */
-    CreatePaymentData plusCustomer(Customer c);
+    CreatePaymentData withCustomer(Customer c);
+
+    /**
+     * @return the HTTP client request data wrapper
+     */
+    Optional<HttpRequestInfo> getHttpRequestInfo();
+
+    /**
+     * Add a {@link HttpRequestInfo} object.
+     * @param hri
+     * @return enriched self
+     */
+    CreatePaymentData withHttpRequestInfo(HttpRequestInfo hri);
 }

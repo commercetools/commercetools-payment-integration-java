@@ -7,8 +7,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Created by mgatz on 7/19/16.
@@ -16,11 +15,13 @@ import static org.junit.Assert.assertThat;
 public class PaymentPropertiesLoadingHelperTest {
 
     private static final String TEST_FILE_PATH = "testPayment.properties";
-    public static final String TEST_METHODID = "test-methodid";
-    public static final int TEST_METHOD_COUNT = 1;
-    public static final String LANGUAGE_TAG_EN = "en";
-    public static final String LANGUAGE_TAG_DE = "de";
-    public static final String TEST_PAYMENT_INTERFACE = "test";
+
+    private static final String TEST_PSP_ID = "test";
+    private static final String TEST_METHODID = "test-methodid";
+    private static final int TEST_METHOD_COUNT = 1;
+    private static final String LANGUAGE_TAG_EN = "en";
+    private static final String LANGUAGE_TAG_DE = "de";
+    private static final String TEST_PAYMENT_INTERFACE = "test";
 
     private PaymentPropertiesLoadingHelper helper;
 
@@ -33,6 +34,10 @@ public class PaymentPropertiesLoadingHelperTest {
     public void createFromResource() throws Exception {
         assertNotNull(helper);
         assertThat(helper.getProperty("methods.interface"), is(TEST_PAYMENT_INTERFACE));
+    }
+
+    public void getPaymentServiceProviderId() {
+        assertEquals(TEST_PSP_ID, helper.getPaymentServiceId());
     }
 
     @Test

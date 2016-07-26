@@ -1,2 +1,10 @@
-com.commercetools.sunrise.payment
+com.commercetools.sunrise.payment.actions
+com.commercetools.sunrise.payment.domain
+com.commercetools.sunrise.payment.methods
+com.commercetools.sunrise.payment.model
+com.commercetools.sunrise.payment.model.impl
 com.commercetools.sunrise.payment.payone
+com.commercetools.sunrise.payment.payone.methods
+com.commercetools.sunrise.payment.service
+com.commercetools.sunrise.payment.utils
+com.commercetools.sunrise.payment.utils.impl

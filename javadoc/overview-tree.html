@@ -71,8 +71,16 @@
 <h1 class="title">Hierarchy For All Packages</h1>
 <span class="packageHierarchyLabel">Package Hierarchies:</span>
 <ul class="horizontal">
-<li><a href="com/commercetools/sunrise/payment/package-tree.html">com.commercetools.sunrise.payment</a>, </li>
-<li><a href="com/commercetools/sunrise/payment/payone/package-tree.html">com.commercetools.sunrise.payment.payone</a></li>
+<li><a href="com/commercetools/sunrise/payment/actions/package-tree.html">com.commercetools.sunrise.payment.actions</a>, </li>
+<li><a href="com/commercetools/sunrise/payment/domain/package-tree.html">com.commercetools.sunrise.payment.domain</a>, </li>
+<li><a href="com/commercetools/sunrise/payment/methods/package-tree.html">com.commercetools.sunrise.payment.methods</a>, </li>
+<li><a href="com/commercetools/sunrise/payment/model/package-tree.html">com.commercetools.sunrise.payment.model</a>, </li>
+<li><a href="com/commercetools/sunrise/payment/model/impl/package-tree.html">com.commercetools.sunrise.payment.model.impl</a>, </li>
+<li><a href="com/commercetools/sunrise/payment/payone/package-tree.html">com.commercetools.sunrise.payment.payone</a>, </li>
+<li><a href="com/commercetools/sunrise/payment/payone/methods/package-tree.html">com.commercetools.sunrise.payment.payone.methods</a>, </li>
+<li><a href="com/commercetools/sunrise/payment/service/package-tree.html">com.commercetools.sunrise.payment.service</a>, </li>
+<li><a href="com/commercetools/sunrise/payment/utils/package-tree.html">com.commercetools.sunrise.payment.utils</a>, </li>
+<li><a href="com/commercetools/sunrise/payment/utils/impl/package-tree.html">com.commercetools.sunrise.payment.utils.impl</a></li>
 </ul>
 </div>
 <div class="contentContainer">
@@ -80,13 +88,60 @@
 <ul>
 <li type="circle">java.lang.Object
 <ul>
-<li type="circle">com.commercetools.sunrise.payment.payone.<a href="com/commercetools/sunrise/payment/payone/PayonePayment.html" title="class in com.commercetools.sunrise.payment.payone"><span class="typeNameLink">PayonePayment</span></a> (implements com.commercetools.sunrise.payment.<a href="com/commercetools/sunrise/payment/Payment.html" title="interface in com.commercetools.sunrise.payment">Payment</a>)</li>
+<li type="circle">com.commercetools.sunrise.payment.domain.<a href="com/commercetools/sunrise/payment/domain/CreatePaymentDataBuilder.html" title="class in com.commercetools.sunrise.payment.domain"><span class="typeNameLink">CreatePaymentDataBuilder</span></a></li>
+<li type="circle">com.commercetools.sunrise.payment.methods.<a href="com/commercetools/sunrise/payment/methods/CreatePaymentMethodBase.html" title="class in com.commercetools.sunrise.payment.methods"><span class="typeNameLink">CreatePaymentMethodBase</span></a> (implements com.commercetools.sunrise.payment.methods.<a href="com/commercetools/sunrise/payment/methods/CreatePaymentMethod.html" title="interface in com.commercetools.sunrise.payment.methods">CreatePaymentMethod</a>)
+<ul>
+<li type="circle">com.commercetools.sunrise.payment.payone.methods.<a href="com/commercetools/sunrise/payment/payone/methods/PayoneCreditCardCreatePaymentMethodProvider.html" title="class in com.commercetools.sunrise.payment.payone.methods"><span class="typeNameLink">PayoneCreditCardCreatePaymentMethodProvider</span></a></li>
+<li type="circle">com.commercetools.sunrise.payment.payone.methods.<a href="com/commercetools/sunrise/payment/payone/methods/PayonePaypalCreatePaymentMethodProvider.html" title="class in com.commercetools.sunrise.payment.payone.methods"><span class="typeNameLink">PayonePaypalCreatePaymentMethodProvider</span></a></li>
+<li type="circle">com.commercetools.sunrise.payment.payone.methods.<a href="com/commercetools/sunrise/payment/payone/methods/PayoneSofortCreatePaymentMethodProvider.html" title="class in com.commercetools.sunrise.payment.payone.methods"><span class="typeNameLink">PayoneSofortCreatePaymentMethodProvider</span></a></li>
+</ul>
+</li>
+<li type="circle">com.commercetools.sunrise.payment.actions.<a href="com/commercetools/sunrise/payment/actions/HandlingTask.html" title="class in com.commercetools.sunrise.payment.actions"><span class="typeNameLink">HandlingTask</span></a></li>
+<li type="circle">com.commercetools.sunrise.payment.domain.<a href="com/commercetools/sunrise/payment/domain/HttpRequestInfoBuilder.html" title="class in com.commercetools.sunrise.payment.domain"><span class="typeNameLink">HttpRequestInfoBuilder</span></a></li>
+<li type="circle">com.commercetools.sunrise.payment.model.impl.<a href="com/commercetools/sunrise/payment/model/impl/HttpRequestInfoImpl.html" title="class in com.commercetools.sunrise.payment.model.impl"><span class="typeNameLink">HttpRequestInfoImpl</span></a> (implements com.commercetools.sunrise.payment.model.<a href="com/commercetools/sunrise/payment/model/HttpRequestInfo.html" title="interface in com.commercetools.sunrise.payment.model">HttpRequestInfo</a>)</li>
+<li type="circle">com.commercetools.sunrise.payment.service.<a href="com/commercetools/sunrise/payment/service/PaymentAdapterServiceImpl.html" title="class in com.commercetools.sunrise.payment.service"><span class="typeNameLink">PaymentAdapterServiceImpl</span></a> (implements com.commercetools.sunrise.payment.service.<a href="com/commercetools/sunrise/payment/service/PaymentAdapterService.html" title="interface in com.commercetools.sunrise.payment.service">PaymentAdapterService</a>)</li>
+<li type="circle">com.commercetools.sunrise.payment.domain.<a href="com/commercetools/sunrise/payment/domain/PaymentCreationResultBuilder.html" title="class in com.commercetools.sunrise.payment.domain"><span class="typeNameLink">PaymentCreationResultBuilder</span></a></li>
+<li type="circle">com.commercetools.sunrise.payment.model.impl.<a href="com/commercetools/sunrise/payment/model/impl/PaymentCreationResultImpl.html" title="class in com.commercetools.sunrise.payment.model.impl"><span class="typeNameLink">PaymentCreationResultImpl</span></a> (implements com.commercetools.sunrise.payment.model.<a href="com/commercetools/sunrise/payment/model/PaymentCreationResult.html" title="interface in com.commercetools.sunrise.payment.model">PaymentCreationResult</a>)</li>
+<li type="circle">com.commercetools.sunrise.payment.model.impl.<a href="com/commercetools/sunrise/payment/model/impl/PaymentInteractionDataBase.html" title="class in com.commercetools.sunrise.payment.model.impl"><span class="typeNameLink">PaymentInteractionDataBase</span></a> (implements com.commercetools.sunrise.payment.model.<a href="com/commercetools/sunrise/payment/model/PaymentInteractionData.html" title="interface in com.commercetools.sunrise.payment.model">PaymentInteractionData</a>)
+<ul>
+<li type="circle">com.commercetools.sunrise.payment.model.impl.<a href="com/commercetools/sunrise/payment/model/impl/CreatePaymentDataImpl.html" title="class in com.commercetools.sunrise.payment.model.impl"><span class="typeNameLink">CreatePaymentDataImpl</span></a> (implements com.commercetools.sunrise.payment.model.<a href="com/commercetools/sunrise/payment/model/CreatePaymentData.html" title="interface in com.commercetools.sunrise.payment.model">CreatePaymentData</a>)</li>
+</ul>
+</li>
+<li type="circle">com.commercetools.sunrise.payment.utils.impl.<a href="com/commercetools/sunrise/payment/utils/impl/PaymentLookupHelperImpl.html" title="class in com.commercetools.sunrise.payment.utils.impl"><span class="typeNameLink">PaymentLookupHelperImpl</span></a> (implements com.commercetools.sunrise.payment.utils.<a href="com/commercetools/sunrise/payment/utils/PaymentLookupHelper.html" title="interface in com.commercetools.sunrise.payment.utils">PaymentLookupHelper</a>)</li>
+<li type="circle">com.commercetools.sunrise.payment.utils.impl.<a href="com/commercetools/sunrise/payment/utils/impl/PaymentPropertiesLoadingHelperImpl.html" title="class in com.commercetools.sunrise.payment.utils.impl"><span class="typeNameLink">PaymentPropertiesLoadingHelperImpl</span></a> (implements com.commercetools.sunrise.payment.utils.<a href="com/commercetools/sunrise/payment/utils/PaymentPropertiesLoadingHelper.html" title="interface in com.commercetools.sunrise.payment.utils">PaymentPropertiesLoadingHelper</a>)</li>
+<li type="circle">com.commercetools.sunrise.payment.payone.<a href="com/commercetools/sunrise/payment/payone/PayoneHelper.html" title="class in com.commercetools.sunrise.payment.payone"><span class="typeNameLink">PayoneHelper</span></a></li>
+<li type="circle">com.commercetools.sunrise.payment.payone.<a href="com/commercetools/sunrise/payment/payone/PayonePaymentServiceProvider.html" title="class in com.commercetools.sunrise.payment.payone"><span class="typeNameLink">PayonePaymentServiceProvider</span></a> (implements com.commercetools.sunrise.payment.domain.<a href="com/commercetools/sunrise/payment/domain/PaymentServiceProvider.html" title="interface in com.commercetools.sunrise.payment.domain">PaymentServiceProvider</a>)</li>
 </ul>
 </li>
 </ul>
 <h2 title="Interface Hierarchy">Interface Hierarchy</h2>
 <ul>
-<li type="circle">com.commercetools.sunrise.payment.<a href="com/commercetools/sunrise/payment/Payment.html" title="interface in com.commercetools.sunrise.payment"><span class="typeNameLink">Payment</span></a></li>
+<li type="circle">com.commercetools.sunrise.payment.methods.<a href="com/commercetools/sunrise/payment/methods/CreatePaymentMethod.html" title="interface in com.commercetools.sunrise.payment.methods"><span class="typeNameLink">CreatePaymentMethod</span></a></li>
+<li type="circle">com.commercetools.sunrise.payment.model.<a href="com/commercetools/sunrise/payment/model/HttpRequestInfo.html" title="interface in com.commercetools.sunrise.payment.model"><span class="typeNameLink">HttpRequestInfo</span></a></li>
+<li type="circle">com.commercetools.sunrise.payment.service.<a href="com/commercetools/sunrise/payment/service/PaymentAdapterService.html" title="interface in com.commercetools.sunrise.payment.service"><span class="typeNameLink">PaymentAdapterService</span></a></li>
+<li type="circle">com.commercetools.sunrise.payment.model.<a href="com/commercetools/sunrise/payment/model/PaymentCreationRequestStatus.html" title="interface in com.commercetools.sunrise.payment.model"><span class="typeNameLink">PaymentCreationRequestStatus</span></a></li>
+<li type="circle">com.commercetools.sunrise.payment.model.<a href="com/commercetools/sunrise/payment/model/PaymentCreationResult.html" title="interface in com.commercetools.sunrise.payment.model"><span class="typeNameLink">PaymentCreationResult</span></a></li>
+<li type="circle">com.commercetools.sunrise.payment.model.<a href="com/commercetools/sunrise/payment/model/PaymentInteractionData.html" title="interface in com.commercetools.sunrise.payment.model"><span class="typeNameLink">PaymentInteractionData</span></a>
+<ul>
+<li type="circle">com.commercetools.sunrise.payment.model.<a href="com/commercetools/sunrise/payment/model/CreatePaymentData.html" title="interface in com.commercetools.sunrise.payment.model"><span class="typeNameLink">CreatePaymentData</span></a></li>
+</ul>
+</li>
+<li type="circle">com.commercetools.sunrise.payment.utils.<a href="com/commercetools/sunrise/payment/utils/PaymentLookupHelper.html" title="interface in com.commercetools.sunrise.payment.utils"><span class="typeNameLink">PaymentLookupHelper</span></a></li>
+<li type="circle">com.commercetools.sunrise.payment.utils.<a href="com/commercetools/sunrise/payment/utils/PaymentPropertiesLoadingHelper.html" title="interface in com.commercetools.sunrise.payment.utils"><span class="typeNameLink">PaymentPropertiesLoadingHelper</span></a></li>
+<li type="circle">com.commercetools.sunrise.payment.domain.<a href="com/commercetools/sunrise/payment/domain/PaymentServiceProvider.html" title="interface in com.commercetools.sunrise.payment.domain"><span class="typeNameLink">PaymentServiceProvider</span></a></li>
+</ul>
+<h2 title="Enum Hierarchy">Enum Hierarchy</h2>
+<ul>
+<li type="circle">java.lang.Object
+<ul>
+<li type="circle">java.lang.Enum&lt;E&gt; (implements java.lang.Comparable&lt;T&gt;, java.io.Serializable)
+<ul>
+<li type="circle">com.commercetools.sunrise.payment.actions.<a href="com/commercetools/sunrise/payment/actions/OperationResult.html" title="enum in com.commercetools.sunrise.payment.actions"><span class="typeNameLink">OperationResult</span></a></li>
+<li type="circle">com.commercetools.sunrise.payment.actions.<a href="com/commercetools/sunrise/payment/actions/ShopAction.html" title="enum in com.commercetools.sunrise.payment.actions"><span class="typeNameLink">ShopAction</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 <!-- ======= START OF BOTTOM NAVBAR ====== -->

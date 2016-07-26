@@ -12,7 +12,7 @@ import java.util.Optional;
  *
  * Created by mgatz on 7/18/16.
  */
-public interface CreatePaymentData extends InteractionData {
+public interface CreatePaymentData extends PaymentInteractionData {
 
     /**
      * @return the cart object that is needed to create a payment for

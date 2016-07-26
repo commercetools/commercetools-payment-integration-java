@@ -2,6 +2,7 @@ package com.commercetools.sunrise.payment.domain;
 
 import com.commercetools.sunrise.payment.actions.HandlingTask;
 import com.commercetools.sunrise.payment.actions.OperationResult;
+import com.commercetools.sunrise.payment.actions.ShopAction;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
 import com.commercetools.sunrise.payment.model.impl.PaymentCreationResultImpl;
 import io.sphere.sdk.payments.Payment;
@@ -26,6 +27,10 @@ public class PaymentCreationResultBuilder {
      */
     public static PaymentCreationResultBuilder of(OperationResult operationResult) {
         return new PaymentCreationResultBuilder(operationResult);
+    }
+
+    public static PaymentCreationResult ofError() {
+        return new PaymentCreationResultImpl(OperationResult.FAILED, null, HandlingTask.of(ShopAction.HANDLE_ERROR));
     }
 
     /**

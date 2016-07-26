@@ -5,6 +5,7 @@ import com.commercetools.sunrise.payment.model.HttpRequestInfo;
 import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.client.SphereClient;
 import io.sphere.sdk.customers.Customer;
+import io.sphere.sdk.payments.PaymentMethodInfo;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -12,7 +13,7 @@ import java.util.Optional;
 /**
  * Created by mgatz on 7/18/16.
  */
-public class CreatePaymentDataImpl extends InteractionDataBase implements CreatePaymentData {
+public class CreatePaymentDataImpl extends PaymentInteractionDataBase implements CreatePaymentData {
 
     private Cart cart;
     @Nullable
@@ -20,8 +21,8 @@ public class CreatePaymentDataImpl extends InteractionDataBase implements Create
     @Nullable
     private HttpRequestInfo httpRequestInfo;
 
-    public CreatePaymentDataImpl(SphereClient client, Cart c, @Nullable Customer customer, @Nullable HttpRequestInfo requestInfo) {
-        super(client);
+    public CreatePaymentDataImpl(SphereClient client, PaymentMethodInfo paymentMethodInfo, Cart c, @Nullable Customer customer, @Nullable HttpRequestInfo requestInfo) {
+        super(client, paymentMethodInfo);
 
         this.cart = c;
         this.customer = customer;

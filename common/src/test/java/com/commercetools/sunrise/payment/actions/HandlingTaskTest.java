@@ -14,7 +14,7 @@ public class HandlingTaskTest {
     @Test
     public void createNew() {
         assertThat(HandlingTask.of(ShopAction.CONTINUE)).isInstanceOf(HandlingTask.class);
-        assertThat(HandlingTask.of(ShopAction.REDIRECT).getAction()).isEqualTo(ShopAction.REDIRECT);
+        assertThat(HandlingTask.of(ShopAction.REDIRECT_BEFORE_CHECKOUT).getAction()).isEqualTo(ShopAction.REDIRECT_BEFORE_CHECKOUT);
     }
 
     @Test

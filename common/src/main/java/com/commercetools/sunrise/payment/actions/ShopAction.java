@@ -10,11 +10,15 @@ public enum  ShopAction {
      */
     CONTINUE,
     /**
-     * Shop needs to redirect the user the a provided URL and handle its callbacks.
+     * Shop needs to redirect the user immediately to the provided URL and handle its callbacks.
      */
-    REDIRECT,
+    REDIRECT_BEFORE_CHECKOUT,
     /**
-     * Shop needs to handle an occured error.
+     * Shop needs to redirect the user after a successful checkout to the provided URL and handle its callbacks.
+     */
+    REDIRECT_AFTER_CHECKOUT,
+    /**
+     * Shop needs to handle an occurred error.
      */
     HANDLE_ERROR,
     /**

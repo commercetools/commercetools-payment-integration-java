@@ -43,12 +43,13 @@ public class PaymentAdapterServiceImpl implements PaymentAdapterService {
     }
 
     @Override
-    public CompletionStage<PaymentCreationResult> createPayment(String interfaceId, String methodID, CreatePaymentData data) {
+    public CompletionStage<PaymentCreationResult> createPayment(CreatePaymentData data) {
         // lookup implementation needed to be called
-        PaymentServiceProvider provider = findAllPaymentServiceProviders().stream().filter(psp -> psp.getId().equals(interfaceId)).findFirst().get();
+        PaymentServiceProvider provider = findAllPaymentServiceProviders().stream()
+                .filter(psp -> psp.getId().equals(data.getPaymentMethodinInfo().getPaymentInterface())).findFirst().get();
 
         // let the method be created and apply the passed data
-        return provider.provideCreatePaymentHandler(methodID).apply(data);
+        return provider.provideCreatePaymentHandler(data.getPaymentMethodinInfo().getMethod()).apply(data);
     }
 
     @Override

@@ -22,6 +22,8 @@ public class CreatePaymentDataTest {
     private static final String CART_TO_STRING = "bar";
     private static final String CUSTOMER_TO_STRING = "hoe";
     private static final String REQUEST_TO_STRING = "woo";
+    private static final String METHOD_ID = "mid";
+    private static final String INTERFACE_ID = "iid";
 
     @Mock
     private SphereClient mockClient;
@@ -47,14 +49,14 @@ public class CreatePaymentDataTest {
 
     @Test
     public void of() {
-        CreatePaymentData cpd = CreatePaymentDataBuilder.of(mockClient, mockCart).build();
+        CreatePaymentData cpd = CreatePaymentDataBuilder.of(mockClient, INTERFACE_ID, METHOD_ID, mockCart).build();
         assertThat(cpd.getSphereClient().toString()).isEqualTo(CLIENT_TO_STRING);
         assertThat(cpd.getCart().toString()).isEqualTo(CART_TO_STRING);
     }
 
     @Test
     public void addCustomer() {
-        CreatePaymentData cpd = CreatePaymentDataBuilder.of(mockClient, mockCart).withCustomer(mockCustomer).build();
+        CreatePaymentData cpd = CreatePaymentDataBuilder.of(mockClient, INTERFACE_ID, METHOD_ID, mockCart).withCustomer(mockCustomer).build();
 
         assertThat(cpd.getCustomer().isPresent()).isTrue();
         assertThat(cpd.getCustomer().get().toString()).isEqualTo(CUSTOMER_TO_STRING);
@@ -62,7 +64,7 @@ public class CreatePaymentDataTest {
 
     @Test
     public void addHttpRequestInformation() {
-        CreatePaymentData cpd = CreatePaymentDataBuilder.of(mockClient, mockCart).withHttpRequestInfo(mockRequestInfo).build();
+        CreatePaymentData cpd = CreatePaymentDataBuilder.of(mockClient, INTERFACE_ID, METHOD_ID, mockCart).withHttpRequestInfo(mockRequestInfo).build();
 
         assertThat(cpd.getHttpRequestInfo().isPresent()).isTrue();
         assertThat(cpd.getHttpRequestInfo().get().toString()).isEqualTo(REQUEST_TO_STRING);

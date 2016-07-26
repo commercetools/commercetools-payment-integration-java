@@ -44,4 +44,5 @@ public interface PaymentLookupHelper {
      * @return
      */
     CompletionStage<Optional<Payment>> findPaymentWithoutTransaction(Cart cart, String pspId, String methodId);
+
 }

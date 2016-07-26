@@ -40,11 +40,9 @@ public interface PaymentAdapterService {
     /**
      * Creates a new payment object at the CTP and theirby starts a new payment transaction workflow.
      * Possibly existing payments will be cancelled but not deleted.
-     * @param interfaceId the PSP interface ID
-     * @param methodID the ID of the selected payment method
      * @param data the wrapper object for all possibly needed data
      */
-    CompletionStage<PaymentCreationResult> createPayment(String interfaceId, String methodID, CreatePaymentData data);
+    CompletionStage<PaymentCreationResult> createPayment(CreatePaymentData data);
 
     /**
      * Create a new payment transaction for the payment with the passed reference.

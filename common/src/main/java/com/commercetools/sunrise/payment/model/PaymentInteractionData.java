@@ -1,6 +1,7 @@
 package com.commercetools.sunrise.payment.model;
 
 import io.sphere.sdk.client.SphereClient;
+import io.sphere.sdk.payments.PaymentMethodInfo;
 
 /**
  * This base interface ensures that all actions taken by the adapter
@@ -8,9 +9,14 @@ import io.sphere.sdk.client.SphereClient;
  *
  * Created by mgatz on 7/20/16.
  */
-public interface InteractionData {
+public interface PaymentInteractionData {
     /**
      * @return a shop provided valid sphere client
      */
     SphereClient getSphereClient();
+
+    /**
+     * @return the payment method for this interaction data
+     */
+    PaymentMethodInfo getPaymentMethodinInfo();
 }

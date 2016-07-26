@@ -6,23 +6,34 @@ import com.commercetools.sunrise.payment.model.impl.CreatePaymentDataImpl;
 import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.client.SphereClient;
 import io.sphere.sdk.customers.Customer;
+import io.sphere.sdk.payments.PaymentMethodInfo;
+import io.sphere.sdk.payments.PaymentMethodInfoBuilder;
 
 /**
+ * A builder to build a {@link CreatePaymentDataImpl} object.
  * Created by mgatz on 7/10/16.
  */
 public class CreatePaymentDataBuilder {
-    private SphereClient client;
-    private Cart cart;
+    private final PaymentMethodInfo paymentMethodInfo;
+    private final SphereClient client;
+    private final Cart cart;
     private Customer customer;
     private HttpRequestInfo httpRequestInfo;
 
-    private CreatePaymentDataBuilder(SphereClient client, Cart cart) {
+    private CreatePaymentDataBuilder(final SphereClient client,final PaymentMethodInfo paymentMethodInfo,final Cart cart) {
         this.client = client;
         this.cart = cart;
+        this.paymentMethodInfo = paymentMethodInfo;
     }
 
-    public static CreatePaymentDataBuilder of(SphereClient client, Cart cart) {
-        return new CreatePaymentDataBuilder(client, cart);
+    public static CreatePaymentDataBuilder of(final SphereClient client,
+                                              final String paymentInterface,
+                                              final String paymentMethod,
+                                              final Cart cart) {
+        return new CreatePaymentDataBuilder(
+                client,
+                PaymentMethodInfoBuilder.of().paymentInterface(paymentInterface).method(paymentMethod).build(),
+                cart);
     }
 
     /**
@@ -51,6 +62,6 @@ public class CreatePaymentDataBuilder {
      * @return immutable data object
      */
     public CreatePaymentData build() {
-        return new CreatePaymentDataImpl(client, cart, customer, httpRequestInfo);
+        return new CreatePaymentDataImpl(client, paymentMethodInfo, cart, customer, httpRequestInfo);
     }
 }

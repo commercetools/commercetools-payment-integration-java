@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by mgatz on 7/10/16.
  */
-public class PayoneCreditCardTest {
+public class PayoneSofortTest {
 
     private SphereClient client;
     private Cart cart;
@@ -35,7 +35,7 @@ public class PayoneCreditCardTest {
         assertThat(cart.getLineItems().size()).isEqualTo(1);
 
         PaymentCreationResult paymentCreationResult = PaymentAdapterService.of()
-                .createPayment(CreatePaymentDataBuilder.of(client, "PAYONE", "CREDIT_CARD", cart).build())
+                .createPayment(CreatePaymentDataBuilder.of(client, "PAYONE", "BANK_TRANSFER-SOFORTUEBERWEISUNG", cart).build())
                 .toCompletableFuture().get();
         assertThat(paymentCreationResult).isNotNull();
         assertThat(paymentCreationResult.getOperationResult()).isEqualTo(OperationResult.SUCCESS);

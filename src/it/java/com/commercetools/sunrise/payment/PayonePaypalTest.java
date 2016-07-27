@@ -30,22 +30,32 @@ public class PayonePaypalTest {
 
     @Test
     public void createPaymentCreationMethod() throws ExecutionException, InterruptedException {
-        assertThat(client).isNotNull();
-        assertThat(cart).isNotNull();
-        assertThat(cart.getLineItems().size()).isEqualTo(1);
+        assertPreconditions();
 
         PaymentCreationResult paymentCreationResult = PaymentAdapterService.of()
                 .createPayment(CreatePaymentDataBuilder.of(client, "PAYONE", "WALLET-PAYPAL", cart).build())
                 .toCompletableFuture().get();
-        assertThat(paymentCreationResult).isNotNull();
-        assertThat(paymentCreationResult.getOperationResult()).isEqualTo(OperationResult.SUCCESS);
-        assertThat(paymentCreationResult.getCreatedPaymentObject().isPresent()).isTrue();
-        assertThat(paymentCreationResult.getCreatedPaymentObject().get().getAmountPlanned()).isEqualTo(cart.getTotalPrice());
+
+        assertPaymentObjectCreation(paymentCreationResult);
     }
+
 
     @After
     public void shutdown() throws ExecutionException, InterruptedException {
         IntegrationTestUtils.removeCart(client, cart);
         client.close();
+    }
+
+    private void assertPreconditions() {
+        assertThat(client).isNotNull();
+        assertThat(cart).isNotNull();
+        assertThat(cart.getLineItems().size()).isEqualTo(1);
+    }
+
+    private void assertPaymentObjectCreation(PaymentCreationResult paymentCreationResult) {
+        assertThat(paymentCreationResult).isNotNull();
+        assertThat(paymentCreationResult.getOperationResult()).isEqualTo(OperationResult.SUCCESS);
+        assertThat(paymentCreationResult.getCreatedPaymentObject().isPresent()).isTrue();
+        assertThat(paymentCreationResult.getCreatedPaymentObject().get().getAmountPlanned()).isEqualTo(cart.getTotalPrice());
     }
 }

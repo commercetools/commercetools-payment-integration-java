@@ -3,10 +3,11 @@ package com.commercetools.sunrise.payment.payone;
 import com.commercetools.sunrise.payment.domain.PaymentServiceProvider;
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
+import com.commercetools.sunrise.payment.payone.config.PayoneConfiguration;
+import com.commercetools.sunrise.payment.payone.config.PayoneConfigurationProvider;
 import com.commercetools.sunrise.payment.payone.methods.PayoneCreditCardCreatePaymentMethodProvider;
 import com.commercetools.sunrise.payment.payone.methods.PayonePaypalCreatePaymentMethodProvider;
 import com.commercetools.sunrise.payment.payone.methods.PayoneSofortCreatePaymentMethodProvider;
-import com.commercetools.sunrise.payment.utils.PaymentPropertiesLoadingHelper;
 import io.sphere.sdk.payments.Payment;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
@@ -24,15 +25,15 @@ import java.util.stream.Collectors;
  */
 public class PayonePaymentServiceProvider implements PaymentServiceProvider {
 
-    private PaymentPropertiesLoadingHelper propertiesLoadingHelper;
+    private PayoneConfiguration configuration;
 
     public PayonePaymentServiceProvider() {
-        propertiesLoadingHelper = PaymentPropertiesLoadingHelper.createFromResource("methods/payone.properties");
+        configuration = PayoneConfigurationProvider.of().load();
     }
 
     @Override
     public String getId() {
-        return propertiesLoadingHelper.getProperty("methods.interface");
+        return configuration.getInterfaceId();
     }
 
     @Override
@@ -42,7 +43,7 @@ public class PayonePaymentServiceProvider implements PaymentServiceProvider {
 
     @Override
     public List<PaymentMethodInfo> getAvailablePaymentMethods(@Nullable Function<List<PaymentMethodInfo>, List<PaymentMethodInfo>> filter) {
-        List<PaymentMethodInfo> unfiltered = propertiesLoadingHelper.getAvaiableMethodIds().stream().map(id -> propertiesLoadingHelper.getMethodInfo(id)).collect(Collectors.toList());
+        List<PaymentMethodInfo> unfiltered = configuration.getEnabledMethods().stream().map(methodId -> configuration.getMethodInfo(methodId)).collect(Collectors.toList());
 
         return filter != null
                 ? filter.apply(unfiltered)

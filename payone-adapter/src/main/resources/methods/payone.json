@@ -1,0 +1,32 @@
+{
+  "interfaceId" : "PAYONE",
+  "handlePaymentBaseUrl" : "http://localhost/commercetools/handle/payments/",
+  "enabledMethods" : ["CREDIT_CARD","WALLET-PAYPAL","BANK_TRANSFER-SOFORTUEBERWEISUNG"],
+  "availableMethods" : {
+    "CREDIT_CARD": {
+      "paymentInterface": "PAYONE",
+      "method": "CREDIT_CARD",
+      "name":
+      {
+        "de": "Kreditkarte",
+        "en": "Credit Card"
+      }
+    },
+    "WALLET-PAYPAL" : {
+      "paymentInterface": "PAYONE",
+      "method": "WALLET-PAYPAL",
+      "name":
+      {
+        "en": "Paypal"
+      }
+    },
+    "BANK_TRANSFER-SOFORTUEBERWEISUNG" : {
+      "paymentInterface": "PAYONE",
+      "method": "BANK_TRANSFER-SOFORTUEBERWEISUNG",
+      "name":
+      {
+        "en": "Sofortüberweisung"
+      }
+    }
+  }
+}

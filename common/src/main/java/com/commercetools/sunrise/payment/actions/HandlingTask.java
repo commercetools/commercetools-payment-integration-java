@@ -1,7 +1,6 @@
 package com.commercetools.sunrise.payment.actions;
 
 import javax.annotation.Nullable;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -13,7 +12,7 @@ import java.util.Optional;
 public class HandlingTask {
     private ShopAction action;
     @Nullable
-    private URL redirectUrl;
+    private String redirectUrl;
     private Map<String, Object> additionalData = new HashMap<>();
 
     private HandlingTask(ShopAction action) {
@@ -34,7 +33,7 @@ public class HandlingTask {
      * @param redirectUrl the URL
      * @return enriched self
      */
-    public HandlingTask redirectUrl (URL redirectUrl) {
+    public HandlingTask redirectUrl (String redirectUrl) {
         this.redirectUrl = redirectUrl;
         return this;
     }
@@ -55,6 +54,7 @@ public class HandlingTask {
      * @return action type
      */
     public ShopAction getAction() {
+
         return action;
     }
 
@@ -62,7 +62,8 @@ public class HandlingTask {
      * Provides a redirect URL of the task requires one.
      * @return the redirect URL
      */
-    public Optional<URL> getRedirectUrl() {
+    public Optional<String> getRedirectUrl() {
+
         return Optional.ofNullable(redirectUrl);
     }
 
@@ -71,6 +72,7 @@ public class HandlingTask {
      * @return value is guaranteed but map could be empty
      */
     public Map<String, Object> getAdditionalData() {
+
         return additionalData;
     }
 }

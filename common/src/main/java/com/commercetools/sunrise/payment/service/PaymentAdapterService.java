@@ -2,12 +2,13 @@ package com.commercetools.sunrise.payment.service;
 
 import com.commercetools.sunrise.payment.domain.PaymentServiceProvider;
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
+import com.commercetools.sunrise.payment.model.CreatePaymentTransactionData;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
+import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletionStage;
 
 /**
@@ -46,30 +47,9 @@ public interface PaymentAdapterService {
 
     /**
      * Create a new payment transaction for the payment with the passed reference.
-     * @param paymentRef the reference for the payment object
-     */
-    void createPaymentTransaction(String paymentRef);
-
-    /**
-     * Create a new payment transaction for the payment with the passed refernce and allow overriding of default
-     * configuration values passed as a map.
-     * @param paymentRef the reference for the payment object
-     * @param configData a map that can hold values overriding defaults
-     */
-    void createPaymentTransaction(String paymentRef, Map<String, String> configData);
-
-    /**
-     * Create a new payment transaction and a payment object in one action.
      * @param data the wrapper object for all possibly needed data
      */
-    void createPaymentTransaction(CreatePaymentData data);
-
-    /**
-     * Create  new payment transaction and a payment object in one action and allow overriding of configuration values.
-     * @param data the wrapper object for all possibly needed data
-     * @param configData a map that can hold values overriding defaults
-     */
-    void createPaymentTransaction(CreatePaymentData data, Map<String, String> configData);
+    CompletionStage<PaymentTransactionCreationResult> createPaymentTransaction(CreatePaymentTransactionData data);
 
     /**
      * Get the status of the payment object referenced by the passed parameter.

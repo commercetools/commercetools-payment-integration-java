@@ -27,8 +27,8 @@ public class PaymentCreationResultTest {
         when(pMock.getExternalId()).thenReturn("foo"); // just to check that the returned payment object is the same
 
         PaymentCreationResult pcr = PaymentCreationResultBuilder.of(OperationResult.SUCCESS).payment(pMock).build();
-        assertThat(pcr.getCreatedPaymentObject().isPresent()).isTrue();
-        assertThat(pcr.getCreatedPaymentObject().get().getExternalId()).isEqualTo("foo");
+        assertThat(pcr.getRelatedPaymentObject().isPresent()).isTrue();
+        assertThat(pcr.getRelatedPaymentObject().get().getExternalId()).isEqualTo("foo");
     }
 
     @Test

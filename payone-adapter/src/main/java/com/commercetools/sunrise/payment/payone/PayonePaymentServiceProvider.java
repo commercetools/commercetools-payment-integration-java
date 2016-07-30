@@ -2,21 +2,18 @@ package com.commercetools.sunrise.payment.payone;
 
 import com.commercetools.sunrise.payment.domain.PaymentServiceProvider;
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
+import com.commercetools.sunrise.payment.model.CreatePaymentTransactionData;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
+import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
 import com.commercetools.sunrise.payment.payone.config.PayoneConfiguration;
 import com.commercetools.sunrise.payment.payone.config.PayoneConfigurationProvider;
-import com.commercetools.sunrise.payment.payone.methods.PayoneCreditCardCreatePaymentMethodProvider;
-import com.commercetools.sunrise.payment.payone.methods.PayonePaypalCreatePaymentMethodProvider;
-import com.commercetools.sunrise.payment.payone.methods.PayoneSofortCreatePaymentMethodProvider;
-import io.sphere.sdk.payments.Payment;
+import com.commercetools.sunrise.payment.payone.methods.*;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletionStage;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -28,11 +25,13 @@ public class PayonePaymentServiceProvider implements PaymentServiceProvider {
     private PayoneConfiguration configuration;
 
     public PayonePaymentServiceProvider() {
+
         configuration = PayoneConfigurationProvider.of().load();
     }
 
     @Override
     public String getId() {
+
         return configuration.getInterfaceId();
     }
 
@@ -62,8 +61,14 @@ public class PayonePaymentServiceProvider implements PaymentServiceProvider {
     }
 
     @Override
-    public BiFunction<Payment, Map<String, String>, Payment> provideCreatePaymentTransactionHandler() {
-        return null;
+    public Function<CreatePaymentTransactionData, CompletionStage<PaymentTransactionCreationResult>> provideCreatePaymentTransactionHandler(final String methodId) {
+        switch (methodId) {
+            case "CREDIT_CARD": return PayoneCreditCardCreatePaymentTransactionMethodProvider.of().create();
+            case "WALLET-PAYPAL": return PayonePaypalCreatePaymentTransactionMethodProvider.of().create();
+            case "BANK_TRANSFER-SOFORTUEBERWEISUNG": return PayoneSofortCreatePaymentTransactionMethodProvider.of().create();
+        }
+
+        throw new UnsupportedOperationException();
     }
 
     @Override

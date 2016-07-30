@@ -1,5 +1,6 @@
 package com.commercetools.sunrise.payment.utils;
 
+import com.commercetools.sunrise.payment.model.CreatePaymentTransactionData;
 import com.commercetools.sunrise.payment.utils.impl.PaymentLookupHelperImpl;
 import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.client.SphereClient;
@@ -45,4 +46,10 @@ public interface PaymentLookupHelper {
      */
     CompletionStage<Optional<Payment>> findPaymentWithoutTransaction(Cart cart, String pspId, String methodId);
 
+    /**
+     * Find a payment object for the provided data.
+     * @param data the data holding object
+     * @return the parameter enriched with the payment object
+     */
+    CompletionStage<CreatePaymentTransactionData> findPaymentFor(CreatePaymentTransactionData data);
 }

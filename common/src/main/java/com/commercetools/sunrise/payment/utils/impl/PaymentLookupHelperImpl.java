@@ -1,5 +1,6 @@
 package com.commercetools.sunrise.payment.utils.impl;
 
+import com.commercetools.sunrise.payment.model.CreatePaymentTransactionData;
 import com.commercetools.sunrise.payment.utils.PaymentLookupHelper;
 import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.client.SphereClient;
@@ -45,6 +46,16 @@ public class PaymentLookupHelperImpl implements PaymentLookupHelper {
 
         return sphereClient.execute(queryAllRefPayments)
                 .thenApply(page -> page.getTotal() > 0 ? Optional.of(page.getResults().get(0)) : Optional.empty());
+    }
+
+    @Override
+    public CompletionStage<CreatePaymentTransactionData> findPaymentFor(CreatePaymentTransactionData data) {
+        // I know changing parameters sucks a lot but with the small amount of time I have this solution MUST be perfectly fine for now
+        return findPayment(data.getPaymentRef())
+                .thenApply(p -> {
+                    data.setPayment(p);
+                    return data;
+                });
     }
 
     private PaymentQuery createPaymentsForCartQuery(Cart cart, String pspId, String methodId) {

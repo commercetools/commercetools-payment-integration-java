@@ -17,23 +17,26 @@ public class CreatePaymentDataBuilder {
     private final PaymentMethodInfo paymentMethodInfo;
     private final SphereClient client;
     private final Cart cart;
+    private final String reference;
     private Customer customer;
     private HttpRequestInfo httpRequestInfo;
 
-    private CreatePaymentDataBuilder(final SphereClient client,final PaymentMethodInfo paymentMethodInfo,final Cart cart) {
+    private CreatePaymentDataBuilder(final SphereClient client, final PaymentMethodInfo paymentMethodInfo, final Cart cart, String reference) {
         this.client = client;
         this.cart = cart;
         this.paymentMethodInfo = paymentMethodInfo;
+        this.reference = reference;
     }
 
     public static CreatePaymentDataBuilder of(final SphereClient client,
                                               final String paymentInterface,
                                               final String paymentMethod,
-                                              final Cart cart) {
+                                              final Cart cart,
+                                              final String reference) {
         return new CreatePaymentDataBuilder(
                 client,
                 PaymentMethodInfoBuilder.of().paymentInterface(paymentInterface).method(paymentMethod).build(),
-                cart);
+                cart, reference);
     }
 
     /**
@@ -62,6 +65,6 @@ public class CreatePaymentDataBuilder {
      * @return immutable data object
      */
     public CreatePaymentData build() {
-        return new CreatePaymentDataImpl(client, paymentMethodInfo, cart, customer, httpRequestInfo);
+        return new CreatePaymentDataImpl(client, paymentMethodInfo, cart, reference, customer, httpRequestInfo);
     }
 }

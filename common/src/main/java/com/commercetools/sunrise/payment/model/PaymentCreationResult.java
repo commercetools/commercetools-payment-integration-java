@@ -20,7 +20,7 @@ public interface PaymentCreationResult {
      * If the operation succeeded then this is the payment object that has been created.
      * @return the created payment object
      */
-    Optional<Payment> getCreatedPaymentObject();
+    Optional<Payment> getRelatedPaymentObject();
 
     /**
      * Get the task that describes what actions the shop should do next.

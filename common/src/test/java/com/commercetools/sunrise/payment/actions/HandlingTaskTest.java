@@ -3,7 +3,6 @@ package com.commercetools.sunrise.payment.actions;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,7 +18,7 @@ public class HandlingTaskTest {
 
     @Test
     public void addRedirectURL() throws MalformedURLException {
-        URL toTest = new URL("https://dev.commercetools.com");
+        String toTest = "https://dev.commercetools.com";
 
         // optional test without a url given
         HandlingTask t1 = HandlingTask.of(ShopAction.CONTINUE);

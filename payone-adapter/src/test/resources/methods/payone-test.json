@@ -1,6 +1,5 @@
 {
   "interfaceId" : "PAYONE-test",
-  "handlePaymentBaseUrl" : "http://localhost",
   "enabledMethods" : ["CREDIT_CARD"],
   "availableMethods" : {
     "CREDIT_CARD": {
@@ -12,5 +11,8 @@
           "en": "credit card"
         }
     }
+  },
+  "transactionTypes" : {
+    "CREDIT_CARD" : "Authorization"
   }
 }

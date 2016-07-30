@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,12 +36,12 @@ public class PayoneCreditCardTest {
         assertThat(cart.getLineItems().size()).isEqualTo(1);
 
         PaymentCreationResult paymentCreationResult = PaymentAdapterService.of()
-                .createPayment(CreatePaymentDataBuilder.of(client, "PAYONE", "CREDIT_CARD", cart).build())
+                .createPayment(CreatePaymentDataBuilder.of(client, "PAYONE", "CREDIT_CARD", cart, Long.toString(new Date().getTime())).build())
                 .toCompletableFuture().get();
         assertThat(paymentCreationResult).isNotNull();
         assertThat(paymentCreationResult.getOperationResult()).isEqualTo(OperationResult.SUCCESS);
-        assertThat(paymentCreationResult.getCreatedPaymentObject().isPresent()).isTrue();
-        assertThat(paymentCreationResult.getCreatedPaymentObject().get().getAmountPlanned()).isEqualTo(cart.getTotalPrice());
+        assertThat(paymentCreationResult.getRelatedPaymentObject().isPresent()).isTrue();
+        assertThat(paymentCreationResult.getRelatedPaymentObject().get().getAmountPlanned()).isEqualTo(cart.getTotalPrice());
     }
 
     @After

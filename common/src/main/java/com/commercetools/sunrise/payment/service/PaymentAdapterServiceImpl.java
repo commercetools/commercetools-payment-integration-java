@@ -2,13 +2,15 @@ package com.commercetools.sunrise.payment.service;
 
 import com.commercetools.sunrise.payment.domain.PaymentServiceProvider;
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
+import com.commercetools.sunrise.payment.model.CreatePaymentTransactionData;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
+import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
+import com.commercetools.sunrise.payment.utils.PaymentLookupHelper;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.concurrent.CompletionStage;
 
@@ -45,35 +47,28 @@ public class PaymentAdapterServiceImpl implements PaymentAdapterService {
     @Override
     public CompletionStage<PaymentCreationResult> createPayment(CreatePaymentData data) {
         // lookup implementation needed to be called
-        PaymentServiceProvider provider = findAllPaymentServiceProviders().stream()
-                .filter(psp -> psp.getId().equals(data.getPaymentMethodinInfo().getPaymentInterface())).findFirst().get();
+        PaymentServiceProvider provider = findPaymentServiceProvider(data.getPaymentMethodinInfo().getPaymentInterface());
 
         // let the method be created and apply the passed data
         return provider.provideCreatePaymentHandler(data.getPaymentMethodinInfo().getMethod()).apply(data);
     }
 
     @Override
-    public void createPaymentTransaction(String paymentRef) {
-
-    }
-
-    @Override
-    public void createPaymentTransaction(String paymentRef, Map<String, String> configData) {
-
-    }
-
-    @Override
-    public void createPaymentTransaction(CreatePaymentData data) {
-
-    }
-
-    @Override
-    public void createPaymentTransaction(CreatePaymentData data, Map<String, String> configData) {
-
+    public CompletionStage<PaymentTransactionCreationResult> createPaymentTransaction(CreatePaymentTransactionData createData) {
+        return PaymentLookupHelper.of(createData.getSphereClient())
+                .findPaymentFor(createData)
+                .thenCompose(data -> findPaymentServiceProvider(data.getPayment().getPaymentMethodInfo().getPaymentInterface())
+                        .provideCreatePaymentTransactionHandler(data.getPayment().getPaymentMethodInfo().getMethod()).apply(data));
     }
 
     @Override
     public PaymentStatus getPaymentStatus(String ref) {
         return null;
+    }
+
+
+    private PaymentServiceProvider findPaymentServiceProvider(String paymentInterfaceId) {
+        return findAllPaymentServiceProviders().stream()
+                    .filter(psp -> psp.getId().equals(paymentInterfaceId)).findFirst().get();
     }
 }

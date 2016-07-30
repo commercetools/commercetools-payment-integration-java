@@ -15,16 +15,20 @@ import java.util.Optional;
  */
 public class CreatePaymentDataImpl extends PaymentInteractionDataBase implements CreatePaymentData {
 
+    private final String reference;
     private Cart cart;
     @Nullable
     private Customer customer;
     @Nullable
     private HttpRequestInfo httpRequestInfo;
+    private PaymentMethodInfo paymentMethodInfo;
 
-    public CreatePaymentDataImpl(SphereClient client, PaymentMethodInfo paymentMethodInfo, Cart c, @Nullable Customer customer, @Nullable HttpRequestInfo requestInfo) {
-        super(client, paymentMethodInfo);
+    public CreatePaymentDataImpl(SphereClient client, PaymentMethodInfo paymentMethodInfo, Cart c, String reference, @Nullable Customer customer, @Nullable HttpRequestInfo requestInfo) {
+        super(client);
 
+        this.paymentMethodInfo = paymentMethodInfo;
         this.cart = c;
+        this.reference = reference;
         this.customer = customer;
         this.httpRequestInfo = requestInfo;
     }
@@ -33,6 +37,11 @@ public class CreatePaymentDataImpl extends PaymentInteractionDataBase implements
     public Cart getCart() {
 
         return this.cart;
+    }
+
+    @Override
+    public String getReference() {
+        return reference;
     }
 
     @Override
@@ -45,5 +54,11 @@ public class CreatePaymentDataImpl extends PaymentInteractionDataBase implements
     public Optional<HttpRequestInfo> getHttpRequestInfo() {
 
         return Optional.ofNullable(httpRequestInfo);
+    }
+
+    @Override
+    public PaymentMethodInfo getPaymentMethodinInfo() {
+
+        return this.paymentMethodInfo;
     }
 }

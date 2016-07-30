@@ -28,5 +28,10 @@
         "en": "Sofortüberweisung"
       }
     }
+  },
+  "transactionTypes" : {
+    "CREDIT_CARD" : "Authorization",
+    "WALLET-PAYPAL" : "Charge",
+    "BANK_TRANSFER-SOFORTUEBERWEISUNG" : "Charge"
   }
 }

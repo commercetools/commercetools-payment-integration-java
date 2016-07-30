@@ -3,6 +3,7 @@ package com.commercetools.sunrise.payment.payone.config;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.sphere.sdk.payments.PaymentMethodInfo;
+import io.sphere.sdk.payments.TransactionType;
 
 import java.util.List;
 import java.util.Map;
@@ -19,19 +20,22 @@ public class PayoneConfiguration {
     private String handlePaymentBaseUrl;
     private List<String> enabledMethods;
     private Map<String, PaymentMethodInfo> availableMethods;
+    private Map<String, TransactionType> transactionTypes;
 
     @JsonCreator
     private PayoneConfiguration(@JsonProperty("interfaceId") final String interfaceId,
-                                @JsonProperty("handlePaymentBaseUrl") final String handlePaymentBaseUrl,
                                 @JsonProperty("enabledMethods") final List<String> enabledMethods,
-                                @JsonProperty("availableMethods") final Map<String, PaymentMethodInfo> availableMethods) {
+                                @JsonProperty("availableMethods") final Map<String, PaymentMethodInfo> availableMethods,
+                                @JsonProperty("transactionTypes") final Map<String, TransactionType> transactionTypes) {
         this.interfaceId = interfaceId;
         this.handlePaymentBaseUrl = handlePaymentBaseUrl;
         this.enabledMethods = enabledMethods;
         this.availableMethods = availableMethods;
+        this.transactionTypes = transactionTypes;
     }
 
     public String getInterfaceId() {
+
         return interfaceId;
     }
 
@@ -39,6 +43,7 @@ public class PayoneConfiguration {
      * @return the configured base URL of the Payone Connectors handle interface
      */
     public String getHandlePaymentBaseUrl() {
+
         return handlePaymentBaseUrl;
     }
 
@@ -46,6 +51,7 @@ public class PayoneConfiguration {
      * @return the list of enabled payment methods
      */
     public List<String> getEnabledMethods() {
+
         return enabledMethods;
     }
 
@@ -53,6 +59,7 @@ public class PayoneConfiguration {
      * @return the available payment method configurations mapped by their method ID
      */
     public Map<String, PaymentMethodInfo> getAvailableMethods() {
+
         return availableMethods;
     }
 
@@ -61,6 +68,7 @@ public class PayoneConfiguration {
      * @return true if the method is enabled
      */
     public boolean isMethodEnabled(String methodId) {
+
         return this.enabledMethods.contains(methodId);
     }
 
@@ -70,6 +78,23 @@ public class PayoneConfiguration {
      * @return the {@link PaymentMethodInfo} or null if none is found
      */
     public PaymentMethodInfo getMethodInfo(String methodId) {
+
         return this.availableMethods.get(methodId);
+    }
+
+    /**
+     * @return all configured {@link TransactionType}
+     */
+    public Map<String, TransactionType> getTransactionTypes() {
+        return transactionTypes;
+    }
+
+    /**
+     * Get the configured {@link TransactionType} for the passed method Id
+     * @param methodId the method Id
+     * @return the configuration {@link TransactionType}
+     */
+    public TransactionType getTransactionType(String methodId) {
+        return transactionTypes.get(methodId);
     }
 }

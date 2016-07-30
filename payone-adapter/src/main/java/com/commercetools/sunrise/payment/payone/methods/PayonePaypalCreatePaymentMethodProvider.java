@@ -4,6 +4,7 @@ import com.commercetools.sunrise.payment.actions.HandlingTask;
 import com.commercetools.sunrise.payment.actions.OperationResult;
 import com.commercetools.sunrise.payment.actions.ShopAction;
 import com.commercetools.sunrise.payment.domain.PaymentCreationResultBuilder;
+import com.commercetools.sunrise.payment.methods.CreatePaymentMethod;
 import com.commercetools.sunrise.payment.methods.CreatePaymentMethodBase;
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
@@ -14,7 +15,7 @@ import java.util.function.Function;
 /**
  * Created by mgatz on 7/26/16.
  */
-public class PayonePaypalCreatePaymentMethodProvider extends CreatePaymentMethodBase {
+public class PayonePaypalCreatePaymentMethodProvider extends CreatePaymentMethodBase implements CreatePaymentMethod {
 
     private PayonePaypalCreatePaymentMethodProvider() {
     }
@@ -31,7 +32,7 @@ public class PayonePaypalCreatePaymentMethodProvider extends CreatePaymentMethod
                         ? PaymentCreationResultBuilder
                             .of(OperationResult.SUCCESS)
                             .payment(payment)
-                            .handlingTask(HandlingTask.of(ShopAction.REDIRECT_BEFORE_CHECKOUT))
+                            .handlingTask(HandlingTask.of(ShopAction.CONTINUE))
                             .build()
                         : PaymentCreationResultBuilder.ofError());
     }

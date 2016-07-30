@@ -4,6 +4,7 @@ import com.commercetools.sunrise.payment.actions.HandlingTask;
 import com.commercetools.sunrise.payment.actions.OperationResult;
 import com.commercetools.sunrise.payment.actions.ShopAction;
 import com.commercetools.sunrise.payment.domain.PaymentCreationResultBuilder;
+import com.commercetools.sunrise.payment.methods.CreatePaymentMethod;
 import com.commercetools.sunrise.payment.methods.CreatePaymentMethodBase;
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
@@ -14,7 +15,7 @@ import java.util.function.Function;
 /**
  * Created by mgatz on 7/21/16.
  */
-public class PayoneCreditCardCreatePaymentMethodProvider extends CreatePaymentMethodBase {
+public class PayoneCreditCardCreatePaymentMethodProvider extends CreatePaymentMethodBase implements CreatePaymentMethod {
 
     private PayoneCreditCardCreatePaymentMethodProvider() { }
 

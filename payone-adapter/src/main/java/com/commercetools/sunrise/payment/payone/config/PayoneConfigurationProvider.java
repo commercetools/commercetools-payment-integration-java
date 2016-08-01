@@ -7,7 +7,7 @@ import io.sphere.sdk.json.SphereJsonUtils;
  */
 public class PayoneConfigurationProvider {
 
-    private static final String DEFAULT_CONFIG_PATH = "methods/payone.json";
+    private static final String DEFAULT_CONFIG_PATH = "META-INF/methods/payone.json";
 
     public static PayoneConfigurationProvider of() {
         return new PayoneConfigurationProvider(DEFAULT_CONFIG_PATH);

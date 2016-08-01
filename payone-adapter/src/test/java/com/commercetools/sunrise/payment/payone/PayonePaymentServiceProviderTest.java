@@ -24,7 +24,7 @@ public class PayonePaymentServiceProviderTest {
     @Test
     public void getAvailablePaymentMethods() throws Exception {
         PaymentServiceProvider psp = new PayonePaymentServiceProvider();
-        assertThat(psp.getAvailablePaymentMethods().size()).isEqualTo(3);
+        assertThat(psp.getAvailablePaymentMethods().size()).isEqualTo(2);
 
         PaymentMethodInfo pmi = psp.getAvailablePaymentMethods().get(0); // credit card
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
@@ -39,11 +39,14 @@ public class PayonePaymentServiceProviderTest {
         assertThat(pmi.getName().getLocales().size()).isEqualTo(1);
         assertThat(pmi.getName().get("en")).isEqualTo("Paypal");
 
+        /*
+        Currently disabled
         pmi = psp.getAvailablePaymentMethods().get(2); // Sofortüberweisung
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
         assertThat(pmi.getMethod()).isEqualTo(METHOD_NAME_SOFORT);
         assertThat(pmi.getName().getLocales().size()).isEqualTo(1);
         assertThat(pmi.getName().get("en")).isEqualTo("Sofortüberweisung");
+        */
     }
 
     @Test

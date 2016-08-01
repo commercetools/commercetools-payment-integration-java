@@ -1,7 +1,7 @@
 {
   "interfaceId" : "PAYONE",
   "handlePaymentBaseUrl" : "http://localhost/commercetools/handle/payments/",
-  "enabledMethods" : ["CREDIT_CARD","WALLET-PAYPAL","BANK_TRANSFER-SOFORTUEBERWEISUNG"],
+  "enabledMethods" : ["CREDIT_CARD","WALLET-PAYPAL"],
   "availableMethods" : {
     "CREDIT_CARD": {
       "paymentInterface": "PAYONE",

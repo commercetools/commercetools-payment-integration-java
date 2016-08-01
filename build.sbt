@@ -30,10 +30,7 @@ lazy val `common` = project
       "com.commercetools.sdk.jvm.core" % "commercetools-models" % jvmSdkVersion,
       "com.commercetools.sdk.jvm.core" % "commercetools-java-client" % jvmSdkVersion,
       "com.google.code.findbugs" % "jsr305" % "3.0.0",
-      "commons-codec" % "commons-codec" % "1.4",
-      "org.mockito" % "mockito-all" % "1.9.5",
-      "org.powermock" % "powermock-api-mockito" % "1.6.5",
-      "org.powermock" % "powermock-module-junit4" % "1.6.5"
+      "commons-codec" % "commons-codec" % "1.4"
     )
   )
 
@@ -75,8 +72,6 @@ def configCommonTestSettings(scopes: String) = Seq(
   libraryDependencies ++= Seq (
     "com.novocode" % "junit-interface" % "0.11" % scopes,
     "org.assertj" % "assertj-core" % "3.4.1" % scopes,
-    "org.mockito" % "mockito-all" % "1.9.5" % scopes,
-    "org.powermock" % "powermock-api-mockito" % "1.6.5" % scopes,
-    "org.powermock" % "powermock-module-junit4" % "1.6.5" % scopes
+    "org.mockito" % "mockito-all" % "1.9.5" % scopes
   )
 )

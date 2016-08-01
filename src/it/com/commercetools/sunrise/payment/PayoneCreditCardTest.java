@@ -51,16 +51,8 @@ public class PayoneCreditCardTest {
 
         assertPaymentCreation(paymentCreationResult);
 
-        // do javascript JSONP call
-
-        // update payment object and create transaction
-
-        /*
-        PaymentTransactionCreationResult paymentTransactionCreationResult = PaymentAdapterService.of()
-                .createPaymentTransaction(
-                        CreatePaymentTransactionDataBuilder.of(client, paymentCreationResult.getRelatedPaymentObject().get().getId()).build())
-                .toCompletableFuture().get();
-                */
+        // payment transaction creation is difficult to integration test cause the client side request
+        // that provides lots of credit card data is not mockable
     }
 
     @After

@@ -1,23 +1,20 @@
 package com.commercetools.sunrise.payment.payone.methods;
 
 import com.commercetools.sunrise.payment.methods.CreatePaymentTransactionMethod;
-import com.commercetools.sunrise.payment.methods.CreatePaymentTransactionMethodBase;
-import com.commercetools.sunrise.payment.model.CreatePaymentTransactionData;
 import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
-
-import java.util.concurrent.CompletionStage;
-import java.util.function.Function;
+import io.sphere.sdk.payments.Payment;
 
 /**
  * Created by mgatz on 7/27/16.
  */
-public class PayoneCreditCardCreatePaymentTransactionMethodProvider extends CreatePaymentTransactionMethodBase implements CreatePaymentTransactionMethod {
+public class PayoneCreditCardCreatePaymentTransactionMethodProvider extends PayoneCreatePaymentTransactionMethodBase implements CreatePaymentTransactionMethod {
+
     public static CreatePaymentTransactionMethod of() {
         return new PayoneCreditCardCreatePaymentTransactionMethodProvider();
     }
 
     @Override
-    public Function<CreatePaymentTransactionData, CompletionStage<PaymentTransactionCreationResult>> create() {
+    protected PaymentTransactionCreationResult handleSuccessfulServiceCall(Payment updatedPayment) {
         return null;
     }
 }

@@ -35,5 +35,8 @@
     "CREDIT_CARD" : "Authorization",
     "WALLET-PAYPAL" : "Charge",
     "BANK_TRANSFER-SOFORTUEBERWEISUNG" : "Charge"
+  },
+  "creditCardConfig" : {
+    "javascriptInclude" : "https://secure.pay1.de/client-api/js/v1/payone_hosted_min.js"
   }
 }

@@ -17,6 +17,7 @@ import java.util.Map;
  */
 public class PayoneConfiguration {
     private String interfaceId;
+    private PayoneCreditCardConfiguration creditCardConfiguration;
     private String handlePaymentBaseUrl;
     private List<String> enabledMethods;
     private Map<String, PaymentMethodInfo> availableMethods;
@@ -26,12 +27,15 @@ public class PayoneConfiguration {
     private PayoneConfiguration(@JsonProperty("interfaceId") final String interfaceId,
                                 @JsonProperty("enabledMethods") final List<String> enabledMethods,
                                 @JsonProperty("availableMethods") final Map<String, PaymentMethodInfo> availableMethods,
-                                @JsonProperty("transactionTypes") final Map<String, TransactionType> transactionTypes) {
+                                @JsonProperty("transactionTypes") final Map<String, TransactionType> transactionTypes,
+                                @JsonProperty("creditCardConfig") final PayoneCreditCardConfiguration creditCardConfiguration) {
         this.interfaceId = interfaceId;
+        this.creditCardConfiguration = creditCardConfiguration;
         this.handlePaymentBaseUrl = handlePaymentBaseUrl;
         this.enabledMethods = enabledMethods;
         this.availableMethods = availableMethods;
         this.transactionTypes = transactionTypes;
+
     }
 
     public String getInterfaceId() {
@@ -96,5 +100,13 @@ public class PayoneConfiguration {
      */
     public TransactionType getTransactionType(String methodId) {
         return transactionTypes.get(methodId);
+    }
+
+    /**
+     * Get the credit card related configuration values.
+     * @return the payone credit card configuration values
+     */
+    public PayoneCreditCardConfiguration getCreditCardConfiguration() {
+        return creditCardConfiguration;
     }
 }

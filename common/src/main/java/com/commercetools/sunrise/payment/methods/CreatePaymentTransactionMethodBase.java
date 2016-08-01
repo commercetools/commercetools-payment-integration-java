@@ -25,9 +25,7 @@ public abstract class CreatePaymentTransactionMethodBase implements CreatePaymen
      * @return the completion stage that will return the created payment object
      */
     protected CompletionStage<Payment> createPaymentTransaction(CreatePaymentTransactionData data, TransactionType defaultType) {
-        TransactionDraft transactionDraft = TransactionDraftBuilder.of(
-                data.getTransactionType().orElse(defaultType),
-                data.getPayment().getAmountPlanned()).build();
+        TransactionDraft transactionDraft = createTransactionDraftBuilder(data, defaultType).build();
         List<UpdateAction<Payment>> commands = new ArrayList<>();
         commands.add(AddTransaction.of(transactionDraft));
 
@@ -36,7 +34,25 @@ public abstract class CreatePaymentTransactionMethodBase implements CreatePaymen
         return data.getSphereClient().execute(PaymentUpdateCommand.of(data.getPayment(), commands));
     }
 
+    /**
+     * Methods allows adding payment object update actions, that will be executed before adding the new transaction.
+     * @param data the data wrapper object
+     * @return list of update actions
+     */
     protected List<UpdateAction<Payment>> addPaymentUpdateActions(CreatePaymentTransactionData data) {
         return new ArrayList<>(); // returning a real instance allows overriding methods to reuse this with "super"
+    }
+
+    /**
+     * Default implementation of the payment transaction draft builder usage.
+     * Can be overriden to manipulate data attached to the transaction.
+     * @param data the data wrapper object
+     * @param defaultType the default {@link TransactionType} that will be used if the data wrapper does not provide a special value
+     * @return
+     */
+    protected TransactionDraftBuilder createTransactionDraftBuilder(CreatePaymentTransactionData data, TransactionType defaultType) {
+        return TransactionDraftBuilder.of(
+                data.getTransactionType().orElse(defaultType),
+                data.getPayment().getAmountPlanned());
     }
 }

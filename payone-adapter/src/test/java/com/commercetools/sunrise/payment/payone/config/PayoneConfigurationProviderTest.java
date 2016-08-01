@@ -35,5 +35,9 @@ public class PayoneConfigurationProviderTest {
         // validate default transaction types
         assertThat(configuration.getTransactionTypes().size()).isEqualTo(1);
         assertThat(configuration.getTransactionType("CREDIT_CARD")).isEqualTo(TransactionType.AUTHORIZATION);
+
+        // validiate credit card configuration values
+        assertThat(configuration.getCreditCardConfiguration()).isNotNull();
+        assertThat(configuration.getCreditCardConfiguration().getJavascriptInclude()).isEqualTo("aUrl");
     }
 }

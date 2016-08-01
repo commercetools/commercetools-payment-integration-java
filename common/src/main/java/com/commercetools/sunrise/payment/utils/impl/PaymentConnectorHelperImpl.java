@@ -23,7 +23,7 @@ public class PaymentConnectorHelperImpl implements PaymentConnectorHelper {
 
         try(HttpClient client = SphereClientFactory.of().createHttpClient()) {
 
-            HttpResponse response = client.execute(request).toCompletableFuture().get(3000, TimeUnit.MILLISECONDS);
+            HttpResponse response = client.execute(request).toCompletableFuture().get(10000, TimeUnit.MILLISECONDS);
             return HttpRequestResult.of(request, response, null);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             return HttpRequestResult.of(request, null, e);

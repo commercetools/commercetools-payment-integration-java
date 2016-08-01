@@ -39,7 +39,7 @@ public class PayoneCreditCardCreatePaymentMethodProvider extends CreatePaymentMe
                         ? PaymentCreationResultBuilder
                             .of(OperationResult.SUCCESS)
                             .payment(payment)
-                            .handlingTask(HandlingTask.of(ShopAction.REQUEST_INPUT))
+                            .handlingTask(HandlingTask.of(ShopAction.CUSTOM)) // app decides how to handle CC data
                             .build()
                         : PaymentCreationResultBuilder.ofError("An error occured during creation of the payment object."));
     }

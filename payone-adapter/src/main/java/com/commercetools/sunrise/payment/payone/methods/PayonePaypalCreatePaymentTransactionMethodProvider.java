@@ -27,7 +27,7 @@ public class PayonePaypalCreatePaymentTransactionMethodProvider
         if (null != redirectURL) {
             return PaymentTransactionCreationResultBuilder.of(OperationResult.SUCCESS)
                     .payment(updatedPayment)
-                    .handlingTask(HandlingTask.of(ShopAction.REDIRECT_AFTER_CHECKOUT).redirectUrl(redirectURL)).build();
+                    .handlingTask(HandlingTask.of(ShopAction.REDIRECT).redirectUrl(redirectURL)).build();
         }
         return PaymentTransactionCreationResultBuilder.ofError(
                 "There was no redirect set at the payment object which is required for Paypal ("

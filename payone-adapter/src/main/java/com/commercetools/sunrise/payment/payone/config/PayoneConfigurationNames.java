@@ -4,9 +4,7 @@ package com.commercetools.sunrise.payment.payone.config;
  * Created by mgatz on 8/8/16.
  */
 public interface PayoneConfigurationNames {
-    static final String HTTP_BASIC_AUTH_USER = "PAYONE_AUTH_USER";
-    static final String HTTP_BASIC_AUTH_PASS = "PAYONE_AUTH_PASS";
-    static final String  HANDLE_URL = "PayoneHandleURL";
+    static final String HANDLE_URL = "PayoneHandleURL";
     static final String REDIRECT_URL = "redirectUrl";
     static final String SUCCESS_URL = "successUrl";
     static final String CANCEL_URL = "cancelUrl";
@@ -15,5 +13,6 @@ public interface PayoneConfigurationNames {
     static final String CREDIT_CARD_CARD_DATA_PLACEHOLDER = "cardDataPlaceholder";
     static final String CREDIT_CARD_MASKED_CARD_NUMBER = "maskedCardNumber";
     static final String CREDIT_CARD_CARD_HOLDER_NAME = "cardHolderName";
+    static final String CREDIT_CARD_EXPIRY_DATE = "cardExpiryDate";
     static final String CREDIT_CARD_CARD_NETWORK = "cardNetwork";
 }

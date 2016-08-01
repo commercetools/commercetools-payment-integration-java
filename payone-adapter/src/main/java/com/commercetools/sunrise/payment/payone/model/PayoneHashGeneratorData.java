@@ -12,7 +12,6 @@ public class PayoneHashGeneratorData {
     public static final String KEY_AID = "aid";
     public static final String KEY_MID = "mid";
     public static final String KEY_PORTALID = "portalid";
-    public static final String KEY_PMI_PORTAL_KEY = "PMI Portal Key";
     public static final String KEY_STORECARDDATA = "storecarddata";
     public static final String KEY_REQUEST = "request";
     public static final String KEY_MODE = "mode";
@@ -21,7 +20,6 @@ public class PayoneHashGeneratorData {
     public static final String DEFAULT_MODE = "test";
     public static final String DEFAULT_REQUEST = "creditcardcheck";
     public static final String DEFAULT_STORECARDDATA = "yes";
-    public static final String DEFAULT_PMI_PORTAL_KEY = "123";
 
     private final Map<String, String> sortedAttributes = new TreeMap<>();
 
@@ -39,7 +37,6 @@ public class PayoneHashGeneratorData {
         sortedAttributes.put(KEY_MODE, DEFAULT_MODE);
         sortedAttributes.put(KEY_REQUEST, DEFAULT_REQUEST);
         sortedAttributes.put(KEY_STORECARDDATA, DEFAULT_STORECARDDATA);
-        sortedAttributes.put(KEY_PMI_PORTAL_KEY, DEFAULT_PMI_PORTAL_KEY);
     }
 
     public PayoneHashGeneratorData overrideDefaultEncoding(String encoding) {
@@ -62,19 +59,14 @@ public class PayoneHashGeneratorData {
         return this;
     }
 
-    public PayoneHashGeneratorData overrideDefaultPmiPortalKey(String portalKey) {
-        sortedAttributes.put(KEY_PMI_PORTAL_KEY, portalKey);
-        return this;
-    }
-
     public PayoneHashGeneratorData setCustomValue(String key, String value) {
         sortedAttributes.put(key, value);
         return this;
     }
 
-    public String build() {
+    public String build(String portalKey) {
         StringJoiner sj = new StringJoiner("");
         sortedAttributes.entrySet().stream().forEachOrdered(entry -> sj.add(entry.getValue()));
-        return sj.toString();
+        return sj.toString() + portalKey;
     }
 }

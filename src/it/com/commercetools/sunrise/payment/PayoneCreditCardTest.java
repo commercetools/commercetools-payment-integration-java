@@ -40,17 +40,14 @@ public class PayoneCreditCardTest {
 
         PaymentCreationResult paymentCreationResult = PaymentAdapterService.of()
                 .createPayment(
-                        CreatePaymentDataBuilder.of(
-                                client,
-                                "PAYONE",
-                                "CREDIT_CARD",
-                                cart,
-                                Long.toString(new Date().getTime()))
-                            .configValue(CREDIT_CARD_FORCE_3D_SECURE, "true")
-                            .configValue(SUCCESS_URL, "http://google.de")
-                            .configValue(ERROR_URL, "http://google.de")
-                            .configValue(CANCEL_URL, "http://google.de")
-                            .build())
+                        CreatePaymentDataBuilder.of(client, "PAYONE", "CREDIT_CARD", cart, Long.toString(new Date().getTime()))
+                                .configValue(CREDIT_CARD_FORCE_3D_SECURE, "true")
+                                .configValue(SUCCESS_URL, "http://google.de")
+                                .configValue(ERROR_URL, "http://google.de")
+                                .configValue(CANCEL_URL, "http://google.de")
+                                .configValue(CREDIT_CARD_CARD_DATA_PLACEHOLDER, "placeholder")
+                                .configValue(CREDIT_CARD_TRUNCATED_CARD_NUMBER, "truncated")
+                                .build())
                 .toCompletableFuture().get();
 
         assertPaymentCreation(paymentCreationResult);

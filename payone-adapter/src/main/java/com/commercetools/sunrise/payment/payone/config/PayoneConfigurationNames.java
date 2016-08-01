@@ -11,7 +11,7 @@ public interface PayoneConfigurationNames {
     static final String ERROR_URL = "errorUrl";
     static final String CREDIT_CARD_FORCE_3D_SECURE = "force3DSecure";
     static final String CREDIT_CARD_CARD_DATA_PLACEHOLDER = "cardDataPlaceholder";
-    static final String CREDIT_CARD_MASKED_CARD_NUMBER = "maskedCardNumber";
+    static final String CREDIT_CARD_TRUNCATED_CARD_NUMBER = "truncatedCardNumber";
     static final String CREDIT_CARD_CARD_HOLDER_NAME = "cardHolderName";
     static final String CREDIT_CARD_EXPIRY_DATE = "cardExpiryDate";
     static final String CREDIT_CARD_CARD_NETWORK = "cardNetwork";

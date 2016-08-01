@@ -1,11 +1,7 @@
 package com.commercetools.sunrise.payment;
 
-import com.commercetools.sunrise.payment.actions.OperationResult;
-import com.commercetools.sunrise.payment.actions.ShopAction;
 import com.commercetools.sunrise.payment.domain.CreatePaymentDataBuilder;
-import com.commercetools.sunrise.payment.domain.CreatePaymentTransactionDataBuilder;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
-import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
 import com.commercetools.sunrise.payment.service.PaymentAdapterService;
 import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.client.SphereClient;
@@ -73,16 +69,13 @@ public class PayoneChangePaymentsTest {
         // user selects creditcard
         PaymentCreationResult paymentCreationResult = PaymentAdapterService.of()
                 .createPayment(
-                        CreatePaymentDataBuilder.of(
-                                client,
-                                "PAYONE",
-                                "CREDIT_CARD",
-                                cart,
-                                Long.toString(new Date().getTime()))
+                        CreatePaymentDataBuilder.of(client, "PAYONE", "CREDIT_CARD", cart, Long.toString(new Date().getTime()))
                                 .configValue(CREDIT_CARD_FORCE_3D_SECURE, "true")
                                 .configValue(SUCCESS_URL, "http://google.de")
                                 .configValue(ERROR_URL, "http://google.de")
                                 .configValue(CANCEL_URL, "http://google.de")
+                                .configValue(CREDIT_CARD_CARD_DATA_PLACEHOLDER, "placeholder")
+                                .configValue(CREDIT_CARD_TRUNCATED_CARD_NUMBER, "truncated")
                                 .build())
                 .toCompletableFuture().get();
 

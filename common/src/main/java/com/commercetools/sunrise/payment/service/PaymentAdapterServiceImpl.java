@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.concurrent.CompletionStage;
+import java.util.stream.Collectors;
 
 /**
  * Provides access to the payment service provider handling methods.
@@ -41,7 +42,9 @@ public class PaymentAdapterServiceImpl implements PaymentAdapterService {
 
     @Override
     public List<PaymentMethodInfo> findAvailablePaymentMethods() {
-        return null;
+        return findAllPaymentServiceProviders().stream()
+                .flatMap(psp -> psp.getAvailablePaymentMethods().stream())
+                .collect(Collectors.toList());
     }
 
     @Override

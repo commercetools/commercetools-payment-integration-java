@@ -5,15 +5,11 @@ import com.commercetools.sunrise.payment.actions.OperationResult;
 import com.commercetools.sunrise.payment.actions.ShopAction;
 import com.commercetools.sunrise.payment.domain.PaymentTransactionCreationResultBuilder;
 import com.commercetools.sunrise.payment.methods.CreatePaymentTransactionMethod;
-import com.commercetools.sunrise.payment.model.CreatePaymentTransactionData;
 import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
-import io.sphere.sdk.commands.UpdateAction;
 import io.sphere.sdk.payments.Payment;
-import io.sphere.sdk.payments.commands.updateactions.SetCustomField;
 
-import java.util.List;
-
-import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.*;
+import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.CREDIT_CARD_FORCE_3D_SECURE;
+import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.REDIRECT_URL;
 
 /**
  * Created by mgatz on 7/27/16.
@@ -22,21 +18,6 @@ public class PayoneCreditCardCreatePaymentTransactionMethodProvider extends Payo
 
     public static CreatePaymentTransactionMethod of() {
         return new PayoneCreditCardCreatePaymentTransactionMethodProvider();
-    }
-
-    @Override
-    protected List<UpdateAction<Payment>> addPaymentUpdateActions(CreatePaymentTransactionData data) {
-
-        List<UpdateAction<Payment>> updateActions = super.addPaymentUpdateActions(data);
-
-        // add credit card required fields
-        updateActions.add(SetCustomField.ofObject(CREDIT_CARD_CARD_DATA_PLACEHOLDER, data.getConfigByName(CREDIT_CARD_CARD_DATA_PLACEHOLDER)));
-        updateActions.add(SetCustomField.ofObject(CREDIT_CARD_MASKED_CARD_NUMBER, data.getConfigByName(CREDIT_CARD_MASKED_CARD_NUMBER)));
-        updateActions.add(SetCustomField.ofObject(CREDIT_CARD_CARD_HOLDER_NAME, data.getConfigByName(CREDIT_CARD_CARD_HOLDER_NAME)));
-        updateActions.add(SetCustomField.ofObject(CREDIT_CARD_EXPIRY_DATE, data.getConfigByName(CREDIT_CARD_EXPIRY_DATE)));
-        updateActions.add(SetCustomField.ofObject(CREDIT_CARD_CARD_NETWORK, data.getConfigByName(CREDIT_CARD_CARD_NETWORK)));
-
-        return updateActions;
     }
 
     @Override

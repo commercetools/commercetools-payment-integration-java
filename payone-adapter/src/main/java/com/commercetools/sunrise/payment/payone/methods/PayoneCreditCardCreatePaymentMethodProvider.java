@@ -8,13 +8,9 @@ import com.commercetools.sunrise.payment.methods.CreatePaymentMethod;
 import com.commercetools.sunrise.payment.methods.CreatePaymentMethodBase;
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
-import io.sphere.sdk.commands.UpdateAction;
-import io.sphere.sdk.payments.Payment;
 import io.sphere.sdk.payments.PaymentDraftBuilder;
-import io.sphere.sdk.payments.commands.updateactions.SetCustomField;
 import io.sphere.sdk.types.CustomFieldsDraftBuilder;
 
-import java.util.List;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 
@@ -39,7 +35,7 @@ public class PayoneCreditCardCreatePaymentMethodProvider extends CreatePaymentMe
                         ? PaymentCreationResultBuilder
                             .of(OperationResult.SUCCESS)
                             .payment(payment)
-                            .handlingTask(HandlingTask.of(ShopAction.REQUIRE_INPUT))
+                            .handlingTask(HandlingTask.of(ShopAction.CONTINUE))
                             .build()
                         : PaymentCreationResultBuilder.ofError("An error occured during creation of the payment object."));
     }
@@ -54,7 +50,9 @@ public class PayoneCreditCardCreatePaymentMethodProvider extends CreatePaymentMe
                         .addObject(CREDIT_CARD_FORCE_3D_SECURE, Boolean.valueOf(cpd.getConfigByName(CREDIT_CARD_FORCE_3D_SECURE)))
                         .addObject(SUCCESS_URL, cpd.getConfigByName(SUCCESS_URL))
                         .addObject(ERROR_URL, cpd.getConfigByName(ERROR_URL))
-                        .addObject(CANCEL_URL, cpd.getConfigByName((CANCEL_URL)))
+                        .addObject(CANCEL_URL, cpd.getConfigByName(CANCEL_URL))
+                        .addObject(CREDIT_CARD_CARD_DATA_PLACEHOLDER, cpd.getConfigByName(CREDIT_CARD_CARD_DATA_PLACEHOLDER))
+                        .addObject(CREDIT_CARD_MASKED_CARD_NUMBER, cpd.getConfigByName(CREDIT_CARD_MASKED_CARD_NUMBER))
                         .build());
     }
 }

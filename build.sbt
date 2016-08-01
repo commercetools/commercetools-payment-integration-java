@@ -32,7 +32,8 @@ lazy val `common` = project
       "com.google.code.findbugs" % "jsr305" % "3.0.0",
       "commons-codec" % "commons-codec" % "1.4",
       "org.mockito" % "mockito-all" % "1.9.5",
-      "org.powermock" % "powermock-api-mockito" % "1.6.5"
+      "org.powermock" % "powermock-api-mockito" % "1.6.5",
+      "org.powermock" % "powermock-module-junit4" % "1.6.5"
     )
   )
 

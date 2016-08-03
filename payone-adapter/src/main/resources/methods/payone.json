@@ -17,6 +17,7 @@
       "method": "WALLET-PAYPAL",
       "name":
       {
+        "de": "Paypal",
         "en": "Paypal"
       }
     },
@@ -25,6 +26,7 @@
       "method": "BANK_TRANSFER-SOFORTUEBERWEISUNG",
       "name":
       {
+        "de": "Sofortüberweisung",
         "en": "Sofortüberweisung"
       }
     }

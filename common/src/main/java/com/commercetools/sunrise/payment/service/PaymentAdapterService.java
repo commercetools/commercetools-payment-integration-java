@@ -9,6 +9,7 @@ import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 /**
@@ -57,4 +58,12 @@ public interface PaymentAdapterService {
      * @return the status of the referenced payment object
      */
     PaymentStatus getPaymentStatus(String ref); // TODO: check if parameter is sufficient
+
+    /**
+     * Get the full {@link PaymentMethodInfo} object from the configuration.
+     * @param interfaceId
+     * @param method
+     * @return
+     */
+    Optional<PaymentMethodInfo> getPaymentMethodInfo(String interfaceId, String method);
 }

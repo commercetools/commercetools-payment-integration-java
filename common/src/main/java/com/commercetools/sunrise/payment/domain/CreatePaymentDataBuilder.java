@@ -39,6 +39,13 @@ public class CreatePaymentDataBuilder {
                 cart, reference);
     }
 
+    public static CreatePaymentDataBuilder of(final SphereClient client,
+                                              final PaymentMethodInfo paymentMethodInfo,
+                                              final Cart cart,
+                                              final String reference) {
+        return new CreatePaymentDataBuilder(client, paymentMethodInfo, cart, reference);
+    }
+
     /**
      * Add a customer object.
      * @param c the customer object to be added

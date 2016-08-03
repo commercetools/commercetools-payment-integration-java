@@ -11,6 +11,7 @@ import io.sphere.sdk.payments.PaymentStatus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
@@ -26,7 +27,7 @@ public class PaymentAdapterServiceImpl implements PaymentAdapterService {
 
     public PaymentAdapterServiceImpl() {
 
-        pspLoader = ServiceLoader.load(PaymentServiceProvider.class);
+        pspLoader = ServiceLoader.load(PaymentServiceProvider.class, PaymentAdapterServiceImpl.class.getClassLoader());
     }
 
     @Override
@@ -67,6 +68,11 @@ public class PaymentAdapterServiceImpl implements PaymentAdapterService {
     @Override
     public PaymentStatus getPaymentStatus(String ref) {
         return null;
+    }
+
+    @Override
+    public Optional<PaymentMethodInfo> getPaymentMethodInfo(String interfaceId, String method) {
+        return findPaymentServiceProvider(interfaceId).getAvailablePaymentMethods().stream().filter(m -> m.getMethod().equals(method)).findFirst();
     }
 
 

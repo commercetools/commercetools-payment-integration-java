@@ -2,6 +2,7 @@ package com.commercetools.sunrise.payment.methods;
 
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
 import com.commercetools.sunrise.payment.utils.PaymentLookupHelper;
+import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.carts.commands.CartUpdateCommand;
 import io.sphere.sdk.carts.commands.updateactions.AddPayment;
 import io.sphere.sdk.commands.Command;
@@ -17,6 +18,7 @@ import io.sphere.sdk.types.CustomFieldsDraftBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CompletionStage;
 
 /**
@@ -60,7 +62,7 @@ public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
                 .of(cpd.getCart().getTotalPrice())
                 .custom(CustomFieldsDraftBuilder.ofTypeKey("payment-WALLET")
                         .addObject("reference", cpd.getReference())
-                        .addObject("languageCode", cpd.getCart().getLocale().getLanguage())
+                        .addObject("languageCode", getLanguageFromCartOrFallback(cpd.getCart()))
                         .build());
 
         if(cpd.getCustomer().isPresent()) {
@@ -69,6 +71,14 @@ public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
 
         return builder
                 .paymentMethodInfo(cpd.getPaymentMethodinInfo());
+    }
+
+    private String getLanguageFromCartOrFallback(Cart cart) {
+        if(null != cart.getLocale()) {
+            return cart.getLocale().getLanguage();
+        }
+
+        return Locale.ENGLISH.getLanguage();
     }
 
     /**

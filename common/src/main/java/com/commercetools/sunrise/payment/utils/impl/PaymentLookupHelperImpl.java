@@ -10,6 +10,7 @@ import io.sphere.sdk.payments.queries.PaymentByIdGet;
 import io.sphere.sdk.payments.queries.PaymentQuery;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 /**
@@ -39,6 +40,11 @@ public class PaymentLookupHelperImpl implements PaymentLookupHelper {
 
     @Override
     public CompletionStage<Optional<Payment>> findPaymentWithoutTransaction(Cart cart, String pspId, String methodId) {
+        if(null == cart.getPaymentInfo() || null == cart.getPaymentInfo().getPayments() || cart.getPaymentInfo().getPayments().isEmpty()) {
+            return CompletableFuture.supplyAsync(() -> Optional.empty());
+        }
+
+
         PaymentQuery queryAllRefPayments = createPaymentsForCartQuery(cart, pspId, methodId);
 
         queryAllRefPayments = queryAllRefPayments

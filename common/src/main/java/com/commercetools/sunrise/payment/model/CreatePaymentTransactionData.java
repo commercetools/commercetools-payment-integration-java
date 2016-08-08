@@ -39,6 +39,4 @@ public interface CreatePaymentTransactionData extends PaymentInteractionData {
      * @param type
      */
     void setTransactionType(TransactionType type);
-
-    String getConfigByName(String name);
 }

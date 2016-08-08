@@ -8,6 +8,7 @@ import io.sphere.sdk.customers.Customer;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -23,8 +24,14 @@ public class CreatePaymentDataImpl extends PaymentInteractionDataBase implements
     private HttpRequestInfo httpRequestInfo;
     private PaymentMethodInfo paymentMethodInfo;
 
-    public CreatePaymentDataImpl(SphereClient client, PaymentMethodInfo paymentMethodInfo, Cart c, String reference, @Nullable Customer customer, @Nullable HttpRequestInfo requestInfo) {
-        super(client);
+    public CreatePaymentDataImpl(SphereClient client,
+                                 PaymentMethodInfo paymentMethodInfo,
+                                 Cart c,
+                                 String reference,
+                                 Map<String, String> config,
+                                 @Nullable Customer customer,
+                                 @Nullable HttpRequestInfo requestInfo) {
+        super(client, config);
 
         this.paymentMethodInfo = paymentMethodInfo;
         this.cart = c;

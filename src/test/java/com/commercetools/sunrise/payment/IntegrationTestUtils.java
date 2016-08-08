@@ -45,23 +45,38 @@ public class IntegrationTestUtils {
      * @throws InterruptedException
      */
     public static ProductProjection getProduct(SphereClient client) throws ExecutionException, InterruptedException {
-        ProductProjectionQuery query = ProductProjectionQuery.ofCurrent().withLimit(1);
+        return getProduct(client, 0l);
+    }
+
+    /**
+     * Returns the product found inside the client connected project with the passed offset.
+     * Executes blocking.
+     * @param client the client handling the connection
+     * @param offset the offset used to get another product
+     * @return the product projection
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public static ProductProjection getProduct(SphereClient client, Long offset) throws ExecutionException, InterruptedException {
+        ProductProjectionQuery query = ProductProjectionQuery.ofCurrent()
+                .withSort(s -> s.createdAt().sort().desc()).withOffset(offset).withLimit(1);
         return client.execute(query).toCompletableFuture().get().getResults().get(0);
     }
 
     /**
      * Creates a new cart and adds the passed product as a new line item using a random quantiy between 1 and 10.
      * @param client the client handling the connection
-     * @param product the product used as line item
      * @return the created cart
      */
-    public static Cart createTestCartFromProduct(SphereClient client, ProductProjection product) throws ExecutionException, InterruptedException {
+    public static Cart createTestCartFromProduct(SphereClient client, Integer productNumber) throws ExecutionException, InterruptedException {
         Address address = AddressBuilder.of(CountryCode.DE).firstName("FN").lastName("LN").streetName("sname").streetNumber("1").postalCode("12345").city("city").build();
 
-
-        LineItemDraft lineItemDraft = LineItemDraft.of(product, product.getMasterVariant().getId(), new Random().nextInt(10) + 1);
         List<LineItemDraft> lineItemDrafts = new ArrayList<>();
-        lineItemDrafts.add(lineItemDraft);
+        for (int i = 0; i < productNumber; i++) {
+            ProductProjection product = getProduct(client, Long.valueOf(i));
+            LineItemDraft lineItemDraft = LineItemDraft.of(product, product.getMasterVariant().getId(), new Random().nextInt(10) + 1);
+            lineItemDrafts.add(lineItemDraft);
+        }
 
         CartDraft cartDraft = CartDraftBuilder.of(DefaultCurrencyUnits.EUR)
                 .country(CountryCode.DE)

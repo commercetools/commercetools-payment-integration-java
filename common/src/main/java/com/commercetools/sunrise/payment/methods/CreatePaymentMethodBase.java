@@ -14,7 +14,6 @@ import io.sphere.sdk.payments.commands.PaymentCreateCommand;
 import io.sphere.sdk.payments.commands.PaymentUpdateCommand;
 import io.sphere.sdk.payments.commands.updateactions.ChangeAmountPlanned;
 import io.sphere.sdk.payments.commands.updateactions.SetMethodInfoMethod;
-import io.sphere.sdk.types.CustomFieldsDraftBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +44,9 @@ public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
                     }
 
                     // update an existing payment objects payment method as it currently has no transaction
-                    createOrUpdateCommand = createPaymentMethodUpdateCommand(payment.get(), cpd);
+                    createOrUpdateCommand = PaymentUpdateCommand.of(
+                            payment.get(),
+                            createPaymentMethodUpdateCommands(payment.get(), cpd));
                     return cpd.getSphereClient().execute(createOrUpdateCommand);
 
                 });
@@ -59,11 +60,7 @@ public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
     protected PaymentDraftBuilder createPaymentDraft(CreatePaymentData cpd) {
 
         PaymentDraftBuilder builder = PaymentDraftBuilder
-                .of(cpd.getCart().getTotalPrice())
-                .custom(CustomFieldsDraftBuilder.ofTypeKey("payment-WALLET")
-                        .addObject("reference", cpd.getReference())
-                        .addObject("languageCode", getLanguageFromCartOrFallback(cpd.getCart()))
-                        .build());
+                .of(cpd.getCart().getTotalPrice());
 
         if(cpd.getCustomer().isPresent()) {
             builder.customer(cpd.getCustomer().get());
@@ -73,7 +70,7 @@ public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
                 .paymentMethodInfo(cpd.getPaymentMethodinInfo());
     }
 
-    private String getLanguageFromCartOrFallback(Cart cart) {
+    protected String getLanguageFromCartOrFallback(Cart cart) {
         if(null != cart.getLocale()) {
             return cart.getLocale().getLanguage();
         }
@@ -88,13 +85,13 @@ public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
      * @param cpd the data object
      * @return the update command
      */
-    protected PaymentUpdateCommand createPaymentMethodUpdateCommand(Payment payment, CreatePaymentData cpd) {
+    protected List<UpdateAction<Payment>> createPaymentMethodUpdateCommands(Payment payment, CreatePaymentData cpd) {
         PaymentMethodInfo methodInfo = cpd.getPaymentMethodinInfo();
         List<UpdateAction<Payment>> updateCommands = new ArrayList<>();
 
         updateCommands.add(SetMethodInfoMethod.of(methodInfo.getMethod()));
         updateCommands.add(ChangeAmountPlanned.of(cpd.getCart().getTotalPrice()));
 
-        return PaymentUpdateCommand.of(payment, updateCommands);
+        return updateCommands;
     }
 }

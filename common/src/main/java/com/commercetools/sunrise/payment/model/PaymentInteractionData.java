@@ -13,4 +13,11 @@ public interface PaymentInteractionData {
      * @return a shop provided valid sphere client
      */
     SphereClient getSphereClient();
+
+    /**
+     * Get a possibly configured value.
+     * @param name the name of the value
+     * @return the value or null
+     */
+    String getConfigByName(String name);
 }

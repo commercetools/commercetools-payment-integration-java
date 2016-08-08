@@ -26,7 +26,7 @@ public class PayoneSofortTest {
     @Before
     public void setup() throws ExecutionException, InterruptedException {
         this.client = IntegrationTestUtils.createClient();
-        this.cart = IntegrationTestUtils.createTestCartFromProduct(client, IntegrationTestUtils.getProduct(client));
+        this.cart = IntegrationTestUtils.createTestCartFromProduct(client, 1);
     }
 
     @Test

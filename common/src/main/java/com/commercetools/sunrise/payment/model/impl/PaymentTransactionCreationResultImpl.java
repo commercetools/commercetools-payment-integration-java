@@ -5,35 +5,29 @@ import com.commercetools.sunrise.payment.actions.OperationResult;
 import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
 import io.sphere.sdk.payments.Payment;
 
-import javax.annotation.Nullable;
-import java.util.Optional;
-
 /**
  * Created by mgatz on 7/28/16.
  */
-public class PaymentTransactionCreationResultImpl implements PaymentTransactionCreationResult {
+public class PaymentTransactionCreationResultImpl extends AbstractPaymentOperationResult implements PaymentTransactionCreationResult {
 
-    private OperationResult operationResult;
-    @Nullable
-    private Payment payment;
     private HandlingTask handlingTask;
 
-    public PaymentTransactionCreationResultImpl(OperationResult operationResult, Payment payment, HandlingTask handlingTask) {
-        this.operationResult = operationResult;
-        this.payment = payment;
+    public PaymentTransactionCreationResultImpl(
+            OperationResult operationResult,
+            Payment payment,
+            HandlingTask handlingTask) {
+        super(operationResult, payment);
         this.handlingTask = handlingTask;
     }
 
-    @Override
-    public OperationResult getOperationResult() {
-
-        return this.operationResult;
-    }
-
-    @Override
-    public Optional<Payment> getRelatedPaymentObject() {
-
-        return Optional.ofNullable(this.payment);
+    public PaymentTransactionCreationResultImpl(
+            OperationResult operationResult,
+            Payment payment,
+            HandlingTask handlingTask,
+            String message,
+            Throwable exception) {
+        super(operationResult, payment, message, exception);
+        this.handlingTask = handlingTask;
     }
 
     @Override

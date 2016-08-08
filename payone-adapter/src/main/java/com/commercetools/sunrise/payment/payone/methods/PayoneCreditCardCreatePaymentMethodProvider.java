@@ -8,9 +8,13 @@ import com.commercetools.sunrise.payment.methods.CreatePaymentMethod;
 import com.commercetools.sunrise.payment.methods.CreatePaymentMethodBase;
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
+import io.sphere.sdk.payments.PaymentDraftBuilder;
+import io.sphere.sdk.types.CustomFieldsDraftBuilder;
 
 import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
+
+import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.CREDIT_CARD_FORCE_3D_SECURE;
 
 /**
  * Created by mgatz on 7/21/16.
@@ -31,8 +35,19 @@ public class PayoneCreditCardCreatePaymentMethodProvider extends CreatePaymentMe
                         ? PaymentCreationResultBuilder
                             .of(OperationResult.SUCCESS)
                             .payment(payment)
-                            .handlingTask(HandlingTask.of(ShopAction.CONTINUE))
+                            .handlingTask(HandlingTask.of(ShopAction.REQUEST_INPUT))
                             .build()
-                        : PaymentCreationResultBuilder.ofError());
+                        : PaymentCreationResultBuilder.ofError("An error occured during creation of the payment object."));
+    }
+
+    @Override
+    protected PaymentDraftBuilder createPaymentDraft(CreatePaymentData cpd) {
+
+        return super.createPaymentDraft(cpd)
+                .custom(CustomFieldsDraftBuilder.ofTypeKey("payment-CREDIT_CARD")
+                        .addObject("reference", cpd.getReference())
+                        .addObject("languageCode", getLanguageFromCartOrFallback(cpd.getCart()))
+                        .addObject(CREDIT_CARD_FORCE_3D_SECURE, Boolean.valueOf(cpd.getConfigByName(CREDIT_CARD_FORCE_3D_SECURE)))
+                        .build());
     }
 }

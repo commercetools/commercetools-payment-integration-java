@@ -13,6 +13,7 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.CREDIT_CARD_FORCE_3D_SECURE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -26,27 +27,51 @@ public class PayoneCreditCardTest {
     @Before
     public void setup() throws ExecutionException, InterruptedException {
         this.client = IntegrationTestUtils.createClient();
-        this.cart = IntegrationTestUtils.createTestCartFromProduct(client, IntegrationTestUtils.getProduct(client));
+        this.cart = IntegrationTestUtils.createTestCartFromProduct(client, 2);
     }
 
     @Test
-    public void createPaymentCreationMethod() throws ExecutionException, InterruptedException {
-        assertThat(client).isNotNull();
-        assertThat(cart).isNotNull();
-        assertThat(cart.getLineItems().size()).isEqualTo(1);
+    public void testPaymentFlow() throws ExecutionException, InterruptedException {
+        assertPreconditions();
 
         PaymentCreationResult paymentCreationResult = PaymentAdapterService.of()
-                .createPayment(CreatePaymentDataBuilder.of(client, "PAYONE", "CREDIT_CARD", cart, Long.toString(new Date().getTime())).build())
+                .createPayment(
+                        CreatePaymentDataBuilder.of(
+                                client,
+                                "PAYONE",
+                                "CREDIT_CARD",
+                                cart,
+                                Long.toString(new Date().getTime()))
+                            .configValue(CREDIT_CARD_FORCE_3D_SECURE, "true").build())
                 .toCompletableFuture().get();
-        assertThat(paymentCreationResult).isNotNull();
-        assertThat(paymentCreationResult.getOperationResult()).isEqualTo(OperationResult.SUCCESS);
-        assertThat(paymentCreationResult.getRelatedPaymentObject().isPresent()).isTrue();
-        assertThat(paymentCreationResult.getRelatedPaymentObject().get().getAmountPlanned()).isEqualTo(cart.getTotalPrice());
+
+        assertPaymentCreation(paymentCreationResult);
+
+        /*
+        PaymentTransactionCreationResult paymentTransactionCreationResult = PaymentAdapterService.of()
+                .createPaymentTransaction(
+                        CreatePaymentTransactionDataBuilder.of(client, paymentCreationResult.getRelatedPaymentObject().get().getId()).build())
+                .toCompletableFuture().get();
+                */
     }
 
     @After
     public void shutdown() throws ExecutionException, InterruptedException {
         IntegrationTestUtils.removeCart(client, cart);
         client.close();
+    }
+
+    private void assertPreconditions() {
+        assertThat(client).isNotNull();
+        assertThat(cart).isNotNull();
+        assertThat(cart.getLineItems().size()).isEqualTo(2);
+    }
+
+    private void assertPaymentCreation(PaymentCreationResult paymentCreationResult) {
+        assertThat(paymentCreationResult).isNotNull();
+        assertThat(paymentCreationResult.getOperationResult()).isEqualTo(OperationResult.SUCCESS);
+        assertThat(paymentCreationResult.getRelatedPaymentObject().isPresent()).isTrue();
+        assertThat(paymentCreationResult.getRelatedPaymentObject().get().getAmountPlanned()).isEqualTo(cart.getTotalPrice());
+        assertThat(paymentCreationResult.getRelatedPaymentObject().get().getCustom().getFieldAsBoolean(CREDIT_CARD_FORCE_3D_SECURE)).isTrue();
     }
 }

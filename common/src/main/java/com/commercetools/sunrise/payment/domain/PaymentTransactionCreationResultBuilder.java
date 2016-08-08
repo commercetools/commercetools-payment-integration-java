@@ -15,6 +15,8 @@ public class PaymentTransactionCreationResultBuilder {
     private OperationResult operationResult;
     private Payment payment;
     private HandlingTask handlingTask;
+    private Throwable exception;
+    private String message;
 
     private PaymentTransactionCreationResultBuilder(OperationResult operationResult) {
         this.operationResult = operationResult;
@@ -29,8 +31,17 @@ public class PaymentTransactionCreationResultBuilder {
         return new PaymentTransactionCreationResultBuilder(operationResult);
     }
 
-    public static PaymentTransactionCreationResult ofError() {
-        return new PaymentTransactionCreationResultImpl(OperationResult.FAILED, null, HandlingTask.of(ShopAction.HANDLE_ERROR));
+    public static PaymentTransactionCreationResult ofError(String message) {
+        return ofError(message, null);
+    }
+
+    public static PaymentTransactionCreationResult ofError(String message, Throwable exception) {
+        return new PaymentTransactionCreationResultImpl(
+                OperationResult.FAILED,
+                null,
+                HandlingTask.of(ShopAction.HANDLE_ERROR),
+                message,
+                exception);
     }
 
     /**
@@ -53,10 +64,20 @@ public class PaymentTransactionCreationResultBuilder {
         return this;
     }
 
+    public PaymentTransactionCreationResultBuilder exception(Throwable exception) {
+        this.exception = exception;
+        return this;
+    }
+
     /**
      * @return the created {@link PaymentCreationResult} object.
      */
     public PaymentTransactionCreationResult build() {
-        return new PaymentTransactionCreationResultImpl(this.operationResult, this.payment, this.handlingTask);
+        return new PaymentTransactionCreationResultImpl(
+                this.operationResult,
+                this.payment,
+                this.handlingTask,
+                this.message,
+                this.exception);
     }
 }

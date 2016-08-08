@@ -25,6 +25,9 @@ public interface CreatePaymentData extends PaymentInteractionData {
      */
     Cart getCart();
 
+    /**
+     * @return the reference number that is unique for the whole payment process
+     */
     String getReference();
 
     /**

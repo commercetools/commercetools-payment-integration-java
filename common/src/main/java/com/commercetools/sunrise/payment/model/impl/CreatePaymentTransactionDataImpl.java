@@ -15,17 +15,14 @@ import java.util.Optional;
 public class CreatePaymentTransactionDataImpl extends PaymentInteractionDataBase implements CreatePaymentTransactionData {
 
     private final String paymentRef;
-    private final Map<String, String> config;
-
     private Payment payment;
 
     @Nullable
     private TransactionType transactionType;
 
-    public CreatePaymentTransactionDataImpl(SphereClient client, String paymentRef, Map<String, String> config) {
-        super(client);
+    public CreatePaymentTransactionDataImpl(final SphereClient client, final String paymentRef, final Map<String, String> config) {
+        super(client, config);
         this.paymentRef = paymentRef;
-        this.config = config;
     }
 
     @Override
@@ -55,8 +52,4 @@ public class CreatePaymentTransactionDataImpl extends PaymentInteractionDataBase
         this.transactionType = type;
     }
 
-    @Override
-    public String getConfigByName(String name) {
-        return config.get(name);
-    }
 }

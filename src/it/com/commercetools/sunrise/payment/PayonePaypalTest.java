@@ -16,6 +16,7 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -29,7 +30,7 @@ public class PayonePaypalTest {
     @Before
     public void setup() throws ExecutionException, InterruptedException {
         this.client = IntegrationTestUtils.createClient();
-        this.cart = IntegrationTestUtils.createTestCartFromProduct(client, IntegrationTestUtils.getProduct(client));
+        this.cart = IntegrationTestUtils.createTestCartFromProduct(client, 2);
     }
 
     @Test
@@ -38,7 +39,16 @@ public class PayonePaypalTest {
 
         // user selected paypal
         PaymentCreationResult paymentCreationResult = PaymentAdapterService.of()
-                .createPayment(CreatePaymentDataBuilder.of(client, "PAYONE", "WALLET-PAYPAL", cart, Long.toString(new Date().getTime())).build())
+                .createPayment(
+                        CreatePaymentDataBuilder.of(
+                                client,
+                                "PAYONE",
+                                "WALLET-PAYPAL",
+                                cart,
+                                Long.toString(new Date().getTime()))
+                            .configValue(SUCCESS_URL, "http://google.de")
+                            .configValue(ERROR_URL, "http://google.de")
+                            .configValue(CANCEL_URL, "http://google.de").build())
                 .toCompletableFuture().get();
 
         assertPaymentObjectCreation(paymentCreationResult);
@@ -48,27 +58,23 @@ public class PayonePaypalTest {
                 .createPaymentTransaction(
                         CreatePaymentTransactionDataBuilder
                                 .of(client, paymentCreationResult.getRelatedPaymentObject().get().getId())
-                                .setConfigValue("PayoneHandleURL", "https://coeur-payment-stage.ct-app.com/commercetools/handle/payments/")
-                                .setConfigValue("successUrl", "http://google.de")
-                                .setConfigValue("errorUrl", "http://google.de")
-                                .setConfigValue("cancelUrl", "http://google.de")
+                                .setConfigValue(HANDLE_URL, "https://coeur-payment-stage.ct-app.com/commercetools/handle/payments/")
                                 .build())
                 .toCompletableFuture().get();
 
         assertPaymentTransactionObjectCreation(paymentTransactionCreationResult);
     }
 
-
     @After
     public void shutdown() throws ExecutionException, InterruptedException {
-        //IntegrationTestUtils.removeCart(client, cart);
+        IntegrationTestUtils.removeCart(client, cart);
         client.close();
     }
 
     private void assertPreconditions() {
         assertThat(client).isNotNull();
         assertThat(cart).isNotNull();
-        assertThat(cart.getLineItems().size()).isEqualTo(1);
+        assertThat(cart.getLineItems().size()).isEqualTo(2);
     }
 
     private void assertPaymentObjectCreation(PaymentCreationResult pcr) {

@@ -24,21 +24,20 @@ import java.util.stream.Collectors;
 public class PaymentAdapterServiceImpl implements PaymentAdapterService {
 
     private ServiceLoader<PaymentServiceProvider> pspLoader;
+    private final List<PaymentServiceProvider> paymentServiceProviders;
 
     public PaymentAdapterServiceImpl() {
-
         pspLoader = ServiceLoader.load(PaymentServiceProvider.class, PaymentAdapterServiceImpl.class.getClassLoader());
+        paymentServiceProviders = new ArrayList<>();
+
+        pspLoader.forEach(psp -> {
+            paymentServiceProviders.add(psp);
+        });
     }
 
     @Override
     public List<PaymentServiceProvider> findAllPaymentServiceProviders() {
-        List<PaymentServiceProvider> result = new ArrayList<>();
-
-        pspLoader.forEach(psp -> {
-            result.add(psp);
-        });
-
-        return result;
+        return paymentServiceProviders;
     }
 
     @Override

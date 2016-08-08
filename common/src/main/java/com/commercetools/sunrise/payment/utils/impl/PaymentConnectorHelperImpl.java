@@ -6,6 +6,8 @@ import io.sphere.sdk.http.*;
 import org.apache.commons.codec.binary.Base64;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by mgatz on 7/28/16.
@@ -36,11 +38,14 @@ public class PaymentConnectorHelperImpl implements PaymentConnectorHelper {
         try(HttpClient client = SphereClientFactory.of().createHttpClient()) {
             HttpRequest request = HttpRequest.of(HttpMethod.GET, url, HttpHeaders.of("Authorization", basicAuthKey), null);
 
-            return client.execute(request).toCompletableFuture().get();
+            return client.execute(request).toCompletableFuture().get(3000, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             // TODO: add logging
             e.printStackTrace();
         } catch (ExecutionException e) {
+            // TODO: add logging
+            e.printStackTrace();
+        } catch (TimeoutException e) {
             // TODO: add logging
             e.printStackTrace();
         }

@@ -21,7 +21,7 @@ public enum  ShopAction {
      * Shop needs to handle an occurred error.
      */
     HANDLE_ERROR,
-    /**
+    REQUEST_INPUT, /**
      * Something not generic is required. It is the task of the shop to decide what and how that has to be done.
      * Simple continuation is not possible.
      */

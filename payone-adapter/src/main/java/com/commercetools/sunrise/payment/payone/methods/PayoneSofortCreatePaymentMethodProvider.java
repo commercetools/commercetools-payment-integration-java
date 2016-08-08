@@ -35,6 +35,6 @@ public class PayoneSofortCreatePaymentMethodProvider extends CreatePaymentMethod
                                 .payment(payment)
                                 .handlingTask(HandlingTask.of(ShopAction.REDIRECT_AFTER_CHECKOUT))
                                 .build()
-                                : PaymentCreationResultBuilder.ofError());
+                                : PaymentCreationResultBuilder.ofError("An error occured during creation of the payment object."));
     }
 }

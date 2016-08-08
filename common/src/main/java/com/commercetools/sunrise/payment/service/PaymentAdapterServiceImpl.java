@@ -75,7 +75,7 @@ public class PaymentAdapterServiceImpl implements PaymentAdapterService {
         return findPaymentServiceProvider(interfaceId).getAvailablePaymentMethods().stream().filter(m -> m.getMethod().equals(method)).findFirst();
     }
 
-
+    // TODO: what if no PSP is found?
     private PaymentServiceProvider findPaymentServiceProvider(String paymentInterfaceId) {
         return findAllPaymentServiceProviders().stream()
                     .filter(psp -> psp.getId().equals(paymentInterfaceId)).findFirst().get();

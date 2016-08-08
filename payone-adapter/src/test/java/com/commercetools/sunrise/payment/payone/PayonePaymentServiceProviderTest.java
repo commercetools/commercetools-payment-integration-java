@@ -36,7 +36,7 @@ public class PayonePaymentServiceProviderTest {
         pmi = psp.getAvailablePaymentMethods().get(1); // paypal
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
         assertThat(pmi.getMethod()).isEqualTo(METHOD_NAME_PAYPAL);
-        assertThat(pmi.getName().getLocales().size()).isEqualTo(1);
+        assertThat(pmi.getName().getLocales().size()).isEqualTo(2);
         assertThat(pmi.getName().get("en")).isEqualTo("Paypal");
 
         /*

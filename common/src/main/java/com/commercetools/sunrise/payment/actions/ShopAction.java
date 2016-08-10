@@ -18,6 +18,10 @@ public enum  ShopAction {
      */
     HANDLE_ERROR,
     /**
+     * Shop needs to request users input depending on the selected payment method.
+     */
+    REQUIRE_INPUT,
+    /**
      * Something not generic is required. It is the task of the shop to decide what and how that has to be done.
      * Simple continuation is not possible.
      */

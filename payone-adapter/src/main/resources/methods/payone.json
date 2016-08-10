@@ -1,7 +1,6 @@
 {
   "interfaceId" : "PAYONE",
-  "handlePaymentBaseUrl" : "http://localhost/commercetools/handle/payments/",
-  "enabledMethods" : ["CREDIT_CARD","WALLET-PAYPAL"],
+  "enabledMethods" : ["CREDIT_CARD","WALLET-PAYPAL", "BANK_TRANSFER-ADVANCE"],
   "availableMethods" : {
     "CREDIT_CARD": {
       "paymentInterface": "PAYONE",
@@ -29,12 +28,22 @@
         "de": "Sofortüberweisung",
         "en": "Sofortüberweisung"
       }
+    },
+    "BANK_TRANSFER-ADVANCE" : {
+     "paymentInterface": "PAYONE",
+     "method": "BANK_TRANSFER-ADVANCE",
+     "name":
+     {
+       "de": "Vorkasse",
+       "en": "Prepaid"
+     }
     }
   },
   "transactionTypes" : {
     "CREDIT_CARD" : "Authorization",
     "WALLET-PAYPAL" : "Charge",
-    "BANK_TRANSFER-SOFORTUEBERWEISUNG" : "Charge"
+    "BANK_TRANSFER-SOFORTUEBERWEISUNG" : "Charge",
+    "BANK_TRANSFER-ADVANCE" : "Charge"
   },
   "creditCardConfig" : {
     "javascriptInclude" : "https://secure.pay1.de/client-api/js/v1/payone_hosted_min.js"

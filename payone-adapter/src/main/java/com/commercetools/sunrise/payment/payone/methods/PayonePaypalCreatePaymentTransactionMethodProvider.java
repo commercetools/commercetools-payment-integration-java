@@ -7,11 +7,11 @@ import com.commercetools.sunrise.payment.domain.PaymentTransactionCreationResult
 import com.commercetools.sunrise.payment.methods.CreatePaymentTransactionMethod;
 import com.commercetools.sunrise.payment.methods.CreatePaymentTransactionMethodBase;
 import com.commercetools.sunrise.payment.model.CreatePaymentTransactionData;
+import com.commercetools.sunrise.payment.model.HttpRequestResult;
 import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
 import com.commercetools.sunrise.payment.payone.config.PayoneConfigurationProvider;
 import com.commercetools.sunrise.payment.utils.PaymentConnectorHelper;
 import com.commercetools.sunrise.payment.utils.PaymentLookupHelper;
-import io.sphere.sdk.http.HttpResponse;
 import io.sphere.sdk.http.HttpStatusCode;
 import io.sphere.sdk.payments.Payment;
 import io.sphere.sdk.payments.TransactionType;
@@ -20,7 +20,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 
-import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.*;
+import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.HANDLE_URL;
+import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.REDIRECT_URL;
 
 /**
  * Created by mgatz on 7/27/16.
@@ -45,17 +46,23 @@ public class PayonePaypalCreatePaymentTransactionMethodProvider extends CreatePa
             return createPaymentTransaction(cptd, getDefaultTransactionType(cptd))
                     .thenCompose(payment -> {
                         // call PSP connector to handle the payment synchronously
-                        HttpResponse response = PaymentConnectorHelper.of().sendHttpGetRequest(
-                                buildHandleUrl(payment),
-                                System.getenv(HTTP_BASIC_AUTH_USER),
-                                System.getenv(HTTP_BASIC_AUTH_PASS));
-                        if(response.getStatusCode() != HttpStatusCode.OK_200) {
+                        HttpRequestResult result = PaymentConnectorHelper.of().sendHttpGetRequest(
+                                buildHandleUrl(payment));
+                        if(!result.getResponse().isPresent()) {
                             return CompletableFuture.supplyAsync(() ->
                                     PaymentTransactionCreationResultBuilder.ofError(
                                             "Payone handle call (URL: "
-                                                    + response.getAssociatedRequest().getUrl()
+                                                    + result.getRequest().getUrl()
+                                                    + ") returned failed!",
+                                                    result.getException().get()));
+                        }
+                        else if(result.getResponse().get().getStatusCode() != HttpStatusCode.OK_200) {
+                            return CompletableFuture.supplyAsync(() ->
+                                    PaymentTransactionCreationResultBuilder.ofError(
+                                            "Payone handle call (URL: "
+                                                    + result.getRequest().getUrl()
                                                     + ") returned wrong HTTP status: "
-                                                    + response.getStatusCode()
+                                                    + result.getResponse().get().getStatusCode()
                                                     + "! Check Payone Connector log files!"));
                         }
                         return PaymentLookupHelper.of(cptd.getSphereClient()).findPayment(payment.getId()) // update the payment object

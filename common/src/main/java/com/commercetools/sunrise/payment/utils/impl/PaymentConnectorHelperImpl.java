@@ -1,9 +1,12 @@
 package com.commercetools.sunrise.payment.utils.impl;
 
+import com.commercetools.sunrise.payment.model.HttpRequestResult;
 import com.commercetools.sunrise.payment.utils.PaymentConnectorHelper;
 import io.sphere.sdk.client.SphereClientFactory;
-import io.sphere.sdk.http.*;
-import org.apache.commons.codec.binary.Base64;
+import io.sphere.sdk.http.HttpClient;
+import io.sphere.sdk.http.HttpMethod;
+import io.sphere.sdk.http.HttpRequest;
+import io.sphere.sdk.http.HttpResponse;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -15,41 +18,15 @@ import java.util.concurrent.TimeoutException;
 public class PaymentConnectorHelperImpl implements PaymentConnectorHelper {
 
     @Override
-    public HttpResponse sendHttpGetRequest(String url) {
-        try(HttpClient client = SphereClientFactory.of().createHttpClient()) {
-            HttpRequest request = HttpRequest.of(HttpMethod.GET, url);
-
-            return client.execute(request).toCompletableFuture().get();
-        } catch (InterruptedException e) {
-            // TODO: add logging
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            // TODO: add logging
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    @Override
-    public HttpResponse sendHttpGetRequest(String url, String userName, String password) {
-        String basicAuthKey = "Basic " + new String(Base64.encodeBase64((userName + ":" + password).getBytes()));
+    public HttpRequestResult sendHttpGetRequest(String url) {
+        HttpRequest request = HttpRequest.of(HttpMethod.GET, url);
 
         try(HttpClient client = SphereClientFactory.of().createHttpClient()) {
-            HttpRequest request = HttpRequest.of(HttpMethod.GET, url, HttpHeaders.of("Authorization", basicAuthKey), null);
 
-            return client.execute(request).toCompletableFuture().get(3000, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException e) {
-            // TODO: add logging
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            // TODO: add logging
-            e.printStackTrace();
-        } catch (TimeoutException e) {
-            // TODO: add logging
-            e.printStackTrace();
+            HttpResponse response = client.execute(request).toCompletableFuture().get(3000, TimeUnit.MILLISECONDS);
+            return HttpRequestResult.of(request, response, null);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            return HttpRequestResult.of(request, null, e);
         }
-
-        return null;
     }
 }

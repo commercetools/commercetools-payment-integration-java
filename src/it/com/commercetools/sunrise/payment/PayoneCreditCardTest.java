@@ -13,7 +13,7 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
-import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.CREDIT_CARD_FORCE_3D_SECURE;
+import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -42,10 +42,18 @@ public class PayoneCreditCardTest {
                                 "CREDIT_CARD",
                                 cart,
                                 Long.toString(new Date().getTime()))
-                            .configValue(CREDIT_CARD_FORCE_3D_SECURE, "true").build())
+                            .configValue(CREDIT_CARD_FORCE_3D_SECURE, "true")
+                            .configValue(SUCCESS_URL, "http://google.de")
+                            .configValue(ERROR_URL, "http://google.de")
+                            .configValue(CANCEL_URL, "http://google.de")
+                            .build())
                 .toCompletableFuture().get();
 
         assertPaymentCreation(paymentCreationResult);
+
+        // do javascript JSONP call
+
+        // update payment object and create transaction
 
         /*
         PaymentTransactionCreationResult paymentTransactionCreationResult = PaymentAdapterService.of()

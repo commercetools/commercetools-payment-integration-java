@@ -16,6 +16,7 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+import static com.commercetools.sunrise.payment.IntegrationTestUtils.*;
 import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,8 +30,8 @@ public class PayonePaypalTest {
 
     @Before
     public void setup() throws ExecutionException, InterruptedException {
-        this.client = IntegrationTestUtils.createClient();
-        this.cart = IntegrationTestUtils.createTestCartFromProduct(client, 2);
+        this.client = createClient();
+        this.cart = createTestCartFromProduct(client, 2);
     }
 
     @Test
@@ -67,7 +68,7 @@ public class PayonePaypalTest {
 
     @After
     public void shutdown() throws ExecutionException, InterruptedException {
-        IntegrationTestUtils.removeCart(client, cart);
+        removeCart(client, cart);
         client.close();
     }
 

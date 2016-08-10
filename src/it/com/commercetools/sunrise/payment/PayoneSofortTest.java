@@ -13,6 +13,7 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+import static com.commercetools.sunrise.payment.IntegrationTestUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -25,8 +26,8 @@ public class PayoneSofortTest {
 
     @Before
     public void setup() throws ExecutionException, InterruptedException {
-        this.client = IntegrationTestUtils.createClient();
-        this.cart = IntegrationTestUtils.createTestCartFromProduct(client, 1);
+        this.client = createClient();
+        this.cart = createTestCartFromProduct(client, 1);
     }
 
     @Test
@@ -46,7 +47,7 @@ public class PayoneSofortTest {
 
     @After
     public void shutdown() throws ExecutionException, InterruptedException {
-        IntegrationTestUtils.removeCart(client, cart);
+        removeCart(client, cart);
         client.close();
     }
 }

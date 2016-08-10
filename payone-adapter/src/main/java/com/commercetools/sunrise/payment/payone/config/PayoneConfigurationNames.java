@@ -15,4 +15,7 @@ public interface PayoneConfigurationNames {
     static final String CREDIT_CARD_CARD_HOLDER_NAME = "cardHolderName";
     static final String CREDIT_CARD_EXPIRY_DATE = "cardExpiryDate";
     static final String CREDIT_CARD_CARD_NETWORK = "cardNetwork";
+    static final String PAID_TO_IBAN = "paidToIBAN";
+    static final String PAID_TO_BIC = "paidToBIC";
+    static final String PAID_TO_NAME = "paidToAccountHolderName";
 }

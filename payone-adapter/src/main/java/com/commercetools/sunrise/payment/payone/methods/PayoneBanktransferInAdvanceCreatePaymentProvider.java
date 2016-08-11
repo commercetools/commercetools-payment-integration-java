@@ -45,7 +45,7 @@ public class PayoneBanktransferInAdvanceCreatePaymentProvider extends CreatePaym
     protected PaymentDraftBuilder createPaymentDraft(CreatePaymentData cpd) {
 
         return super.createPaymentDraft(cpd)
-                .custom(CustomFieldsDraftBuilder.ofTypeKey("payment-BANK_TRANSFER")
+                .custom(CustomFieldsDraftBuilder.ofTypeKey("payment-CASH-ADVANCE")
                         .addObject("reference", cpd.getReference())
                         .addObject("languageCode", getLanguageFromCartOrFallback(cpd.getCart()))
                     .build());

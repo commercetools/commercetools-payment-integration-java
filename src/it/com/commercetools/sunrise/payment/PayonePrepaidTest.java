@@ -18,14 +18,15 @@ import javax.money.Monetary;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
-import static com.commercetools.sunrise.payment.IntegrationTestUtils.*;
 import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Created by mgatz on 7/10/16.
+ * 
+ * @author mht@dotsource.de
+ *
  */
-public class PayonePaypalTest {
+public class PayonePrepaidTest {
 
     private SphereClient client;
     private Cart cart;
@@ -33,8 +34,8 @@ public class PayonePaypalTest {
     @Before
     public void setup() throws ExecutionException, InterruptedException {
         Monetary.getDefaultRounding().apply(MoneyImpl.ofCents(123, "EUR"));
-        this.client = createClient();
-        this.cart = createTestCartFromProduct(client, 2);
+        this.client = IntegrationTestUtils.createClient();
+        this.cart = IntegrationTestUtils.createTestCartFromProduct(client, 2);
     }
 
     @Test
@@ -47,12 +48,9 @@ public class PayonePaypalTest {
                         CreatePaymentDataBuilder.of(
                                 client,
                                 "PAYONE",
-                                "WALLET-PAYPAL",
+                                "BANK_TRANSFER-ADVANCE",
                                 cart,
-                                Long.toString(new Date().getTime()))
-                            .configValue(SUCCESS_URL, "http://google.de")
-                            .configValue(ERROR_URL, "http://google.de")
-                            .configValue(CANCEL_URL, "http://google.de").build())
+                                Long.toString(new Date().getTime())).build())
                 .toCompletableFuture().get();
 
         assertPaymentObjectCreation(paymentCreationResult);
@@ -71,7 +69,7 @@ public class PayonePaypalTest {
 
     @After
     public void shutdown() throws ExecutionException, InterruptedException {
-        removeCart(client, cart);
+        IntegrationTestUtils.removeCart(client, cart);
         client.close();
     }
 

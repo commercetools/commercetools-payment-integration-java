@@ -1,8 +1,11 @@
 package com.commercetools.sunrise.payment;
 
 import com.commercetools.sunrise.payment.actions.OperationResult;
+import com.commercetools.sunrise.payment.actions.ShopAction;
 import com.commercetools.sunrise.payment.domain.CreatePaymentDataBuilder;
+import com.commercetools.sunrise.payment.domain.CreatePaymentTransactionDataBuilder;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
+import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
 import com.commercetools.sunrise.payment.service.PaymentAdapterService;
 import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.client.SphereClient;
@@ -20,9 +23,9 @@ import static com.commercetools.sunrise.payment.payone.config.PayoneConfiguratio
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Created by mgatz on 7/10/16.
+ * author: mht@dotsource.de
  */
-public class PayoneCreditCardTest {
+public class PayoneChangePaymentsTest {
 
     private SphereClient client;
     private Cart cart;
@@ -38,6 +41,36 @@ public class PayoneCreditCardTest {
     public void testPaymentFlow() throws ExecutionException, InterruptedException {
         assertPreconditions();
 
+        // user selected paypal
+        final PaymentCreationResult firstPaymentCreationResult = PaymentAdapterService.of()
+                .createPayment(
+                        CreatePaymentDataBuilder.of(
+                                client,
+                                "PAYONE",
+                                "WALLET-PAYPAL",
+                                cart,
+                                Long.toString(new Date().getTime()))
+                            .configValue(SUCCESS_URL, "http://google.de")
+                            .configValue(ERROR_URL, "http://google.de")
+                            .configValue(CANCEL_URL, "http://google.de").build())
+                .toCompletableFuture().get();
+
+        cart = updateCart(client, cart);
+
+        // user select prepayment
+        final PaymentCreationResult secondPaymentCreationResult = PaymentAdapterService.of()
+                .createPayment(
+                        CreatePaymentDataBuilder.of(
+                                client,
+                                "PAYONE",
+                                "BANK_TRANSFER-ADVANCE",
+                                cart,
+                                Long.toString(new Date().getTime())).build())
+                .toCompletableFuture().get();
+
+        cart = updateCart(client, cart);
+
+        // user selects creditcard
         PaymentCreationResult paymentCreationResult = PaymentAdapterService.of()
                 .createPayment(
                         CreatePaymentDataBuilder.of(
@@ -46,17 +79,16 @@ public class PayoneCreditCardTest {
                                 "CREDIT_CARD",
                                 cart,
                                 Long.toString(new Date().getTime()))
-                            .configValue(CREDIT_CARD_FORCE_3D_SECURE, "true")
-                            .configValue(SUCCESS_URL, "http://google.de")
-                            .configValue(ERROR_URL, "http://google.de")
-                            .configValue(CANCEL_URL, "http://google.de")
-                            .build())
+                                .configValue(CREDIT_CARD_FORCE_3D_SECURE, "true")
+                                .configValue(SUCCESS_URL, "http://google.de")
+                                .configValue(ERROR_URL, "http://google.de")
+                                .configValue(CANCEL_URL, "http://google.de")
+                                .build())
                 .toCompletableFuture().get();
 
-        assertPaymentCreation(paymentCreationResult);
+        cart = updateCart(client, cart);
 
-        // payment transaction creation is difficult to integration test cause the client side request
-        // that provides lots of credit card data is not mockable
+        assertThat(cart.getPaymentInfo().getPayments()).hasSize(1);
     }
 
     @After
@@ -69,13 +101,5 @@ public class PayoneCreditCardTest {
         assertThat(client).isNotNull();
         assertThat(cart).isNotNull();
         assertThat(cart.getLineItems().size()).isEqualTo(2);
-    }
-
-    private void assertPaymentCreation(PaymentCreationResult paymentCreationResult) {
-        assertThat(paymentCreationResult).isNotNull();
-        assertThat(paymentCreationResult.getOperationResult()).isEqualTo(OperationResult.SUCCESS);
-        assertThat(paymentCreationResult.getRelatedPaymentObject().isPresent()).isTrue();
-        assertThat(paymentCreationResult.getRelatedPaymentObject().get().getAmountPlanned()).isEqualTo(cart.getTotalPrice());
-        assertThat(paymentCreationResult.getRelatedPaymentObject().get().getCustom().getFieldAsBoolean(CREDIT_CARD_FORCE_3D_SECURE)).isTrue();
     }
 }

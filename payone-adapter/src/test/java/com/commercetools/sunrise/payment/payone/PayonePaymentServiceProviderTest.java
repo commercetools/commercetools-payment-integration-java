@@ -14,6 +14,7 @@ public class PayonePaymentServiceProviderTest {
     private static final String METHOD_NAME_CC = "CREDIT_CARD";
     private static final String METHOD_NAME_PAYPAL = "WALLET-PAYPAL";
     private static final String METHOD_NAME_SOFORT = "BANK_TRANSFER-SOFORTUEBERWEISUNG";
+    private static final String METHOD_NAME_VOR = "BANK_TRANSFER-ADVANCE";
     public static final String METHOD_ID = "PAYONE";
 
     @Test
@@ -24,7 +25,7 @@ public class PayonePaymentServiceProviderTest {
     @Test
     public void getAvailablePaymentMethods() throws Exception {
         PaymentServiceProvider psp = new PayonePaymentServiceProvider();
-        assertThat(psp.getAvailablePaymentMethods().size()).isEqualTo(2);
+        assertThat(psp.getAvailablePaymentMethods().size()).isEqualTo(3);
 
         PaymentMethodInfo pmi = psp.getAvailablePaymentMethods().get(0); // credit card
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
@@ -38,6 +39,13 @@ public class PayonePaymentServiceProviderTest {
         assertThat(pmi.getMethod()).isEqualTo(METHOD_NAME_PAYPAL);
         assertThat(pmi.getName().getLocales().size()).isEqualTo(2);
         assertThat(pmi.getName().get("en")).isEqualTo("Paypal");
+
+        pmi = psp.getAvailablePaymentMethods().get(2); // prepaid
+        assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
+        assertThat(pmi.getMethod()).isEqualTo(METHOD_NAME_VOR);
+        assertThat(pmi.getName().getLocales().size()).isEqualTo(2);
+        assertThat(pmi.getName().get("de")).isEqualTo("Vorkasse");
+        assertThat(pmi.getName().get("en")).isEqualTo("Prepaid");
 
         /*
         Currently disabled

@@ -9,10 +9,12 @@ import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
 import com.commercetools.sunrise.payment.service.PaymentAdapterService;
 import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.client.SphereClient;
+import io.sphere.sdk.utils.MoneyImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.money.Monetary;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
@@ -30,6 +32,7 @@ public class PayonePaypalTest {
 
     @Before
     public void setup() throws ExecutionException, InterruptedException {
+        Monetary.getDefaultRounding().apply(MoneyImpl.ofCents(123, "EUR"));
         this.client = createClient();
         this.cart = createTestCartFromProduct(client, 2);
     }

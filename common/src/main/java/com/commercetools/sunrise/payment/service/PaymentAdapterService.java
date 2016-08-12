@@ -40,8 +40,7 @@ public interface PaymentAdapterService {
     List<PaymentMethodInfo> findAvailablePaymentMethods(); // TODO: add parameters possibly required
 
     /**
-     * Creates a new payment object at the CTP and theirby starts a new payment transaction workflow.
-     * Possibly existing payments will be cancelled but not deleted.
+     * Creates a new payment object at the CTP and thereby starts a new payment transaction workflow.
      * @param data the wrapper object for all possibly needed data
      */
     CompletionStage<PaymentCreationResult> createPayment(CreatePaymentData data);

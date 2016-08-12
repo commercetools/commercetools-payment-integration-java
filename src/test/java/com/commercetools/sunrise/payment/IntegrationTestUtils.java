@@ -93,4 +93,8 @@ public class IntegrationTestUtils {
         CartDeleteCommand cartDeleteCommand = CartDeleteCommand.of(toDelete);
         client.execute(cartDeleteCommand).toCompletableFuture().get();
     }
+
+    public static Cart updateCart(SphereClient client, Cart cart) throws ExecutionException, InterruptedException {
+        return client.execute(CartByIdGet.of(cart.getId())).toCompletableFuture().get();
+    }
 }

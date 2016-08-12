@@ -31,7 +31,7 @@ public class PayoneBanktransferInAdvanceCreatePaymentProvider extends CreatePaym
     @Override
     public Function<CreatePaymentData, CompletionStage<PaymentCreationResult>> create() {
         return cpd ->
-            createOrUpdatePayment(cpd)
+            removePaymentsAndCreateNew(cpd)
                 .thenApply(payment -> null != payment
                         ? PaymentCreationResultBuilder
                             .of(OperationResult.SUCCESS)

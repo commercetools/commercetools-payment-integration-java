@@ -35,7 +35,7 @@ public class PayonePaypalCreatePaymentMethodProvider extends CreatePaymentMethod
     @Override
     public Function<CreatePaymentData, CompletionStage<PaymentCreationResult>> create() {
         return cpd ->
-            createOrUpdatePayment(cpd)
+                removePaymentsAndCreateNew(cpd)
                 .thenApply(payment -> null != payment
                         ? PaymentCreationResultBuilder
                             .of(OperationResult.SUCCESS)
@@ -56,17 +56,6 @@ public class PayonePaypalCreatePaymentMethodProvider extends CreatePaymentMethod
                         .addObject(ERROR_URL, cpd.getConfigByName(ERROR_URL))
                         .addObject(CANCEL_URL, cpd.getConfigByName((CANCEL_URL)))
                     .build());
-    }
-
-    @Override
-    protected List<UpdateAction<Payment>> createPaymentMethodUpdateCommands(Payment payment, CreatePaymentData cpd) {
-        List<UpdateAction<Payment>> commands = super.createPaymentMethodUpdateCommands(payment, cpd);
-
-        commands.add(SetCustomField.ofObject(SUCCESS_URL, cpd.getConfigByName(SUCCESS_URL)));
-        commands.add(SetCustomField.ofObject(ERROR_URL, cpd.getConfigByName(ERROR_URL)));
-        commands.add(SetCustomField.ofObject(CANCEL_URL, cpd.getConfigByName(CANCEL_URL)));
-
-        return commands;
     }
 }
 

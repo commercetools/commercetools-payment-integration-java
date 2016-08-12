@@ -1,24 +1,21 @@
 package com.commercetools.sunrise.payment.methods;
 
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
-import com.commercetools.sunrise.payment.utils.PaymentLookupHelper;
 import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.carts.commands.CartUpdateCommand;
 import io.sphere.sdk.carts.commands.updateactions.AddPayment;
+import io.sphere.sdk.carts.commands.updateactions.RemovePayment;
 import io.sphere.sdk.commands.Command;
 import io.sphere.sdk.commands.UpdateAction;
 import io.sphere.sdk.payments.Payment;
 import io.sphere.sdk.payments.PaymentDraftBuilder;
-import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.commands.PaymentCreateCommand;
-import io.sphere.sdk.payments.commands.PaymentUpdateCommand;
-import io.sphere.sdk.payments.commands.updateactions.ChangeAmountPlanned;
-import io.sphere.sdk.payments.commands.updateactions.SetMethodInfoMethod;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CompletionStage;
+import java.util.stream.Collectors;
 
 /**
  * Created by mgatz on 7/10/16.
@@ -26,29 +23,26 @@ import java.util.concurrent.CompletionStage;
 public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
 
     /**
-     * Creates a function that checks for an existing payment without transactions attached to the provided cart (within data object)
-     * and then creates or updates a payment object depending on the result of the check.
-     * @return
+     * Method to remove all payments from the cart and then attaching a new created one.
+     * @param cpd contains the data for the new payment
+     * @return the newly created Payment object
      */
-    protected CompletionStage<Payment> createOrUpdatePayment(CreatePaymentData cpd) {
-            // check payment without transaction for this method exists
-        return PaymentLookupHelper.of(cpd.getSphereClient())
-                .findPaymentWithoutTransaction(cpd.getCart(), cpd.getPaymentMethodinInfo().getPaymentInterface(), cpd.getPaymentMethodinInfo().getMethod())
-                .thenCompose(payment -> {
-                    Command<Payment> createOrUpdateCommand = null;
-                    if(!payment.isPresent()) {
-                        // create payment at CTP
-                        createOrUpdateCommand = PaymentCreateCommand.of(createPaymentDraft(cpd).build());
-                        return cpd.getSphereClient().execute(createOrUpdateCommand)
-                                .thenCompose(p -> cpd.getSphereClient().execute(CartUpdateCommand.of(cpd.getCart(), AddPayment.of(p))).thenApplyAsync(c -> p));
-                    }
+    protected CompletionStage<Payment> removePaymentsAndCreateNew(final CreatePaymentData cpd) {
+        final Cart cart = cpd.getCart();
+        final List<UpdateAction<Cart>> changeCartPaymentInfo = new ArrayList<>();
 
-                    // update an existing payment objects payment method as it currently has no transaction
-                    createOrUpdateCommand = PaymentUpdateCommand.of(
-                            payment.get(),
-                            createPaymentMethodUpdateCommands(payment.get(), cpd));
-                    return cpd.getSphereClient().execute(createOrUpdateCommand);
 
+        if (cart.getPaymentInfo() != null) {
+            changeCartPaymentInfo.addAll(cart.getPaymentInfo().getPayments().stream()
+                    .map(RemovePayment::of)
+                    .collect(Collectors.toList()));
+        }
+
+        final Command<Payment> createPaymentCommand = PaymentCreateCommand.of(createPaymentDraft(cpd).build());
+        return cpd.getSphereClient().execute(createPaymentCommand)
+                .thenCompose(p -> {
+                    changeCartPaymentInfo.add(AddPayment.of(p));
+                    return cpd.getSphereClient().execute(CartUpdateCommand.of(cpd.getCart(), changeCartPaymentInfo)).thenApplyAsync(c -> p);
                 });
     }
 
@@ -76,22 +70,5 @@ public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
         }
 
         return Locale.ENGLISH.getLanguage();
-    }
-
-    /**
-     * Creates a payment update command object that allows updating the payment method information of an existing
-     * payment object.
-     * @param payment the payment object to be updated
-     * @param cpd the data object
-     * @return the update command
-     */
-    protected List<UpdateAction<Payment>> createPaymentMethodUpdateCommands(Payment payment, CreatePaymentData cpd) {
-        PaymentMethodInfo methodInfo = cpd.getPaymentMethodinInfo();
-        List<UpdateAction<Payment>> updateCommands = new ArrayList<>();
-
-        updateCommands.add(SetMethodInfoMethod.of(methodInfo.getMethod()));
-        updateCommands.add(ChangeAmountPlanned.of(cpd.getCart().getTotalPrice()));
-
-        return updateCommands;
     }
 }

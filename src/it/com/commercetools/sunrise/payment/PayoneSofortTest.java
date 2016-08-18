@@ -16,6 +16,9 @@ import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.sunrise.payment.IntegrationTestUtils.*;
+import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.CANCEL_URL;
+import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.ERROR_URL;
+import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.SUCCESS_URL;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -40,7 +43,15 @@ public class PayoneSofortTest {
         assertThat(cart.getLineItems().size()).isEqualTo(1);
 
         PaymentCreationResult paymentCreationResult = PaymentAdapterService.of()
-                .createPayment(CreatePaymentDataBuilder.of(client, "PAYONE", "BANK_TRANSFER-SOFORTUEBERWEISUNG", cart, Long.toString(new Date().getTime())).build())
+                .createPayment(CreatePaymentDataBuilder.of(
+                        client,
+                        "PAYONE",
+                        "BANK_TRANSFER-SOFORTUEBERWEISUNG",
+                        cart, Long.toString(new Date().getTime()))
+                        .configValue(SUCCESS_URL, "http://google.de")
+                        .configValue(ERROR_URL, "http://google.de")
+                        .configValue(CANCEL_URL, "http://google.de")
+                        .build())
                 .toCompletableFuture().get();
         assertThat(paymentCreationResult).isNotNull();
         assertThat(paymentCreationResult.getOperationResult()).isEqualTo(OperationResult.SUCCESS);

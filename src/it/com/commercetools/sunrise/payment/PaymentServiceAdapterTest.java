@@ -16,6 +16,6 @@ public class PaymentServiceAdapterTest {
     public void getEnabledPaymentMethods() {
         List<PaymentMethodInfo> enabledMethods = PaymentAdapterService.of().findAvailablePaymentMethods();
 
-        assertThat(enabledMethods.size()).isEqualTo(3);
+        assertThat(enabledMethods.size()).isEqualTo(6);
     }
 }

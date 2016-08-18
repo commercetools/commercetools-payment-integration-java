@@ -11,6 +11,7 @@ import io.sphere.sdk.payments.PaymentStatus;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
 
 /**
  * Defines the methods that the shop could call to handle its payment.
@@ -37,7 +38,14 @@ public interface PaymentAdapterService {
      * Get a list of available payment methods collected from all available {@link PaymentServiceProvider} instances {@link #findAllPaymentServiceProviders()}
      * @return list of payment method objects
      */
-    List<PaymentMethodInfo> findAvailablePaymentMethods(); // TODO: add parameters possibly required
+    List<PaymentMethodInfo> findAvailablePaymentMethods();
+
+    /**
+     * Get a filtered list of available payment methods collected from all available {@link PaymentServiceProvider} instances {@link #findAllPaymentServiceProviders()}
+     * @param filter the filterfunction that will be applied
+     * @return list of payment method objects
+     */
+    List<PaymentMethodInfo> findAvailablePaymentMethods(Function<List<PaymentMethodInfo>, List<PaymentMethodInfo>> filter);
 
     /**
      * Creates a new payment object at the CTP and thereby starts a new payment transaction workflow.

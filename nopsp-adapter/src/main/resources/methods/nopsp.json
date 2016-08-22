@@ -1,0 +1,18 @@
+{
+  "interfaceId" : "INTERNAL",
+  "enabledMethods" : ["FREE"],
+  "availableMethods" : {
+    "FREE": {
+      "paymentInterface": "INTERNAL",
+      "method": "FREE",
+      "name":
+      {
+        "de": "kostenlos",
+        "en": "free"
+      }
+    }
+  },
+  "transactionTypes" : {
+    "FREE" : "Charge"
+  }
+}

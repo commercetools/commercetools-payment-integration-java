@@ -1,6 +1,8 @@
 package com.commercetools.sunrise.payment.nopsp.methods;
 
+import com.commercetools.sunrise.payment.actions.HandlingTask;
 import com.commercetools.sunrise.payment.actions.OperationResult;
+import com.commercetools.sunrise.payment.actions.ShopAction;
 import com.commercetools.sunrise.payment.domain.PaymentTransactionCreationResultBuilder;
 import com.commercetools.sunrise.payment.methods.CreatePaymentTransactionMethod;
 import com.commercetools.sunrise.payment.model.CreatePaymentTransactionData;
@@ -29,6 +31,8 @@ public class FreeCreatePaymentTransactionMethodProvider implements CreatePayment
     @Override
     public Function<CreatePaymentTransactionData, CompletionStage<PaymentTransactionCreationResult>> create() {
         return cptd -> CompletableFuture.completedFuture(
-                PaymentTransactionCreationResultBuilder.of(OperationResult.SUCCESS).build());
+                PaymentTransactionCreationResultBuilder.of(OperationResult.SUCCESS)
+                        .handlingTask(HandlingTask.of(ShopAction.CONTINUE))
+                        .build());
     }
 }

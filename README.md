@@ -1,4 +1,4 @@
-Sunrise Java Payment :sunrise: :money_with_wings:
+Payment
 ==================
 
 [![Build Status](https://travis-ci.org/commercetools/commercetools-sunrise-java-payment.png?branch=master)](https://travis-ci.org/commercetools/commercetools-sunrise-java-payment) [![Stories in Ready](https://badge.waffle.io/commercetools/commercetools-sunrise-java-payment.png?label=ready&title=Ready)](https://waffle.io/commercetools/commercetools-sunrise-java-payment)

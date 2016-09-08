@@ -1,16 +1,15 @@
 package com.commercetools.sunrise.payment.domain;
 
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
+import com.commercetools.sunrise.payment.model.CreatePaymentTransactionData;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
-import io.sphere.sdk.payments.Payment;
+import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletionStage;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -47,9 +46,10 @@ public interface PaymentServiceProvider {
     /**
      * Create a function that can create a payment transaction for a payment object
      * and has the ability to handle overriding of configuration values via given key value pairs.
+     * @param methodId the ID of the payment method to be used for the payment transaction object
      * @return a function method creating a payment transaction
      */
-    BiFunction<Payment, Map<String, String>, Payment> provideCreatePaymentTransactionHandler();
+    Function<CreatePaymentTransactionData, CompletionStage<PaymentTransactionCreationResult>> provideCreatePaymentTransactionHandler(String methodId);
 
     /**
      * Create a function that can return the payment status for a passed payment reference.

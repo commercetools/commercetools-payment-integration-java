@@ -1,7 +1,6 @@
 package com.commercetools.sunrise.payment.model;
 
 import io.sphere.sdk.client.SphereClient;
-import io.sphere.sdk.payments.PaymentMethodInfo;
 
 /**
  * This base interface ensures that all actions taken by the adapter
@@ -16,7 +15,9 @@ public interface PaymentInteractionData {
     SphereClient getSphereClient();
 
     /**
-     * @return the payment method for this interaction data
+     * Get a possibly configured value.
+     * @param name the name of the value
+     * @return the value or null
      */
-    PaymentMethodInfo getPaymentMethodinInfo();
+    String getConfigByName(String name);
 }

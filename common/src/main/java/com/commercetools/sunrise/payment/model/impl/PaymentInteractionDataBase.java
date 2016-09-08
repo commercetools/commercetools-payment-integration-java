@@ -2,7 +2,8 @@ package com.commercetools.sunrise.payment.model.impl;
 
 import com.commercetools.sunrise.payment.model.PaymentInteractionData;
 import io.sphere.sdk.client.SphereClient;
-import io.sphere.sdk.payments.PaymentMethodInfo;
+
+import java.util.Map;
 
 /**
  * Created by mgatz on 7/20/16.
@@ -10,11 +11,11 @@ import io.sphere.sdk.payments.PaymentMethodInfo;
 public abstract class PaymentInteractionDataBase implements PaymentInteractionData {
 
     private final SphereClient client;
-    private final PaymentMethodInfo paymentMethodInfo;
+    private final Map<String, String> config;
 
-    PaymentInteractionDataBase(final SphereClient client,final PaymentMethodInfo paymentMethodInfo) {
+    PaymentInteractionDataBase(final SphereClient client, Map<String, String> config) {
         this.client = client;
-        this.paymentMethodInfo = paymentMethodInfo;
+        this.config = config;
     }
 
     @Override
@@ -23,7 +24,7 @@ public abstract class PaymentInteractionDataBase implements PaymentInteractionDa
     }
 
     @Override
-    public PaymentMethodInfo getPaymentMethodinInfo() {
-        return this.paymentMethodInfo;
+    public String getConfigByName(String name) {
+        return config.get(name);
     }
 }

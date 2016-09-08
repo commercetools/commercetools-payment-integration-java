@@ -14,6 +14,7 @@ public class PayonePaymentServiceProviderTest {
     private static final String METHOD_NAME_CC = "CREDIT_CARD";
     private static final String METHOD_NAME_PAYPAL = "WALLET-PAYPAL";
     private static final String METHOD_NAME_SOFORT = "BANK_TRANSFER-SOFORTUEBERWEISUNG";
+    private static final String METHOD_NAME_VOR = "BANK_TRANSFER-ADVANCE";
     public static final String METHOD_ID = "PAYONE";
 
     @Test
@@ -36,14 +37,24 @@ public class PayonePaymentServiceProviderTest {
         pmi = psp.getAvailablePaymentMethods().get(1); // paypal
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
         assertThat(pmi.getMethod()).isEqualTo(METHOD_NAME_PAYPAL);
-        assertThat(pmi.getName().getLocales().size()).isEqualTo(1);
+        assertThat(pmi.getName().getLocales().size()).isEqualTo(2);
         assertThat(pmi.getName().get("en")).isEqualTo("Paypal");
 
+        pmi = psp.getAvailablePaymentMethods().get(2); // prepaid
+        assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
+        assertThat(pmi.getMethod()).isEqualTo(METHOD_NAME_VOR);
+        assertThat(pmi.getName().getLocales().size()).isEqualTo(2);
+        assertThat(pmi.getName().get("de")).isEqualTo("Vorkasse");
+        assertThat(pmi.getName().get("en")).isEqualTo("Prepaid");
+
+        /*
+        Currently disabled
         pmi = psp.getAvailablePaymentMethods().get(2); // Sofortüberweisung
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
         assertThat(pmi.getMethod()).isEqualTo(METHOD_NAME_SOFORT);
         assertThat(pmi.getName().getLocales().size()).isEqualTo(1);
         assertThat(pmi.getName().get("en")).isEqualTo("Sofortüberweisung");
+        */
     }
 
     @Test

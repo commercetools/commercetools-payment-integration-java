@@ -3,6 +3,7 @@ package com.commercetools.sunrise.payment.model;
 import com.commercetools.sunrise.payment.domain.PaymentServiceProvider;
 import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.customers.Customer;
+import io.sphere.sdk.payments.PaymentMethodInfo;
 
 import java.util.Optional;
 
@@ -15,9 +16,19 @@ import java.util.Optional;
 public interface CreatePaymentData extends PaymentInteractionData {
 
     /**
+     * @return the {@link PaymentMethodInfo} the {@link io.sphere.sdk.payments.Payment} object should be created for
+     */
+    PaymentMethodInfo getPaymentMethodinInfo();
+
+    /**
      * @return the cart object that is needed to create a payment for
      */
     Cart getCart();
+
+    /**
+     * @return the reference number that is unique for the whole payment process
+     */
+    String getReference();
 
     /**
      * @return the attached customer

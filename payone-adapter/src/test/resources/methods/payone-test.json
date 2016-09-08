@@ -1,0 +1,21 @@
+{
+  "interfaceId" : "PAYONE-test",
+  "enabledMethods" : ["CREDIT_CARD"],
+  "availableMethods" : {
+    "CREDIT_CARD": {
+      "paymentInterface": "PAYONE-test",
+      "method": "CREDIT_CARD",
+      "name":
+        {
+          "de": "Kreditkarte",
+          "en": "credit card"
+        }
+    }
+  },
+  "transactionTypes" : {
+    "CREDIT_CARD" : "Authorization"
+  },
+  "creditCardConfig" : {
+    "javascriptInclude" : "aUrl"
+  }
+}

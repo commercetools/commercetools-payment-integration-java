@@ -2,12 +2,14 @@ package com.commercetools.sunrise.payment.service;
 
 import com.commercetools.sunrise.payment.domain.PaymentServiceProvider;
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
+import com.commercetools.sunrise.payment.model.CreatePaymentTransactionData;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
+import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 /**
@@ -38,38 +40,16 @@ public interface PaymentAdapterService {
     List<PaymentMethodInfo> findAvailablePaymentMethods(); // TODO: add parameters possibly required
 
     /**
-     * Creates a new payment object at the CTP and theirby starts a new payment transaction workflow.
-     * Possibly existing payments will be cancelled but not deleted.
+     * Creates a new payment object at the CTP and thereby starts a new payment transaction workflow.
      * @param data the wrapper object for all possibly needed data
      */
     CompletionStage<PaymentCreationResult> createPayment(CreatePaymentData data);
 
     /**
      * Create a new payment transaction for the payment with the passed reference.
-     * @param paymentRef the reference for the payment object
-     */
-    void createPaymentTransaction(String paymentRef);
-
-    /**
-     * Create a new payment transaction for the payment with the passed refernce and allow overriding of default
-     * configuration values passed as a map.
-     * @param paymentRef the reference for the payment object
-     * @param configData a map that can hold values overriding defaults
-     */
-    void createPaymentTransaction(String paymentRef, Map<String, String> configData);
-
-    /**
-     * Create a new payment transaction and a payment object in one action.
      * @param data the wrapper object for all possibly needed data
      */
-    void createPaymentTransaction(CreatePaymentData data);
-
-    /**
-     * Create  new payment transaction and a payment object in one action and allow overriding of configuration values.
-     * @param data the wrapper object for all possibly needed data
-     * @param configData a map that can hold values overriding defaults
-     */
-    void createPaymentTransaction(CreatePaymentData data, Map<String, String> configData);
+    CompletionStage<PaymentTransactionCreationResult> createPaymentTransaction(CreatePaymentTransactionData data);
 
     /**
      * Get the status of the payment object referenced by the passed parameter.
@@ -77,4 +57,12 @@ public interface PaymentAdapterService {
      * @return the status of the referenced payment object
      */
     PaymentStatus getPaymentStatus(String ref); // TODO: check if parameter is sufficient
+
+    /**
+     * Get the full {@link PaymentMethodInfo} object from the configuration.
+     * @param interfaceId
+     * @param method
+     * @return
+     */
+    Optional<PaymentMethodInfo> getPaymentMethodInfo(String interfaceId, String method);
 }

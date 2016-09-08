@@ -9,6 +9,9 @@ import io.sphere.sdk.customers.Customer;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentMethodInfoBuilder;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A builder to build a {@link CreatePaymentDataImpl} object.
  * Created by mgatz on 7/10/16.
@@ -17,23 +20,34 @@ public class CreatePaymentDataBuilder {
     private final PaymentMethodInfo paymentMethodInfo;
     private final SphereClient client;
     private final Cart cart;
+    private final String reference;
     private Customer customer;
     private HttpRequestInfo httpRequestInfo;
+    private Map<String, String> config = new HashMap<>();
 
-    private CreatePaymentDataBuilder(final SphereClient client,final PaymentMethodInfo paymentMethodInfo,final Cart cart) {
+    private CreatePaymentDataBuilder(final SphereClient client, final PaymentMethodInfo paymentMethodInfo, final Cart cart, String reference) {
         this.client = client;
         this.cart = cart;
         this.paymentMethodInfo = paymentMethodInfo;
+        this.reference = reference;
     }
 
     public static CreatePaymentDataBuilder of(final SphereClient client,
                                               final String paymentInterface,
                                               final String paymentMethod,
-                                              final Cart cart) {
+                                              final Cart cart,
+                                              final String reference) {
         return new CreatePaymentDataBuilder(
                 client,
                 PaymentMethodInfoBuilder.of().paymentInterface(paymentInterface).method(paymentMethod).build(),
-                cart);
+                cart, reference);
+    }
+
+    public static CreatePaymentDataBuilder of(final SphereClient client,
+                                              final PaymentMethodInfo paymentMethodInfo,
+                                              final Cart cart,
+                                              final String reference) {
+        return new CreatePaymentDataBuilder(client, paymentMethodInfo, cart, reference);
     }
 
     /**
@@ -58,10 +72,29 @@ public class CreatePaymentDataBuilder {
     }
 
     /**
+     * Add a named configuration value to this builder.
+     * @param key the name of the configuration value
+     * @param value the configuration value
+     * @return enriched self
+     */
+    public CreatePaymentDataBuilder configValue(String key, String value) {
+        this.config.put(key, value);
+        return this;
+    }
+
+    /**
      * Create a new instance of {@link CreatePaymentData} using the provided data.
      * @return immutable data object
      */
     public CreatePaymentData build() {
-        return new CreatePaymentDataImpl(client, paymentMethodInfo, cart, customer, httpRequestInfo);
+        return new CreatePaymentDataImpl(
+                this.client,
+                this.paymentMethodInfo,
+                this.cart,
+                this.reference,
+                this.config,
+                this.customer,
+                this.httpRequestInfo);
     }
+
 }

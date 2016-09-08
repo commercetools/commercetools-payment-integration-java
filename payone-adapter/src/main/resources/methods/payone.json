@@ -1,0 +1,51 @@
+{
+  "interfaceId" : "PAYONE",
+  "enabledMethods" : ["CREDIT_CARD","WALLET-PAYPAL", "BANK_TRANSFER-ADVANCE"],
+  "availableMethods" : {
+    "CREDIT_CARD": {
+      "paymentInterface": "PAYONE",
+      "method": "CREDIT_CARD",
+      "name":
+      {
+        "de": "Kreditkarte",
+        "en": "Credit Card"
+      }
+    },
+    "WALLET-PAYPAL" : {
+      "paymentInterface": "PAYONE",
+      "method": "WALLET-PAYPAL",
+      "name":
+      {
+        "de": "Paypal",
+        "en": "Paypal"
+      }
+    },
+    "BANK_TRANSFER-SOFORTUEBERWEISUNG" : {
+      "paymentInterface": "PAYONE",
+      "method": "BANK_TRANSFER-SOFORTUEBERWEISUNG",
+      "name":
+      {
+        "de": "Sofortüberweisung",
+        "en": "Sofortüberweisung"
+      }
+    },
+    "BANK_TRANSFER-ADVANCE" : {
+     "paymentInterface": "PAYONE",
+     "method": "BANK_TRANSFER-ADVANCE",
+     "name":
+     {
+       "de": "Vorkasse",
+       "en": "Prepaid"
+     }
+    }
+  },
+  "transactionTypes" : {
+    "CREDIT_CARD" : "Authorization",
+    "WALLET-PAYPAL" : "Charge",
+    "BANK_TRANSFER-SOFORTUEBERWEISUNG" : "Charge",
+    "BANK_TRANSFER-ADVANCE" : "Charge"
+  },
+  "creditCardConfig" : {
+    "javascriptInclude" : "https://secure.pay1.de/client-api/js/v1/payone_hosted_min.js"
+  }
+}

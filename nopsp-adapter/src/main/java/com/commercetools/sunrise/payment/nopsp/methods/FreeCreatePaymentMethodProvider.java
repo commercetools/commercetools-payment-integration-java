@@ -1,4 +1,4 @@
-package com.commercetools.sunrise.payment.payone.methods;
+package com.commercetools.sunrise.payment.nopsp.methods;
 
 import com.commercetools.sunrise.payment.actions.HandlingTask;
 import com.commercetools.sunrise.payment.actions.OperationResult;
@@ -13,16 +13,14 @@ import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 
 /**
- * Created by mgatz on 7/26/16.
+ * @author mht@dotsource.de
  */
-public class PayoneSofortCreatePaymentMethodProvider extends CreatePaymentMethodBase implements CreatePaymentMethod {
-
-    private PayoneSofortCreatePaymentMethodProvider() {
+public class FreeCreatePaymentMethodProvider extends CreatePaymentMethodBase implements CreatePaymentMethod {
+    private FreeCreatePaymentMethodProvider() {
     }
 
-    public static CreatePaymentMethodBase of() {
-
-        return new PayoneSofortCreatePaymentMethodProvider();
+    public static FreeCreatePaymentMethodProvider of() {
+        return new FreeCreatePaymentMethodProvider();
     }
 
     @Override
@@ -33,8 +31,9 @@ public class PayoneSofortCreatePaymentMethodProvider extends CreatePaymentMethod
                                 ? PaymentCreationResultBuilder
                                 .of(OperationResult.SUCCESS)
                                 .payment(payment)
-                                .handlingTask(HandlingTask.of(ShopAction.REDIRECT))
+                                .handlingTask(HandlingTask.of(ShopAction.CONTINUE))
                                 .build()
                                 : PaymentCreationResultBuilder.ofError("An error occured during creation of the payment object."));
     }
+
 }

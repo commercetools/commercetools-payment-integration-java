@@ -1,6 +1,6 @@
 {
   "interfaceId" : "PAYONE",
-  "enabledMethods" : ["CREDIT_CARD","WALLET-PAYPAL", "BANK_TRANSFER-ADVANCE"],
+  "enabledMethods" : ["CREDIT_CARD","WALLET-PAYPAL", "BANK_TRANSFER-SOFORTUEBERWEISUNG", "BANK_TRANSFER-ADVANCE", "BANK_TRANSFER-POSTFINANCE_EFINANCE", "BANK_TRANSFER-POSTFINANCE_CARD"],
   "availableMethods" : {
     "CREDIT_CARD": {
       "paymentInterface": "PAYONE",
@@ -37,13 +37,33 @@
        "de": "Vorkasse",
        "en": "Prepaid"
      }
+    },
+    "BANK_TRANSFER-POSTFINANCE_EFINANCE" : {
+      "paymentInterface": "PAYONE",
+      "method": "BANK_TRANSFER-POSTFINANCE_EFINANCE",
+      "name":
+      {
+        "de": "Postfinance E-Finance",
+        "en": "Postfinance E-Finance"
+      }
+    },
+    "BANK_TRANSFER-POSTFINANCE_CARD" : {
+      "paymentInterface": "PAYONE",
+      "method": "BANK_TRANSFER-POSTFINANCE_CARD",
+      "name":
+      {
+        "de": "Postfinance Card",
+        "en": "Postfinance Card"
+      }
     }
   },
   "transactionTypes" : {
     "CREDIT_CARD" : "Authorization",
     "WALLET-PAYPAL" : "Charge",
     "BANK_TRANSFER-SOFORTUEBERWEISUNG" : "Charge",
-    "BANK_TRANSFER-ADVANCE" : "Charge"
+    "BANK_TRANSFER-ADVANCE" : "Charge",
+    "BANK_TRANSFER-POSTFINANCE_EFINANCE" : "Charge",
+    "BANK_TRANSFER-POSTFINANCE_CARD" : "Charge"
   },
   "creditCardConfig" : {
     "javascriptInclude" : "https://secure.pay1.de/client-api/js/v1/payone_hosted_min.js"

@@ -12,7 +12,7 @@ lazy val jvmSdkVersion = "1.3.0"
 
 lazy val `commercetools-sunrise-payment` = (project in file("."))
   .configs(IntegrationTest)
-  .aggregate(`common`, `payone-adapter`)
+  .aggregate(`common`, `payone-adapter`, `nopsp-adapter`)
   .settings(javaUnidocSettings ++ commonSettings ++ commonTestSettings : _*)
   .settings(
       libraryDependencies ++= Seq (
@@ -20,7 +20,7 @@ lazy val `commercetools-sunrise-payment` = (project in file("."))
         "org.assertj" % "assertj-core" % "3.4.1"
       )
   )
-  .dependsOn(`common`, `payone-adapter`)
+  .dependsOn(`common`, `payone-adapter`, `nopsp-adapter`)
 
 lazy val `common` = project
   .configs(IntegrationTest)
@@ -39,6 +39,10 @@ lazy val `payone-adapter` = project
   .settings(commonSettings ++ commonTestSettings : _*)
   .dependsOn(`common`)
 
+lazy val `nopsp-adapter` = project
+  .configs(IntegrationTest)
+  .settings(commonSettings ++ commonTestSettings : _*)
+  .dependsOn(`common`)
 
 /**
  * COMMON SETTINGS

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -44,6 +45,13 @@ public class PaymentAdapterServiceImpl implements PaymentAdapterService {
     public List<PaymentMethodInfo> findAvailablePaymentMethods() {
         return findAllPaymentServiceProviders().stream()
                 .flatMap(psp -> psp.getAvailablePaymentMethods().stream())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PaymentMethodInfo> findAvailablePaymentMethods(Function<List<PaymentMethodInfo>, List<PaymentMethodInfo>> filter) {
+        return findAllPaymentServiceProviders().stream()
+                .flatMap(psp -> psp.getAvailablePaymentMethods(filter).stream())
                 .collect(Collectors.toList());
     }
 

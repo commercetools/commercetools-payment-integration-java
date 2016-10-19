@@ -16,13 +16,19 @@ import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 
 import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.*;
+import static com.commercetools.sunrise.payment.payone.methods.PayonePaymentMethodType.PAYMENT_CREDIT_CARD;
 
 /**
  * Created by mgatz on 7/21/16.
  */
-public class PayoneCreditCardCreatePaymentMethodProvider extends CreatePaymentMethodBase implements CreatePaymentMethod {
+public class PayoneCreditCardCreatePaymentMethodProvider extends PayoneCreatePaymentMethodBase implements CreatePaymentMethod {
 
     private PayoneCreditCardCreatePaymentMethodProvider() { }
+
+    @Override
+    protected String getMethodType() {
+        return PAYMENT_CREDIT_CARD.getValue();
+    }
 
     public static CreatePaymentMethodBase of() {
         return new PayoneCreditCardCreatePaymentMethodProvider();
@@ -44,9 +50,7 @@ public class PayoneCreditCardCreatePaymentMethodProvider extends CreatePaymentMe
     @Override
     protected PaymentDraftBuilder createPaymentDraft(CreatePaymentData cpd) {
 
-        CustomFieldsDraftBuilder customFieldsDraftBuilder = CustomFieldsDraftBuilder.ofTypeKey("payment-CREDIT_CARD")
-                .addObject("reference", cpd.getReference())
-                .addObject("languageCode", getLanguageFromCartOrFallback(cpd.getCart()))
+        CustomFieldsDraftBuilder customFieldsDraftBuilder = createCustomFieldsBuilder(cpd)
                 .addObject(CREDIT_CARD_FORCE_3D_SECURE, Boolean.valueOf(cpd.getConfigByName(CREDIT_CARD_FORCE_3D_SECURE)))
                 .addObject(SUCCESS_URL, cpd.getConfigByName(SUCCESS_URL))
                 .addObject(ERROR_URL, cpd.getConfigByName(ERROR_URL))

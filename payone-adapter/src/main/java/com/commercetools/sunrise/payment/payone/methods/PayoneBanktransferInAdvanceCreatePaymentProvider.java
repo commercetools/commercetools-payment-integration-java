@@ -1,8 +1,5 @@
 package com.commercetools.sunrise.payment.payone.methods;
 
-import java.util.concurrent.CompletionStage;
-import java.util.function.Function;
-
 import com.commercetools.sunrise.payment.actions.HandlingTask;
 import com.commercetools.sunrise.payment.actions.OperationResult;
 import com.commercetools.sunrise.payment.actions.ShopAction;
@@ -11,17 +8,25 @@ import com.commercetools.sunrise.payment.methods.CreatePaymentMethod;
 import com.commercetools.sunrise.payment.methods.CreatePaymentMethodBase;
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
-
 import io.sphere.sdk.payments.PaymentDraftBuilder;
-import io.sphere.sdk.types.CustomFieldsDraftBuilder;
+
+import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
+
+import static com.commercetools.sunrise.payment.payone.methods.PayonePaymentMethodType.PAYMENT_CASH_ADVANCE;
 
 /**
- * 
+ *
  * @author mht@dotsource.de
  *
  */
-public class PayoneBanktransferInAdvanceCreatePaymentProvider extends CreatePaymentMethodBase implements CreatePaymentMethod {
+public class PayoneBanktransferInAdvanceCreatePaymentProvider extends PayoneCreatePaymentMethodBase implements CreatePaymentMethod {
     private PayoneBanktransferInAdvanceCreatePaymentProvider() {
+    }
+
+    @Override
+    protected String getMethodType() {
+        return PAYMENT_CASH_ADVANCE.getValue();
     }
 
     public static CreatePaymentMethodBase of() {
@@ -43,11 +48,7 @@ public class PayoneBanktransferInAdvanceCreatePaymentProvider extends CreatePaym
 
     @Override
     protected PaymentDraftBuilder createPaymentDraft(CreatePaymentData cpd) {
-
         return super.createPaymentDraft(cpd)
-                .custom(CustomFieldsDraftBuilder.ofTypeKey("payment-CASH-ADVANCE")
-                        .addObject("reference", cpd.getReference())
-                        .addObject("languageCode", getLanguageFromCartOrFallback(cpd.getCart()))
-                    .build());
+                .custom(createCustomFieldsBuilder(cpd).build());
     }
 }

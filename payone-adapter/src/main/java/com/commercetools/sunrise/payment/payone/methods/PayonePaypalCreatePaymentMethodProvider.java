@@ -8,24 +8,25 @@ import com.commercetools.sunrise.payment.methods.CreatePaymentMethod;
 import com.commercetools.sunrise.payment.methods.CreatePaymentMethodBase;
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
-import io.sphere.sdk.commands.UpdateAction;
-import io.sphere.sdk.payments.Payment;
 import io.sphere.sdk.payments.PaymentDraftBuilder;
-import io.sphere.sdk.payments.commands.updateactions.SetCustomField;
-import io.sphere.sdk.types.CustomFieldsDraftBuilder;
 
-import java.util.List;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 
 import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.*;
+import static com.commercetools.sunrise.payment.payone.methods.PayonePaymentMethodType.PAYMENT_WALLET;
 
 /**
  * Created by mgatz on 7/26/16.
  */
-public class PayonePaypalCreatePaymentMethodProvider extends CreatePaymentMethodBase implements CreatePaymentMethod {
+public class PayonePaypalCreatePaymentMethodProvider extends PayoneCreatePaymentMethodBase implements CreatePaymentMethod {
 
     private PayonePaypalCreatePaymentMethodProvider() {
+    }
+
+    @Override
+    protected String getMethodType() {
+        return PAYMENT_WALLET.getValue();
     }
 
     public static CreatePaymentMethodBase of() {
@@ -49,9 +50,7 @@ public class PayonePaypalCreatePaymentMethodProvider extends CreatePaymentMethod
     protected PaymentDraftBuilder createPaymentDraft(CreatePaymentData cpd) {
 
         return super.createPaymentDraft(cpd)
-                .custom(CustomFieldsDraftBuilder.ofTypeKey("payment-WALLET")
-                        .addObject("reference", cpd.getReference())
-                        .addObject("languageCode", getLanguageFromCartOrFallback(cpd.getCart()))
+                .custom(createCustomFieldsBuilder(cpd)
                         .addObject(SUCCESS_URL, cpd.getConfigByName(SUCCESS_URL))
                         .addObject(ERROR_URL, cpd.getConfigByName(ERROR_URL))
                         .addObject(CANCEL_URL, cpd.getConfigByName((CANCEL_URL)))

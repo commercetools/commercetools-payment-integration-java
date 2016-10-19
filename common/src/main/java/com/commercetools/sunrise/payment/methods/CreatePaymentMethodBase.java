@@ -64,7 +64,7 @@ public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
                 .paymentMethodInfo(cpd.getPaymentMethodinInfo());
     }
 
-    protected String getLanguageFromCartOrFallback(Cart cart) {
+    protected static String getLanguageFromCartOrFallback(Cart cart) {
         if(null != cart.getLocale()) {
             return cart.getLocale().getLanguage();
         }

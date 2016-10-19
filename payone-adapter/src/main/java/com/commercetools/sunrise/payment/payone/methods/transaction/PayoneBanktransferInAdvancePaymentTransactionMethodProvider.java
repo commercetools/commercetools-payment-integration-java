@@ -1,4 +1,4 @@
-package com.commercetools.sunrise.payment.payone.methods;
+package com.commercetools.sunrise.payment.payone.methods.transaction;
 
 import com.commercetools.sunrise.payment.actions.HandlingTask;
 import com.commercetools.sunrise.payment.actions.OperationResult;
@@ -6,12 +6,9 @@ import com.commercetools.sunrise.payment.actions.ShopAction;
 import com.commercetools.sunrise.payment.domain.PaymentTransactionCreationResultBuilder;
 import com.commercetools.sunrise.payment.methods.CreatePaymentTransactionMethod;
 import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
-
-import static  com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.PAID_TO_IBAN;
-import static  com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.PAID_TO_BIC;
-import static  com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.PAID_TO_NAME;
-
 import io.sphere.sdk.payments.Payment;
+
+import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.*;
 
 public class PayoneBanktransferInAdvancePaymentTransactionMethodProvider
         extends PayoneCreatePaymentTransactionMethodBase implements CreatePaymentTransactionMethod {

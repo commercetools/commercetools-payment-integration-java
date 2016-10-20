@@ -129,7 +129,7 @@ public class CartTestImpl implements Cart {
     @Nullable
     @Override
     public Locale getLocale() {
-        return null;
+        return locale;
     }
 
     @Override
@@ -156,4 +156,5 @@ public class CartTestImpl implements Cart {
     // we keep them public for easy mocking
 
     public MonetaryAmount totalPrice;
+    public Locale locale;
 }

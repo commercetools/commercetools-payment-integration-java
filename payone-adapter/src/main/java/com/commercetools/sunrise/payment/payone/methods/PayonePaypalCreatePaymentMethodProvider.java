@@ -5,7 +5,6 @@ import com.commercetools.sunrise.payment.actions.OperationResult;
 import com.commercetools.sunrise.payment.actions.ShopAction;
 import com.commercetools.sunrise.payment.domain.PaymentCreationResultBuilder;
 import com.commercetools.sunrise.payment.methods.CreatePaymentMethod;
-import com.commercetools.sunrise.payment.methods.CreatePaymentMethodBase;
 import com.commercetools.sunrise.payment.model.CreatePaymentData;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
 import io.sphere.sdk.payments.PaymentDraftBuilder;
@@ -29,7 +28,7 @@ public class PayonePaypalCreatePaymentMethodProvider extends PayoneCreatePayment
         return PAYMENT_WALLET.getValue();
     }
 
-    public static CreatePaymentMethodBase of() {
+    public static PayonePaypalCreatePaymentMethodProvider of() {
         return new PayonePaypalCreatePaymentMethodProvider();
     }
 

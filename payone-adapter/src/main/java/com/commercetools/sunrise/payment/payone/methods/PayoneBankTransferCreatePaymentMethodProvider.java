@@ -28,7 +28,7 @@ public class PayoneBankTransferCreatePaymentMethodProvider extends PayoneCreateP
         return PAYMENT_BANK_TRANSFER.getValue();
     }
 
-    public static CreatePaymentMethod of() {
+    public static PayoneBankTransferCreatePaymentMethodProvider of() {
         return new PayoneBankTransferCreatePaymentMethodProvider();
     }
 

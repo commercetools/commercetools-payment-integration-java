@@ -1,20 +1,18 @@
 package com.commercetools.sunrise.payment.payone.methods;
 
+import com.commercetools.sunrise.payment.methods.CreatePaymentMethodBase;
 import com.commercetools.sunrise.payment.model.impl.CreatePaymentDataImpl;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.sphere.sdk.carts.CartTestImpl;
-import io.sphere.sdk.payments.Payment;
 import io.sphere.sdk.payments.PaymentDraft;
 import io.sphere.sdk.types.CustomFieldsDraft;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import javax.money.Monetary;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletionStage;
 
 import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.*;
 import static com.commercetools.sunrise.payment.payone.methods.PayonePaymentMethodType.PAYMENT_CREDIT_CARD;
@@ -23,14 +21,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by akovalenko on 19/10/16.
  */
-public class PayoneCreditCardCreatePaymentMethodProviderTest {
+public class PayoneCreditCardCreatePaymentMethodProviderTest extends BasePayoneCreatePaymentMethodTest {
 
-    private CartTestImpl testCart;
-
-    @Mock
-    private CompletionStage<Payment> paymentStage;
-
-    private PayoneCreditCardCreatePaymentMethodProvider provider;
+    protected PayoneCreditCardCreatePaymentMethodProvider provider;
 
     @Before
     public void setUp() throws Exception {
@@ -38,7 +31,7 @@ public class PayoneCreditCardCreatePaymentMethodProviderTest {
     }
 
     @Test
-    public void createPaymentDraftTest() throws Exception {
+    public void createPaymentDraft() throws Exception {
         SoftAssertions sa = new SoftAssertions();
 
         //test mocks

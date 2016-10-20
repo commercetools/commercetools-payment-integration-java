@@ -26,26 +26,26 @@ public class PayoneCreatePaymentMethodBaseTest {
     private Cart mockCart;
 
     @Test
-    public void getLanguageFromPaymentDataOrFallbackTest() throws Exception {
+    public void getLanguageFromPaymentDataOrFallback() throws Exception {
         Map<String, String> config = new HashMap<>();
         CreatePaymentDataImpl cpd = new CreatePaymentDataImpl(null, null, mockCart, null, config, null, null);
 
         assertThat("Should Fallback to default \"en\", when both cart and custom field are empty",
-                getLanguageFromPaymentDataOrFallback(cpd), is("en"));
+                PayoneCreatePaymentMethodBase.getLanguageFromPaymentDataOrFallback(cpd), is("en"));
 
         config.put(LANGUAGE_CODE, "en");
-        assertThat(getLanguageFromPaymentDataOrFallback(cpd), is("en"));
+        assertThat(PayoneCreatePaymentMethodBase.getLanguageFromPaymentDataOrFallback(cpd), is("en"));
 
         config.put(LANGUAGE_CODE, "nl");
-        assertThat(getLanguageFromPaymentDataOrFallback(cpd), is("nl"));
+        assertThat(PayoneCreatePaymentMethodBase.getLanguageFromPaymentDataOrFallback(cpd), is("nl"));
 
         when(mockCart.getLocale()).thenReturn(new Locale("uk"));
         assertThat("Should ignore cart value while custom field exists",
-                getLanguageFromPaymentDataOrFallback(cpd), is("nl"));
+                PayoneCreatePaymentMethodBase.getLanguageFromPaymentDataOrFallback(cpd), is("nl"));
 
         config.remove(LANGUAGE_CODE);
         assertThat("Should use value from the cart, when custom field is empty",
-                getLanguageFromPaymentDataOrFallback(cpd), is("uk"));
+                PayoneCreatePaymentMethodBase.getLanguageFromPaymentDataOrFallback(cpd), is("uk"));
     }
 
 }

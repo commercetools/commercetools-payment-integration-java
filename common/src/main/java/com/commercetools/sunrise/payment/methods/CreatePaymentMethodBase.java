@@ -42,7 +42,8 @@ public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
         return cpd.getSphereClient().execute(createPaymentCommand)
                 .thenCompose(p -> {
                     changeCartPaymentInfo.add(AddPayment.of(p));
-                    return cpd.getSphereClient().execute(CartUpdateCommand.of(cpd.getCart(), changeCartPaymentInfo)).thenApplyAsync(c -> p);
+                    return cpd.getSphereClient().execute(CartUpdateCommand.of(cpd.getCart(), changeCartPaymentInfo))
+                            .thenApplyAsync(c -> p);
                 });
     }
 

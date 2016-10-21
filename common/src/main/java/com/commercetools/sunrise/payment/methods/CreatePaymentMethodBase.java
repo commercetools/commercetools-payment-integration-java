@@ -13,7 +13,6 @@ import io.sphere.sdk.payments.commands.PaymentCreateCommand;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
@@ -65,11 +64,12 @@ public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
                 .paymentMethodInfo(cpd.getPaymentMethodinInfo());
     }
 
-    protected static String getLanguageFromCartOrFallback(Cart cart) {
-        if(null != cart.getLocale()) {
-            return cart.getLocale().getLanguage();
-        }
-
-        return Locale.ENGLISH.getLanguage();
+    /**
+     * @param cart {@link Cart} value to read
+     * @return Two characters locale name (ISO 639) or <b>null</b> if the {@code cart}, {@code cart.getLocale()} or
+     * {@code cart.getLocale().getLanguage()} not exists.
+     */
+    protected static String getLanguageFromCart(Cart cart) {
+        return cart != null && cart.getLocale() != null ? cart.getLocale().getLanguage() : null;
     }
 }

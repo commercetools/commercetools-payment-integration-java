@@ -47,12 +47,12 @@ public abstract class PayoneCreatePaymentMethodBase extends CreatePaymentMethodB
      * Try to define payment locale (two characters ISO 639) in the next order:<ul>
      *     <li>from custom payment data config, e.g. {@code cpd.getConfigByName(LANGUAGE_CODE)}
      *         (if not <b>null</b>)</li>
-     *     <li><i>else</i> try {@link #getLanguageFromCartOrFallback(Cart)} with {@code cpd.getCart()}</li>
+     *     <li><i>else</i> try {@link #getLanguageFromCart(Cart)} with {@code cpd.getCart()}</li>
      *     <li><i>else</i> fallback to "en" locale</li>
      * </ul>
      * @param cpd payment-cart data from which define the locale
      * @return non-null 2 characters string language name according to ISO 639 format
-     * @see #getLanguageFromCartOrFallback(Cart)
+     * @see #getLanguageFromCart(Cart)
      */
     protected static String getLanguageFromPaymentDataOrFallback(CreatePaymentData cpd) {
         Optional<CreatePaymentData> optionalCpd = Optional.ofNullable(cpd);
@@ -61,7 +61,7 @@ public abstract class PayoneCreatePaymentMethodBase extends CreatePaymentMethodB
                 .map(paymentData -> paymentData.getConfigByName(LANGUAGE_CODE)) // if LANGUAGE_CODE is set in config
                 .orElseGet(() -> optionalCpd
                         .map(CreatePaymentData::getCart)
-                        .map(CreatePaymentMethodBase::getLanguageFromCartOrFallback)
-                        .orElseGet(Locale.ENGLISH::getLanguage)); // fallback to en
+                        .map(CreatePaymentMethodBase::getLanguageFromCart)
+                        .orElseGet(Locale.ENGLISH::getLanguage));
     }
 }

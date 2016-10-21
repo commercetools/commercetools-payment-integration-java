@@ -1,4 +1,4 @@
-package com.commercetools.sunrise.payment.payone.methods;
+package com.commercetools.sunrise.payment.payone.methods.transaction;
 
 import com.commercetools.sunrise.payment.actions.HandlingTask;
 import com.commercetools.sunrise.payment.actions.OperationResult;
@@ -11,15 +11,14 @@ import io.sphere.sdk.payments.Payment;
 import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.REDIRECT_URL;
 
 /**
- * @author mht@dotsource.de
+ * Created by mgatz on 7/27/16.
  */
-public class PayoneBankTransferCreateTransactionMethodProvider extends PayoneCreatePaymentTransactionMethodBase implements CreatePaymentTransactionMethod {
-
-    private PayoneBankTransferCreateTransactionMethodProvider() {
-    }
+public class PayonePaypalCreatePaymentTransactionMethodProvider
+        extends PayoneCreatePaymentTransactionMethodBase
+        implements CreatePaymentTransactionMethod {
 
     public static CreatePaymentTransactionMethod of() {
-        return new PayoneBankTransferCreateTransactionMethodProvider();
+        return new PayonePaypalCreatePaymentTransactionMethodProvider();
     }
 
     @Override
@@ -32,7 +31,7 @@ public class PayoneBankTransferCreateTransactionMethodProvider extends PayoneCre
         }
         return PaymentTransactionCreationResultBuilder.ofError(
                 "There was no redirect set at the payment object which is required for Paypal ("
-                        + updatedPayment.getId()
-                        +"). Check Payone Connector log files!");
+                + updatedPayment.getId()
+                +"). Check Payone Connector log files!");
     }
 }

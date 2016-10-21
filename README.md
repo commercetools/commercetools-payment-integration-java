@@ -19,6 +19,9 @@ The shop has to provide a sphere client for all action this module
 Create **JAR** files:
 `sbt package`
 
+Create **JAR** and run tests:
+`sbt clean package test`
+
 ## Integration into the shop:
 Include the **JAR** files to the classpath of the shop. For the play framework that is done by putting them into the **lib** folder.
 In the future they should be available in a maven repository.

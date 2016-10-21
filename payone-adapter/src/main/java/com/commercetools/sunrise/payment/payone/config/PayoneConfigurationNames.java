@@ -4,6 +4,8 @@ package com.commercetools.sunrise.payment.payone.config;
  * Created by mgatz on 8/8/16.
  */
 public interface PayoneConfigurationNames {
+    static final String LANGUAGE_CODE = "languageCode";
+    static final String REFERENCE = "reference";
     static final String HANDLE_URL = "PayoneHandleURL";
     static final String REDIRECT_URL = "redirectUrl";
     static final String SUCCESS_URL = "successUrl";

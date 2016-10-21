@@ -8,6 +8,7 @@ import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
 import com.commercetools.sunrise.payment.payone.config.PayoneConfiguration;
 import com.commercetools.sunrise.payment.payone.config.PayoneConfigurationProvider;
 import com.commercetools.sunrise.payment.payone.methods.*;
+import com.commercetools.sunrise.payment.payone.methods.transaction.*;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
 

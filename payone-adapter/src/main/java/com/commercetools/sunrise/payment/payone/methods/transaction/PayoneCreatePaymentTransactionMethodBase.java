@@ -1,4 +1,4 @@
-package com.commercetools.sunrise.payment.payone.methods;
+package com.commercetools.sunrise.payment.payone.methods.transaction;
 
 import com.commercetools.sunrise.payment.domain.PaymentTransactionCreationResultBuilder;
 import com.commercetools.sunrise.payment.methods.CreatePaymentTransactionMethodBase;

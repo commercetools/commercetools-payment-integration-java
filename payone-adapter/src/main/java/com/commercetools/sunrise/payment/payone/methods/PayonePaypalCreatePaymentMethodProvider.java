@@ -27,7 +27,7 @@ public class PayonePaypalCreatePaymentMethodProvider extends PayoneCreatePayment
         return PAYMENT_WALLET.getValue();
     }
 
-    public static PayonePaypalCreatePaymentMethodProvider of() {
+    public static PayoneCreatePaymentMethodBase of() {
         return new PayonePaypalCreatePaymentMethodProvider();
     }
 

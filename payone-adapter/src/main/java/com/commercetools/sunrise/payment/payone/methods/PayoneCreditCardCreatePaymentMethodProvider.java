@@ -28,7 +28,7 @@ public class PayoneCreditCardCreatePaymentMethodProvider extends PayoneCreatePay
         return PAYMENT_CREDIT_CARD.getValue();
     }
 
-    public static PayoneCreditCardCreatePaymentMethodProvider of() {
+    public static PayoneCreatePaymentMethodBase of() {
         return new PayoneCreditCardCreatePaymentMethodProvider();
     }
 

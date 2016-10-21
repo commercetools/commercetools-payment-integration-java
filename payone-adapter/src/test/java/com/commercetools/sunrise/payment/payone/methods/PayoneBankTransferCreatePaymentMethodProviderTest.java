@@ -22,8 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class PayoneBankTransferCreatePaymentMethodProviderTest extends BasePayoneCreatePaymentMethodTest {
 
-    protected PayoneBankTransferCreatePaymentMethodProvider provider;
-
     @Before
     public void setUp() throws Exception {
         provider = PayoneBankTransferCreatePaymentMethodProvider.of();
@@ -44,8 +42,10 @@ public class PayoneBankTransferCreatePaymentMethodProviderTest extends BasePayon
         CreatePaymentDataImpl cpd = new CreatePaymentDataImpl(null, null, testCart, "woot",
                 config, null, null);
 
-        // tested function
-        PaymentDraft paymentDraft = provider.createPaymentDraft(cpd).build();
+        // tested function createPaymentDraft(Cart)
+        // because we test protected method, we should make explicit down casting of provider property
+        PaymentDraft paymentDraft = ((PayoneBankTransferCreatePaymentMethodProvider) provider)
+                .createPaymentDraft(cpd).build();
 
         // asserts
         assertThat(paymentDraft).isNotNull();

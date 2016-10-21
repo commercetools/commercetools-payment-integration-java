@@ -1,6 +1,5 @@
 package com.commercetools.sunrise.payment.payone.methods;
 
-import com.commercetools.sunrise.payment.methods.CreatePaymentMethodBase;
 import com.commercetools.sunrise.payment.model.impl.CreatePaymentDataImpl;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.sphere.sdk.carts.CartTestImpl;
@@ -22,8 +21,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Created by akovalenko on 19/10/16.
  */
 public class PayoneCreditCardCreatePaymentMethodProviderTest extends BasePayoneCreatePaymentMethodTest {
-
-    protected PayoneCreditCardCreatePaymentMethodProvider provider;
 
     @Before
     public void setUp() throws Exception {
@@ -52,8 +49,10 @@ public class PayoneCreditCardCreatePaymentMethodProviderTest extends BasePayoneC
         CreatePaymentDataImpl cpd = new CreatePaymentDataImpl(null, null, testCart, "test-reference-id",
                 config, null, null);
 
-        // tested function
-        PaymentDraft paymentDraft = provider.createPaymentDraft(cpd).build();
+        // tested function createPaymentDraft(Cart)
+        // because we test protected method, we should make explicit down casting of provider property
+        PaymentDraft paymentDraft = ((PayoneCreditCardCreatePaymentMethodProvider) provider)
+                .createPaymentDraft(cpd).build();
 
         // asserts
         assertThat(paymentDraft).isNotNull();

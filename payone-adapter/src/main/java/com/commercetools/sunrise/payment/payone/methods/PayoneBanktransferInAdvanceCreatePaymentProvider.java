@@ -27,7 +27,7 @@ public class PayoneBanktransferInAdvanceCreatePaymentProvider extends PayoneCrea
         return PAYMENT_CASH_ADVANCE.getValue();
     }
 
-    public static PayoneBanktransferInAdvanceCreatePaymentProvider of() {
+    public static PayoneCreatePaymentMethodBase of() {
         return new PayoneBanktransferInAdvanceCreatePaymentProvider();
     }
 

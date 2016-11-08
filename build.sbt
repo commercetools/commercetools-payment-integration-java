@@ -1,9 +1,5 @@
 import sbt.Keys._
 
-name := "commercetools-sunrise-payment"
-
-organization := "com.commercetools.sunrise.payment"
-
 lazy val jvmSdkVersion = "1.3.0"
 
 /**
@@ -37,6 +33,9 @@ lazy val `common` = project
 lazy val `payone-adapter` = project
   .configs(IntegrationTest)
   .settings(commonSettings ++ commonTestSettings : _*)
+  .settings(
+    description := "Payone specific payment methods."
+  )
   .dependsOn(`common`)
 
 lazy val `nopsp-adapter` = project
@@ -49,6 +48,15 @@ lazy val `nopsp-adapter` = project
  */
 
 lazy val commonSettings = Seq (
+  version      := "0.1-SNAPSHOT",
+  organization := "com.commercetools.sunrise.payment",
+  organizationName := "commercetools GmbH",
+  organizationHomepage := Some(url("https://commercetools.com/")),
+  description := "The commercetools java payment project intend is to make payment integration easy",
+  licenses += "Apache License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"),
+
+  crossPaths := false,
+
   scalaVersion := "2.11.8",
   javacOptions in (Compile, doc) := Seq("-quiet", "-notimestamp"),
   javacOptions ++= Seq("-source", "1.8", "-target", "1.8")

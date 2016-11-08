@@ -8,7 +8,7 @@ Module for [Sunrise Java](https://github.com/sphereio/commercetools-sunrise-java
 * [Javadoc](https://commercetools.github.io/commercetools-sunrise-java-payment/javadoc/index.html)
 
 ## General Info
-The commerectools-sunrise-java-payment project intend is to make payment integration easy.
+The commercetools-sunrise-java-payment project intend is to make payment integration easy.
 
 The checkout process in the shop can follow a standardized process via this module, even if different Payment Service Providers are used.
 `At the moment only PayOne is supported`

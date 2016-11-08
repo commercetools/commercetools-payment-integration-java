@@ -55,7 +55,20 @@ lazy val commonSettings = Seq (
   description := "The commercetools java payment project intend is to make payment integration easy",
   licenses += "Apache License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"),
 
+  publishMavenStyle := true,
   crossPaths := false,
+  publishArtifact in Test := false,
+
+  publishTo := {
+    val nexus = "https://oss.sonatype.org/"
+    if (version.value.trim.endsWith("SNAPSHOT"))
+      Some("snapshots" at nexus + "content/repositories/snapshots")
+    else
+      Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+  },
+
+  credentials += Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org",
+                              System.getenv("NEXUS_USER"), System.getenv("NEXUS_PASS")),
 
   scalaVersion := "2.11.8",
   javacOptions in (Compile, doc) := Seq("-quiet", "-notimestamp"),

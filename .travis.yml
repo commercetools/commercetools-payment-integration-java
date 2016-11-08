@@ -10,6 +10,9 @@ scala:
 
 script:
 - "sbt test it:test unidoc"
+
+- "sbt publish" # REMOVE AFTER TESTS
+
 - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then sbt
   "gitPublish target/javaunidoc https://$GH_TOKEN:x-oauth-basic@github.com/$TRAVIS_REPO_SLUG.git
   javadoc sphere-oss automation@commercetools.de

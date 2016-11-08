@@ -67,6 +67,7 @@ lazy val commonSettings = Seq (
       Some("releases"  at nexus + "service/local/staging/deploy/maven2")
   },
 
+  // for "publish" task $NEXUS_USER and $NEXUS_PASS environment variables must be set
   credentials += Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org",
                               System.getenv("NEXUS_USER"), System.getenv("NEXUS_PASS")),
 

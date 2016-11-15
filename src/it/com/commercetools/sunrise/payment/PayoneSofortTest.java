@@ -16,9 +16,7 @@ import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.sunrise.payment.IntegrationTestUtils.*;
-import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.CANCEL_URL;
-import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.ERROR_URL;
-import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.SUCCESS_URL;
+import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

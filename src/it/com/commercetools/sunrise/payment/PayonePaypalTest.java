@@ -1,5 +1,6 @@
 package com.commercetools.sunrise.payment;
 
+import com.commercetools.config.ItConfig;
 import com.commercetools.sunrise.payment.actions.OperationResult;
 import com.commercetools.sunrise.payment.actions.ShopAction;
 import com.commercetools.sunrise.payment.domain.CreatePaymentDataBuilder;
@@ -62,7 +63,7 @@ public class PayonePaypalTest {
                 .createPaymentTransaction(
                         CreatePaymentTransactionDataBuilder
                                 .of(client, paymentCreationResult.getRelatedPaymentObject().get().getId())
-                                .setConfigValue(HANDLE_URL, "https://coeur-payment-stage.ct-app.com/commercetools/handle/payments/")
+                                .setConfigValue(HANDLE_URL, ItConfig.CT_PAYONE_INTEGRATION_URL)
                                 .build())
                 .toCompletableFuture().get();
 

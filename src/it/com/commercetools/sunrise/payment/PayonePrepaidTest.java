@@ -18,7 +18,7 @@ import javax.money.Monetary;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
-import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.*;
+import static com.commercetools.config.ItConfig.CT_PAYONE_INTEGRATION_URL;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -60,7 +60,7 @@ public class PayonePrepaidTest {
                 .createPaymentTransaction(
                         CreatePaymentTransactionDataBuilder
                                 .of(client, paymentCreationResult.getRelatedPaymentObject().get().getId())
-                                .setConfigValue(HANDLE_URL, "https://coeur-payment-stage.ct-app.com/commercetools/handle/payments/")
+                                .setConfigValue(HANDLE_URL, CT_PAYONE_INTEGRATION_URL)
                                 .build())
                 .toCompletableFuture().get();
 

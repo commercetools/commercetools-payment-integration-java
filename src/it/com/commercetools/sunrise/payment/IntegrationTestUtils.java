@@ -22,6 +22,8 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
+import static com.commercetools.config.ItConfig.*;
+
 /**
  * Created by mgatz on 7/10/16.
  */
@@ -30,10 +32,7 @@ public class IntegrationTestUtils {
      * @return a newly created test sphere client
      */
     public static SphereClient createClient() {
-        String projectKey = System.getenv("CTP_PROJECT_KEY");
-        String clientSecret = System.getenv("CTP_CLIENT_SECRET");
-        String clientId = System.getenv("CTP_CLIENT_ID");
-        return SphereClientFactory.of().createClient(projectKey, clientId, clientSecret);
+        return SphereClientFactory.of().createClient(CT_PROJECT_KEY, CT_CLIENT_ID, CT_CLIENT_SECRET);
     }
 
     /**

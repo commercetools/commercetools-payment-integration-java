@@ -48,13 +48,48 @@ lazy val `nopsp-adapter` = project
  */
 
 lazy val commonSettings = Seq (
-  version      := "0.1-SNAPSHOT",
+  version      := "0.1",
   organization := "com.commercetools.sunrise.payment",
   organizationName := "commercetools GmbH",
   organizationHomepage := Some(url("https://commercetools.com/")),
   description := "The commercetools java payment project intend is to make payment integration easy",
   licenses += "Apache License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"),
 
+  pomExtra :=
+    <url>https://github.com/commercetools/project-payment</url>
+    <scm>
+      <url>git@github.com:commercetools/project-payment.git</url>
+      <connection>scm:git:git@github.com:commercetools/project-payment.git</connection>
+    </scm>
+    <developers>
+      <developer>
+        <id>MGA-dotSource</id>
+        <name>Mirco</name>
+        <url>https://github.com/MGA-dotSource</url>
+      </developer>
+      <developer>
+        <id>mht-dotsource</id>
+        <name>Martin Horatschek</name>
+        <url>https://github.com/mht-dotsource</url>
+      </developer>
+      <developer>
+        <id>andrii-kovalenko-ct</id>
+        <name>Andrii Kovalenko</name>
+        <url>https://github.com/andrii-kovalenko-ct</url>
+      </developer>
+      <developer>
+        <id>lauraluiz</id>
+        <name>Laura Luiz</name>
+        <url>https://github.com/lauraluiz</url>
+      </developer>
+      <developer>
+        <id>schleichardt</id>
+        <name>schleichardt</name>
+        <url>https://github.com/schleichardt</url>
+      </developer>
+    </developers>,
+
+  pomIncludeRepository := { _ => false },
   publishMavenStyle := true,
   crossPaths := false,
   publishArtifact in Test := false,

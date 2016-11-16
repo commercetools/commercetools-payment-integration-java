@@ -48,7 +48,7 @@ lazy val `nopsp-adapter` = project
  */
 
 lazy val commonSettings = Seq (
-  version      := "0.1",
+  version      := "0.2-SNAPSHOT", // make it without SNAPSHOT when you make a release to maven repo
   organization := "com.commercetools.sunrise.payment",
   organizationName := "commercetools GmbH",
   organizationHomepage := Some(url("https://commercetools.com/")),

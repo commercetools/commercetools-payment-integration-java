@@ -19,10 +19,11 @@ import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.config.ItConfig.CT_PAYONE_INTEGRATION_URL;
+import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.HANDLE_URL;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * 
+ *
  * @author mht@dotsource.de
  *
  */

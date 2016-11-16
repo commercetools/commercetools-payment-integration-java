@@ -24,9 +24,44 @@ Create **JAR** and run tests:
 `sbt clean package test`
 
 ## Integration into the shop:
-Include the **JAR** files to the classpath of the shop. For the play framework that is done by putting them into the **lib** folder.
-In the future they should be available in a maven repository.
+Take the dependencies from Maven central.
 
+### Maven example
+
+```
+<dependency>
+  <groupId>com.commercetools.sunrise.payment</groupId>
+  <artifactId>payone-adapter</artifactId>
+  <version>0.1</version>
+</dependency>
+<dependency>
+  <groupId>com.commercetools.sunrise.payment</groupId>
+  <artifactId>common</artifactId>
+  <version>0.1</version>
+</dependency>
+```
+
+### SBT example
+
+```
+libraryDependencies ++= Seq(
+  "com.commercetools.sunrise.payment" % "common" % "0.1",
+  "com.commercetools.sunrise.payment" % "payone-adapter" % "0.1",
+)
+```
+
+### Gradle example
+
+```
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+    compile "com.commercetools.sunrise.payment:common:0.1"
+    compile "com.commercetools.sunrise.payment:payone-adapter:0.1"
+}
+```
 
 ### Getting the payment methods 
 Get all payment methods:

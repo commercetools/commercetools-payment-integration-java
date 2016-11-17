@@ -147,6 +147,14 @@ namely:
  sometimes fail with error:
  > _expected:<[SUCCESS]> but was:<[FAILED]>_. 
  
+ in asserts of `assertPaymentTransactionObjectCreation():`
+ > assertThat(ptcr.getOperationResult()).isEqualTo(OperationResult.SUCCESS);
+ 
+  
  Still not clear why, but should be investigated.
  It might be connected to parallel execution, but likely not.
+ 
+ 2. Any test which makes requests to Sphere environment may fails with:
+ > java.util.concurrent.ExecutionException: io.sphere.sdk.http.HttpException: 
+ > The underlying HTTP client detected a problem.
  

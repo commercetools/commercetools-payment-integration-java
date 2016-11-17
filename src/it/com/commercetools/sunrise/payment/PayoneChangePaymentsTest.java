@@ -3,8 +3,6 @@ package com.commercetools.sunrise.payment;
 import com.commercetools.sunrise.payment.domain.CreatePaymentDataBuilder;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
 import com.commercetools.sunrise.payment.service.PaymentAdapterService;
-import io.sphere.sdk.carts.Cart;
-import io.sphere.sdk.client.SphereClient;
 import io.sphere.sdk.utils.MoneyImpl;
 import org.junit.After;
 import org.junit.Before;
@@ -14,28 +12,27 @@ import javax.money.Monetary;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
-import static com.commercetools.sunrise.payment.IntegrationTestUtils.*;
+import static com.commercetools.util.IntegrationTestUtils.*;
 import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * author: mht@dotsource.de
  */
-public class PayoneChangePaymentsTest {
-
-    private SphereClient client;
-    private Cart cart;
+public class PayoneChangePaymentsTest extends BasePayoneTest {
 
     @Before
     public void setup() throws ExecutionException, InterruptedException {
-        Monetary.getDefaultRounding().apply(MoneyImpl.ofCents(123, "EUR"));
-        this.client = createClient();
-        this.cart = createTestCartFromProduct(client, 2);
+        super.setup(2);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        shutdown();
     }
 
     @Test
     public void testPaymentFlow() throws ExecutionException, InterruptedException {
-        assertPreconditions();
 
         // user selected paypal
         final PaymentCreationResult firstPaymentCreationResult = PaymentAdapterService.of()
@@ -82,17 +79,5 @@ public class PayoneChangePaymentsTest {
         cart = updateCart(client, cart);
 
         assertThat(cart.getPaymentInfo().getPayments()).hasSize(1);
-    }
-
-    @After
-    public void shutdown() throws ExecutionException, InterruptedException {
-        removeCart(client, cart);
-        client.close();
-    }
-
-    private void assertPreconditions() {
-        assertThat(client).isNotNull();
-        assertThat(cart).isNotNull();
-        assertThat(cart.getLineItems().size()).isEqualTo(2);
     }
 }

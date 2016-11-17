@@ -1,4 +1,4 @@
-package com.commercetools.sunrise.payment;
+package com.commercetools.util;
 
 import com.neovisionaries.i18n.CountryCode;
 import io.sphere.sdk.carts.Cart;

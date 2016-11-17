@@ -48,13 +48,14 @@ lazy val `nopsp-adapter` = project
  */
 
 lazy val commonSettings = Seq (
-  version      := "0.2-SNAPSHOT", // make it without SNAPSHOT when you make a release to maven repo
+  // version      := "SNAPSHOT", // use value from version.sbt instead
   organization := "com.commercetools.sunrise.payment",
   organizationName := "commercetools GmbH",
   organizationHomepage := Some(url("https://commercetools.com/")),
   description := "The commercetools java payment project intend is to make payment integration easy",
   licenses += "Apache License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"),
 
+  // these pom settings are mandatory for Maven central release
   pomExtra :=
     <url>https://github.com/commercetools/project-payment</url>
     <scm>

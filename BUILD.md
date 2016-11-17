@@ -32,7 +32,7 @@ For successful integration test the next settings are required:
   - *CT_PAYONE_INTEGRATION_URL* resource with deployed 
     [commercetools payone integration service](https://github.com/commercetools/commercetools-payone-integration).
     This service must be connected to the same project (*CT_PROJECT_KEY*).
-    - For current workflow the service is deployed to [Heroku](https://ct-payone-integration-test.herokuapp.com/)
+    - For current workflow the service is deployed to [Heroku](https://dashboard.heroku.com/apps/ct-payone-integration-test/settings)
     using *heroku cli*. To avoid any side-effect of previous tests it is recommended to re-start the service 
     before the build (this will re-initialize all custom types, see [IntegrationService#start()](https://github.com/commercetools/commercetools-payone-integration/blob/927adfa637918c20feb03242242f9d57f5561669/service/src/main/java/com/commercetools/pspadapter/payone/IntegrationService.java#L52)):
       ```

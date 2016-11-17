@@ -5,7 +5,18 @@ Main project target is to release the artifacts to one of central dependencies r
 (Maven central so far, but might be Bintray in the future). Unfortunately there is no so far any consistent way to 
 publish the project using TravisCI, so manual publishing is required.
 
-## Integration tests
+Table of content:
+
+  - [Integration tests](#integration-tests)
+  - [Publish workflow](#publish-workflow)
+    - [Publish to local maven repo](#publish-to-local-maven-repo)
+    - [Publish to Maven Central](#publish-to-maven-central)
+      - [Signing up the app with PGP key](#signing-up-the-app-with-pgp-key)
+      - [Deploy to OSS Sonatype](#3-deploy-to-OSS-Sonatype)
+      - [Manually release from Sonatype web page to Maven Central](#manually-release-from-sonatype-web-page-to-maven-central)
+  - [Publish script](#publish-script)
+  - [Known issues](#known-issues)
+# Integration tests
  
 For successful integration test the next settings required:
  - **Mandatory environment variables** (see `ItConfig.java`):
@@ -36,7 +47,7 @@ sbt clean test it:test
 
 # Publish workflow
 
-### Publish to local maven repo
+## Publish to local maven repo
  
 This step may be used local tests of SNAPSHOT version:
 ```
@@ -83,6 +94,56 @@ sbt clean test it:test publish-signed
 
 This process will ask passphrase for you PGP private key before signing the application.
 
+The script will publish to Sonatype `repositories/snapshots/` or `repositories/releases/` based on version value 
+(from [version.sbt](#version.sbt))
+
+See http://central.sonatype.org/pages/sbt.html for more details of Sonatype sbt build.
+
 ### 4. Manually release from Sonatype web page to Maven Central
 
+Log into [OSSRH](https://oss.sonatype.org/), find your
+[Staging Repository](http://central.sonatype.org/pages/releasing-the-deployment.html#locate-and-examine-your-staging-repository),
+select the staging repository and the panel below the list will display further details about the repository. 
+Press _Close_ button on the top panel. This will trigger the evaluations of the components against the 
+[requirements](http://central.sonatype.org/pages/requirements.html). 
+Once you have successfully closed the staging repository, you can release it by pressing the _Release_ button next to 
+previously clicked _Close_ button. This will move the components into the release repository of OSSRH where 
+it will be synced to the Central Repository. Note: syncing project may take some time, so it will not appear instantly
+in the Maven Repo.
 
+As soon as artifacts are synced you will be able to find them in the Maven Central repo and mirrors:
+
+https://repo1.maven.org/maven2/com/commercetools/sunrise/payment/
+
+For more details about the release workflow see:
+
+ - http://central.sonatype.org/pages/ossrh-guide.html
+ - http://central.sonatype.org/pages/releasing-the-deployment.html
+ - http://central.sonatype.org/pages/sbt.html
+ - https://www.youtube.com/watch?v=b5D2EBjLp40 and https://www.youtube.com/watch?v=dXR4pJ_zS-0
+ 
+
+# Publish script
+
+As a summary of all the steps above you may use _all-in-one_ publish script from the root of the repo:
+
+```
+./publish.sh
+```
+
+This scripts restarts Heroku integration test environment, builds the app, runs unit and integration tests, sings the
+artifacts and deploys them to Sonatype. To execute the script successfully you should have all the settings above, 
+namely:
+
+ - installed and logged in heroku cli
+ - exported environment variables for integrations tests and Sonatype login
+ - installed pgp client and published PGP key 
+
+# Known issues
+ 1. `PayonePrepaidTest.testPaymentFlow` and `PayonePaypalTest.testPaymentFlow` 
+ sometimes fail with error:
+ > _expected:<[SUCCESS]> but was:<[FAILED]>_. 
+ 
+ Still not clear why, but should be investigated.
+ It might be connected to parallel execution, but likely not.
+ 

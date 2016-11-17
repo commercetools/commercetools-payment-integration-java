@@ -1,7 +1,7 @@
 Payment
 ==================
 
-[![Build Status](https://travis-ci.com/commercetools/project-payment.png?branch=master)](https://travis-ci.com/commercetools/project-payment) 
+[![Build Status](https://travis-ci.com/commercetools/project-payment.svg?token=xBfuKwz4mtssFw4UENNy&branch=master)](https://travis-ci.com/commercetools/project-payment) 
 [![Stories in Ready](https://badge.waffle.io/commercetools/project-payment.png?label=ready&title=Ready)](https://waffle.io/commercetools/project-payment)
 
 Module for [Sunrise Java](https://github.com/sphereio/commercetools-sunrise-java) with different supported services to handle payment transactions. 

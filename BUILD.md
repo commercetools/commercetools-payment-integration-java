@@ -11,22 +11,23 @@ Table of content:
   - [Publish workflow](#publish-workflow)
     - [Publish to local maven repo](#publish-to-local-maven-repo)
     - [Publish to Maven Central](#publish-to-maven-central)
-      - [Signing up the app with PGP key](#signing-up-the-app-with-pgp-key)
-      - [Deploy to OSS Sonatype](#3-deploy-to-OSS-Sonatype)
-      - [Manually release from Sonatype web page to Maven Central](#manually-release-from-sonatype-web-page-to-maven-central)
-  - [Publish script](#publish-script)
+      - [Signing up the app with PGP key](#2-signing-up-the-app-with-pgp-key)
+      - [Deploy to OSS Sonatype](#3-deploy-to-oss-sonatype)
+      - [Manually release from Sonatype web page to Maven Central](#4-manually-release-from-sonatype-web-page-to-maven-central)
+  - [All in one publish script](#all-in-one-publish-script)
   - [Known issues](#known-issues)
+  
 # Integration tests
  
-For successful integration test the next settings required:
+For successful integration test the next settings are required:
  - **Mandatory environment variables** (see `ItConfig.java`):
  
-    |  Key name                 | commercetools test environment                                                  |
-    |---------------------------|---------------------------------------------------------------------------------|
-    | CT_PROJECT_KEY            | project-payment-21                                                              |
-    | CT_CLIENT_ID              | see admin Sphere API Settings for project-payment-21                            |
-    | CT_CLIENT_SECRET          | see admin Sphere API Settings for project-payment-21                            |
-    | CT_PAYONE_INTEGRATION_URL | https://ct-payone-integration-test.herokuapp.com/commercetools/handle/payments/ |
+    |  Key name                 | commercetools test environment                                                    |
+    |---------------------------|-----------------------------------------------------------------------------------|
+    | CT_PROJECT_KEY            | project-payment-21                                                                |
+    | CT_CLIENT_ID              | see admin Sphere API Settings for project-payment-21                              |
+    | CT_CLIENT_SECRET          | see admin Sphere API Settings for project-payment-21                              |
+    | CT_PAYONE_INTEGRATION_URL | `https://ct-payone-integration-test.herokuapp.com/commercetools/handle/payments/` |
     
   - *CT_PAYONE_INTEGRATION_URL* resource with deployed 
     [commercetools payone integration service](https://github.com/commercetools/commercetools-payone-integration).
@@ -44,6 +45,8 @@ If you have all above - run the tests (both unit and integration):
 heroku restart --app ct-payone-integration-test # may be skipped on secondary run
 sbt clean test it:test
 ```
+
+The tests some times fail because of this [known issue](#known-issues).
 
 # Publish workflow
 
@@ -63,10 +66,10 @@ If you are a new developer in the project - update contributors list in `build.s
 Publishing to Maven Central requires the next steps:
 
  1. Build the app (see the steps above for integration tests)
- 2. [Signing up the app with PGP key](#signing-up-the-app-with-pgp-key)
- 3. [Deploy to OSS Sonatype](#3-deploy-to-OSS-Sonatype)
- 4. [Manually release from Sonatype web page to Maven Central](#manually-release-from-sonatype-web-page-to-maven-central)
-
+ 2. [Signing up the app with PGP key](#2-signing-up-the-app-with-pgp-key)
+ 3. [Deploy to OSS Sonatype](#3-deploy-to-oss-sonatype)
+ 4. [Manually release from Sonatype web page to Maven Central](#4-manually-release-from-sonatype-web-page-to-maven-central)
+ 
 **Note**: to publish only to Sonatype PGP signing is not required.
  
 ### 2. Signing up the app with PGP key
@@ -95,7 +98,7 @@ sbt clean test it:test publish-signed
 This process will ask passphrase for you PGP private key before signing the application.
 
 The script will publish to Sonatype `repositories/snapshots/` or `repositories/releases/` based on version value 
-(from [version.sbt](#version.sbt))
+(from [version.sbt](/version.sbt))
 
 See http://central.sonatype.org/pages/sbt.html for more details of Sonatype sbt build.
 
@@ -123,7 +126,7 @@ For more details about the release workflow see:
  - https://www.youtube.com/watch?v=b5D2EBjLp40 and https://www.youtube.com/watch?v=dXR4pJ_zS-0
  
 
-# Publish script
+# All in one publish script
 
 As a summary of all the steps above you may use _all-in-one_ publish script from the root of the repo:
 

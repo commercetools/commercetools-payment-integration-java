@@ -38,7 +38,8 @@ For successful integration test the next settings are required:
       ```
       heroku restart --app ct-payone-integration-test
       ```
-      This step requires locally [installed and logged in heroku CLI](https://devcenter.heroku.com/articles/heroku-command-line).
+      This step requires local [installed and logged in heroku CLI](https://devcenter.heroku.com/articles/heroku-command-line).
+      Alternatively for remote (travis) build `$HEROKU_API_KEY` environment variable may be used instead of `heroku login`. 
 
 If you have all above - run the tests (both unit and integration):
 ```
@@ -138,7 +139,7 @@ This scripts restarts Heroku integration test environment, builds the app, runs 
 artifacts and deploys them to Sonatype. To execute the script successfully you should have all the settings above, 
 namely:
 
- - installed and logged in heroku cli
+ - installed and logged in heroku cli (or `$HEROKU_API_KEY` environment variable set instead of log in)
  - exported environment variables for integrations tests and Sonatype login
  - installed pgp client and published PGP key 
 
@@ -154,7 +155,7 @@ namely:
  Still not clear why, but should be investigated.
  It might be connected to parallel execution, but likely not.
  
- 2. Any test which makes requests to Sphere environment may fails with:
+ 2. Any test which makes requests to Sphere environment may fail with:
  > java.util.concurrent.ExecutionException: io.sphere.sdk.http.HttpException: 
  > The underlying HTTP client detected a problem.
  

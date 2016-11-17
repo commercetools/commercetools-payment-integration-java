@@ -8,7 +8,7 @@ Module for [Sunrise Java](https://github.com/sphereio/commercetools-sunrise-java
 
 * [Javadoc](https://commercetools.github.io/project-payment/javadoc/index.html)
 
-* [Build and publish workflow](#BUILD.md)
+* [Build and publish workflow](BUILD.md)
 
 ## General Info
 The project-payment project intend is to make payment integration easy.

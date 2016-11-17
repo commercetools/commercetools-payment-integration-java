@@ -9,6 +9,7 @@ scala:
 - 2.11.8
 
 script:
+  - heroku restart --app ct-payone-integration-test
   - set -e
   - sbt test it:test unidoc
   - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then sbt

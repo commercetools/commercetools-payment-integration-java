@@ -9,11 +9,12 @@ scala:
 - 2.11.8
 
 script:
-- set -e
-- sbt test it:test unidoc
-- if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then sbt
-  "gitPublish target/javaunidoc https://$GH_TOKEN:x-oauth-basic@github.com/$TRAVIS_REPO_SLUG.git
-  javadoc sphere-oss automation@commercetools.de"; fi\
+  - set -e
+  - sbt test it:test unidoc
+  - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then sbt
+    "gitPublish target/javaunidoc https://$GH_TOKEN:x-oauth-basic@github.com/$TRAVIS_REPO_SLUG.git
+    javadoc sphere-oss automation@commercetools.de" &&
+    echo "Published documentation to https://commercetools.github.io/project-payment/javadoc/"; fi\
 
 jdk:
 - oraclejdk8

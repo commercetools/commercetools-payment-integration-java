@@ -1,4 +1,4 @@
-sudo: false
+sudo: required
 cache:
   directories:
     - "$HOME/.ivy2/cache"
@@ -6,10 +6,10 @@ cache:
 
 language: scala
 scala:
-- 2.11.8
+  - 2.11.8
 
 before_script:
-  - wget wget -qO- https://toolbelt.heroku.com/install.sh | sh
+  - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 
 script:
   - /usr/local/heroku/bin/heroku restart --app ct-payone-integration-test
@@ -21,7 +21,7 @@ script:
     echo "Published documentation to https://commercetools.github.io/project-payment/javadoc/"; fi\
 
 jdk:
-- oraclejdk8
+  - oraclejdk8
 
 notifications:
   email:

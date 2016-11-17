@@ -9,6 +9,7 @@ scala:
 - 2.11.8
 
 script:
+  - wget -O- https://toolbelt.heroku.com/install-ubuntu.sh | sh # install heroku CLI to restart ct-payone-integration-test
   - heroku restart --app ct-payone-integration-test
   - set -e
   - sbt test it:test unidoc

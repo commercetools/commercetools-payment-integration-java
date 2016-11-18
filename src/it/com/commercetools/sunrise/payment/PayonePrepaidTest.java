@@ -5,13 +5,10 @@ import com.commercetools.sunrise.payment.domain.CreatePaymentTransactionDataBuil
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
 import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
 import com.commercetools.sunrise.payment.service.PaymentAdapterService;
-import com.commercetools.util.IntegrationTestUtils;
-import io.sphere.sdk.utils.MoneyImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.money.Monetary;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 

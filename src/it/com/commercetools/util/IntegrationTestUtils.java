@@ -88,9 +88,11 @@ public class IntegrationTestUtils {
     }
 
     public static void removeCart(SphereClient client, Cart cart) throws ExecutionException, InterruptedException {
-        Cart toDelete = client.execute(CartByIdGet.of(cart.getId())).toCompletableFuture().get();
-        CartDeleteCommand cartDeleteCommand = CartDeleteCommand.of(toDelete);
-        client.execute(cartDeleteCommand).toCompletableFuture().get();
+        if (client != null && cart != null) {
+            Cart toDelete = client.execute(CartByIdGet.of(cart.getId())).toCompletableFuture().get();
+            CartDeleteCommand cartDeleteCommand = CartDeleteCommand.of(toDelete);
+            client.execute(cartDeleteCommand).toCompletableFuture().get();
+        }
     }
 
     public static Cart updateCart(SphereClient client, Cart cart) throws ExecutionException, InterruptedException {

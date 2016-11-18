@@ -8,6 +8,7 @@ import io.sphere.sdk.carts.LineItemDraft;
 import io.sphere.sdk.carts.commands.CartCreateCommand;
 import io.sphere.sdk.carts.commands.CartDeleteCommand;
 import io.sphere.sdk.carts.queries.CartByIdGet;
+import io.sphere.sdk.client.BlockingSphereClient;
 import io.sphere.sdk.client.SphereClient;
 import io.sphere.sdk.client.SphereClientFactory;
 import io.sphere.sdk.models.Address;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import static com.commercetools.config.ItConfig.getClientConfig;
 
@@ -32,7 +34,9 @@ public class IntegrationTestUtils {
      * @return a newly created test sphere client
      */
     public static SphereClient createClient() {
-        return SphereClientFactory.of().createClient(getClientConfig());
+        return BlockingSphereClient.of(
+                SphereClientFactory.of().createClient(getClientConfig()),
+                10, TimeUnit.SECONDS);
     }
 
     /**

@@ -22,7 +22,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
-import static com.commercetools.config.ItConfig.*;
+import static com.commercetools.config.ItConfig.getClientConfig;
 
 /**
  * Created by mgatz on 7/10/16.
@@ -32,7 +32,7 @@ public class IntegrationTestUtils {
      * @return a newly created test sphere client
      */
     public static SphereClient createClient() {
-        return SphereClientFactory.of().createClient(CT_PROJECT_KEY, CT_CLIENT_ID, CT_CLIENT_SECRET);
+        return SphereClientFactory.of().createClient(getClientConfig());
     }
 
     /**

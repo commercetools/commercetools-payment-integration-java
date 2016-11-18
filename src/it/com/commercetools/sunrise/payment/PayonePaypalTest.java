@@ -1,6 +1,5 @@
 package com.commercetools.sunrise.payment;
 
-import com.commercetools.config.ItConfig;
 import com.commercetools.sunrise.payment.domain.CreatePaymentDataBuilder;
 import com.commercetools.sunrise.payment.domain.CreatePaymentTransactionDataBuilder;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
@@ -13,6 +12,7 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+import static com.commercetools.config.ItConfig.getPayoneIntegrationUrl;
 import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.*;
 
 /**
@@ -54,7 +54,7 @@ public class PayonePaypalTest extends BasePayoneTest {
                 .createPaymentTransaction(
                         CreatePaymentTransactionDataBuilder
                                 .of(client, paymentCreationResult.getRelatedPaymentObject().get().getId())
-                                .setConfigValue(HANDLE_URL, ItConfig.CT_PAYONE_INTEGRATION_URL)
+                                .setConfigValue(HANDLE_URL, getPayoneIntegrationUrl())
                                 .build())
                 .toCompletableFuture().get();
 

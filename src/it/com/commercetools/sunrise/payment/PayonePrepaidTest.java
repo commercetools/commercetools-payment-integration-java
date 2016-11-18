@@ -12,7 +12,7 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
-import static com.commercetools.config.ItConfig.CT_PAYONE_INTEGRATION_URL;
+import static com.commercetools.config.ItConfig.getPayoneIntegrationUrl;
 import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.HANDLE_URL;
 
 /**
@@ -52,7 +52,7 @@ public class PayonePrepaidTest extends BasePayoneTest {
                 .createPaymentTransaction(
                         CreatePaymentTransactionDataBuilder
                                 .of(client, paymentCreationResult.getRelatedPaymentObject().get().getId())
-                                .setConfigValue(HANDLE_URL, CT_PAYONE_INTEGRATION_URL)
+                                .setConfigValue(HANDLE_URL, getPayoneIntegrationUrl())
                                 .build())
                 .toCompletableFuture().get();
 

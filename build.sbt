@@ -124,6 +124,7 @@ def configCommonTestSettings(scopes: String) = Seq(
   libraryDependencies ++= Seq (
     "com.novocode" % "junit-interface" % "0.11" % scopes,
     "org.assertj" % "assertj-core" % "3.4.1" % scopes,
-    "org.mockito" % "mockito-all" % "1.9.5" % scopes
+    "org.mockito" % "mockito-all" % "1.9.5" % scopes,
+    "org.slf4j" % "slf4j-simple" % "latest.integration" % scopes
   )
 )

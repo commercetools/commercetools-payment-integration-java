@@ -78,16 +78,6 @@ lazy val commonSettings = Seq (
         <name>Andrii Kovalenko</name>
         <url>https://github.com/andrii-kovalenko-ct</url>
       </developer>
-      <developer>
-        <id>lauraluiz</id>
-        <name>Laura Luiz</name>
-        <url>https://github.com/lauraluiz</url>
-      </developer>
-      <developer>
-        <id>schleichardt</id>
-        <name>schleichardt</name>
-        <url>https://github.com/schleichardt</url>
-      </developer>
     </developers>,
 
   pomIncludeRepository := { _ => false },

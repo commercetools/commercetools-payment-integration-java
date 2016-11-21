@@ -49,7 +49,12 @@ public class BasePayoneTest {
 
     protected void assertPaymentTransactionObjectCreation(PaymentTransactionCreationResult ptcr) {
         assertThat(ptcr).isNotNull();
-        assertThat(ptcr.getOperationResult()).isEqualTo(OperationResult.SUCCESS);
+
+        assertThat(ptcr.getOperationResult())
+                .withFailMessage("Transaction operation failed!%nMessage: [%s]%nException: [%s]",
+                        ptcr.getMessage(), ptcr.getException())
+                .isEqualTo(OperationResult.SUCCESS);
+
         assertThat(ptcr.getRelatedPaymentObject()).isPresent();
         assertThat(ptcr.getRelatedPaymentObject().get().getTransactions().size()).isGreaterThan(0); // at least one has to be there
     }

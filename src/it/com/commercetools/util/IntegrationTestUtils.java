@@ -9,7 +9,6 @@ import io.sphere.sdk.carts.commands.CartCreateCommand;
 import io.sphere.sdk.carts.commands.CartDeleteCommand;
 import io.sphere.sdk.carts.queries.CartByIdGet;
 import io.sphere.sdk.client.BlockingSphereClient;
-import io.sphere.sdk.client.SphereClient;
 import io.sphere.sdk.client.SphereClientFactory;
 import io.sphere.sdk.models.Address;
 import io.sphere.sdk.models.AddressBuilder;
@@ -33,7 +32,7 @@ public class IntegrationTestUtils {
     /**
      * @return a newly created test sphere client
      */
-    public static SphereClient createClient() {
+    public static BlockingSphereClient createClient() {
         return BlockingSphereClient.of(
                 SphereClientFactory.of().createClient(getClientConfig()),
                 10, TimeUnit.SECONDS);
@@ -47,7 +46,7 @@ public class IntegrationTestUtils {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public static ProductProjection getProduct(SphereClient client) throws ExecutionException, InterruptedException {
+    public static ProductProjection getProduct(BlockingSphereClient client) throws ExecutionException, InterruptedException {
         return getProduct(client, 0l);
     }
 
@@ -60,10 +59,10 @@ public class IntegrationTestUtils {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public static ProductProjection getProduct(SphereClient client, Long offset) throws ExecutionException, InterruptedException {
+    public static ProductProjection getProduct(BlockingSphereClient client, Long offset) throws ExecutionException, InterruptedException {
         ProductProjectionQuery query = ProductProjectionQuery.ofCurrent()
                 .withSort(s -> s.createdAt().sort().desc()).withOffset(offset).withLimit(1);
-        return client.execute(query).toCompletableFuture().get().getResults().get(0);
+        return client.executeBlocking(query).head().orElseThrow(() -> new AssertionError("ProductProjection not found"));
     }
 
     /**
@@ -71,7 +70,7 @@ public class IntegrationTestUtils {
      * @param client the client handling the connection
      * @return the created cart
      */
-    public static Cart createTestCartFromProduct(SphereClient client, Integer productNumber) throws ExecutionException, InterruptedException {
+    public static Cart createTestCartFromProduct(BlockingSphereClient client, Integer productNumber) throws ExecutionException, InterruptedException {
         Address address = AddressBuilder.of(CountryCode.DE).firstName("FN").lastName("LN").streetName("sname").streetNumber("1").postalCode("12345").city("city").build();
 
         List<LineItemDraft> lineItemDrafts = new ArrayList<>();
@@ -88,18 +87,18 @@ public class IntegrationTestUtils {
                 .billingAddress(address).shippingAddress(address)
                 .build();
 
-        return client.execute(CartCreateCommand.of(cartDraft)).toCompletableFuture().get();
+        return client.executeBlocking(CartCreateCommand.of(cartDraft));
     }
 
-    public static void removeCart(SphereClient client, Cart cart) throws ExecutionException, InterruptedException {
+    public static void removeCart(BlockingSphereClient client, Cart cart) throws ExecutionException, InterruptedException {
         if (client != null && cart != null) {
-            Cart toDelete = client.execute(CartByIdGet.of(cart.getId())).toCompletableFuture().get();
+            Cart toDelete = client.executeBlocking(CartByIdGet.of(cart.getId()));
             CartDeleteCommand cartDeleteCommand = CartDeleteCommand.of(toDelete);
-            client.execute(cartDeleteCommand).toCompletableFuture().get();
+            client.executeBlocking(cartDeleteCommand);
         }
     }
 
-    public static Cart updateCart(SphereClient client, Cart cart) throws ExecutionException, InterruptedException {
-        return client.execute(CartByIdGet.of(cart.getId())).toCompletableFuture().get();
+    public static Cart updateCart(BlockingSphereClient client, Cart cart) throws ExecutionException, InterruptedException {
+        return client.executeBlocking(CartByIdGet.of(cart.getId()));
     }
 }

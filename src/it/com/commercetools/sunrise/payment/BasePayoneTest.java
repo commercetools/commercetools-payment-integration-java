@@ -5,7 +5,7 @@ import com.commercetools.sunrise.payment.actions.ShopAction;
 import com.commercetools.sunrise.payment.model.PaymentCreationResult;
 import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
 import io.sphere.sdk.carts.Cart;
-import io.sphere.sdk.client.SphereClient;
+import io.sphere.sdk.client.BlockingSphereClient;
 import io.sphere.sdk.utils.MoneyImpl;
 
 import javax.money.Monetary;
@@ -15,7 +15,7 @@ import static com.commercetools.util.IntegrationTestUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BasePayoneTest {
-    protected SphereClient client;
+    protected BlockingSphereClient client;
     protected Cart cart;
 
     protected void setup(int cartSize) throws ExecutionException, InterruptedException {

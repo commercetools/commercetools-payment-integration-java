@@ -1,6 +1,6 @@
 import sbt.Keys._
 
-lazy val jvmSdkVersion = "1.3.0"
+lazy val jvmSdkVersion = "1.8.0"
 
 /**
  * PROJECT DEFINITIONS

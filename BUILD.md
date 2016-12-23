@@ -10,10 +10,11 @@ Table of content:
   - [Integration tests](#integration-tests)
   - [Publish workflow](#publish-workflow)
     - [Publish to local maven repo](#publish-to-local-maven-repo)
-    - [Publish to Maven Central](#publish-to-maven-central)
+    - [Publish to Maven](#publish-to-maven)
       - [Signing up the app with PGP key](#2-signing-up-the-app-with-pgp-key)
       - [Deploy to OSS Sonatype](#3-deploy-to-oss-sonatype)
       - [Manually release from Sonatype web page to Maven Central](#4-manually-release-from-sonatype-web-page-to-maven-central)
+      - [Publish to repo.ci.cloud.commercetools.de](#5-publish-to-repocicloudcommercetoolsde)
   - [All in one publish script](#all-in-one-publish-script)
   - [Known issues](#known-issues)
   
@@ -58,11 +59,17 @@ This step may be used local tests of SNAPSHOT version:
 sbt clean test it:test publishM2
 ```
 
-## Publish to Maven Central
+## Publish to Maven
 
 ### **Note**: set proper version in `version.sbt` before publishing to central repo.
 
 If you are a new developer in the project - update contributors list in `build.sbt -> commonSettings -> pomExtra`.
+
+The target repo is defined by _nexusHost_ variable in [build.sbt](build.sbt)
+
+If you want to publish just test internal (SNAPSHOT) version - better to publish to 
+http://repo.ci.cloud.commercetools.de/ first ([see the instructions below](#5-publish-to-repo.ci.cloud.commercetools.de)),
+and then if the version is ready to be public released - publish to Maven Central.
 
 Publishing to Maven Central requires the next steps:
 
@@ -71,7 +78,7 @@ Publishing to Maven Central requires the next steps:
  3. [Deploy to OSS Sonatype](#3-deploy-to-oss-sonatype)
  4. [Manually release from Sonatype web page to Maven Central](#4-manually-release-from-sonatype-web-page-to-maven-central)
  
-**Note**: to publish only to Sonatype PGP signing is not required.
+**Note**: to publish only to Sonatype (both OSS or commercetools) PGP signing is not required.
  
 ### 2. Signing up the app with PGP key
 
@@ -87,7 +94,10 @@ http://www.scala-sbt.org/0.12.4/docs/Detailed-Topics/Publishing.html
 
 ### 3. Deploy to OSS Sonatype
 
-Current `sbt` build script expects to find Sonatype login/password in environment variables `$NEXUS_USER`/ `$NEXUS_PASS`. 
+Ensure _nexusHost_ variable in [build.sbt](build.sbt) is "oss.sonatype.org".
+
+Current `sbt` build script expects to find Sonatype login/password in environment variables `$NEXUS_USER`/ `$NEXUS_PASS`.
+Ensure the variables values are adjusted with _nexusHost_ value.
 
 For simple publishing to Sonatype `sbt publish` may be used, but in this case it will not be able to deploy to 
 Maven Central. To publish signed app use `sbt publish-signed`:
@@ -126,6 +136,12 @@ For more details about the release workflow see:
  - http://central.sonatype.org/pages/sbt.html
  - https://www.youtube.com/watch?v=b5D2EBjLp40 and https://www.youtube.com/watch?v=dXR4pJ_zS-0
  
+### 5. Publish to repo.ci.cloud.commercetools.de
+
+Same as steps 1 - 3 above, but ensure _nexusHost_ variable in [build.sbt](build.sbt) is "repo.ci.cloud.commercetools.de" 
+and `$NEXUS_USER`/ `$NEXUS_PASS` values are adjusted with _nexusHost_ value.
+
+Signing in the release is not required, but encouraged.
 
 # All in one publish script
 

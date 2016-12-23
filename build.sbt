@@ -47,6 +47,10 @@ lazy val `nopsp-adapter` = project
  * COMMON SETTINGS
  */
 
+// Note: these hosts use different credentials (NEXUS_USER and NEXUS_PASS env variables)
+val nexusHost = "oss.sonatype.org"
+//val nexusHost = "repo.ci.cloud.commercetools.de"
+
 lazy val commonSettings = Seq (
   // version      := "SNAPSHOT", // use value from version.sbt instead
   organization := "com.commercetools.sunrise.payment",
@@ -86,7 +90,7 @@ lazy val commonSettings = Seq (
   publishArtifact in Test := false,
 
   publishTo := {
-    val nexus = "https://oss.sonatype.org/"
+    val nexus = s"http://$nexusHost/"
     if (version.value.trim.endsWith("SNAPSHOT"))
       Some("snapshots" at nexus + "content/repositories/snapshots")
     else
@@ -94,7 +98,7 @@ lazy val commonSettings = Seq (
   },
 
   // for "publish" task $NEXUS_USER and $NEXUS_PASS environment variables must be set
-  credentials += Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org",
+  credentials += Credentials("Sonatype Nexus Repository Manager", nexusHost,
                               System.getenv("NEXUS_USER"), System.getenv("NEXUS_PASS")),
 
   scalaVersion := "2.11.8",

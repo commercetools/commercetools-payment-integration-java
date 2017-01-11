@@ -31,8 +31,8 @@ public class PayoneBankTransferCreateTransactionMethodProvider extends PayoneCre
                     .handlingTask(HandlingTask.of(ShopAction.REDIRECT).redirectUrl(redirectURL)).build();
         }
         return PaymentTransactionCreationResultBuilder.ofError(
-                "There was no redirect set at the payment object which is required for Paypal ("
+                "There was no redirect set at the payment object which is required for bank transfers ("
                         + updatedPayment.getId()
-                        +"). Check Payone Connector log files!");
+                        +"). Check Payone Connector log files!", null, updatedPayment);
     }
 }

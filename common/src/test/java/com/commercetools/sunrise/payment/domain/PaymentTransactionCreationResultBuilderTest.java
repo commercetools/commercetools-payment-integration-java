@@ -26,7 +26,7 @@ public class PaymentTransactionCreationResultBuilderTest {
     @Test
     public void setNotPaymentOnErrorResults() {
         String message = "A error message";
-        PaymentTransactionCreationResult result = PaymentTransactionCreationResultBuilder.ofError(message, null, null);
+        PaymentTransactionCreationResult result = PaymentTransactionCreationResultBuilder.ofError(message);
         assertThat(result.getMessage().get()).isEqualTo(message);
         assertThat(result.getOperationResult()).isEqualTo(OperationResult.FAILED);
         assertThat(result.getRelatedPaymentObject().isPresent()).isEqualTo(false);

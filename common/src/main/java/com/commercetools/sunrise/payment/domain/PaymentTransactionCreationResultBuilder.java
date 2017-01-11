@@ -24,6 +24,7 @@ public class PaymentTransactionCreationResultBuilder {
 
     /**
      * Create the builder instance.
+     *
      * @param operationResult
      * @return new instance of the builder object
      */
@@ -33,6 +34,10 @@ public class PaymentTransactionCreationResultBuilder {
 
     public static PaymentTransactionCreationResult ofError(String message) {
         return ofError(message, null, null);
+    }
+
+    public static PaymentTransactionCreationResult ofError(String message, Throwable exception) {
+        return ofError(message, exception, null);
     }
 
     public static PaymentTransactionCreationResult ofError(String message, Throwable exception, Payment payment) {
@@ -46,6 +51,7 @@ public class PaymentTransactionCreationResultBuilder {
 
     /**
      * Add a payment object to the result.
+     *
      * @param payment the CTP {@link Payment} object
      * @return enriched self
      */
@@ -56,6 +62,7 @@ public class PaymentTransactionCreationResultBuilder {
 
     /**
      * Add information of the {@link HandlingTask} the shop will recieve.
+     *
      * @param task the handling task describing the next action to be taken
      * @return enriched self
      */

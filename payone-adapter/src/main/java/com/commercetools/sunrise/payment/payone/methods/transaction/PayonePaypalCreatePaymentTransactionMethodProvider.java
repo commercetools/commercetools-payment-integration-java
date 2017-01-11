@@ -32,6 +32,6 @@ public class PayonePaypalCreatePaymentTransactionMethodProvider
         return PaymentTransactionCreationResultBuilder.ofError(
                 "There was no redirect set at the payment object which is required for Paypal ("
                 + updatedPayment.getId()
-                +"). Check Payone Connector log files!");
+                +"). Check Payone Connector log files!", null, updatedPayment);
     }
 }

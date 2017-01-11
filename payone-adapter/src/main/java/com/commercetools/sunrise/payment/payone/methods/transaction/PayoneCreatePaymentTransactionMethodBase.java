@@ -62,7 +62,7 @@ public abstract class PayoneCreatePaymentTransactionMethodBase extends CreatePay
                             "Payone handle call (URL: "
                                     + result.getRequest().getUrl()
                                     + ") failed!",
-                            result.getException().get()));
+                            result.getException().get(),null));
         }
         else if(result.getResponse().get().getStatusCode() != HttpStatusCode.OK_200) {
             return CompletableFuture.supplyAsync(() ->
@@ -87,6 +87,6 @@ public abstract class PayoneCreatePaymentTransactionMethodBase extends CreatePay
     protected abstract PaymentTransactionCreationResult handleSuccessfulServiceCall(Payment updatedPayment);
 
     protected PaymentTransactionCreationResult handleExceptions(Throwable t) {
-        return PaymentTransactionCreationResultBuilder.ofError("An exception occured that could not be handled: ", t);
+        return PaymentTransactionCreationResultBuilder.ofError("An exception occured that could not be handled: ", t, null);
     }
 }

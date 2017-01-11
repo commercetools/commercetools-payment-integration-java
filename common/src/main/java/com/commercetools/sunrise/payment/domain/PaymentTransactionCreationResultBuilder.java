@@ -32,13 +32,13 @@ public class PaymentTransactionCreationResultBuilder {
     }
 
     public static PaymentTransactionCreationResult ofError(String message) {
-        return ofError(message, null);
+        return ofError(message, null, null);
     }
 
-    public static PaymentTransactionCreationResult ofError(String message, Throwable exception) {
+    public static PaymentTransactionCreationResult ofError(String message, Throwable exception, Payment payment) {
         return new PaymentTransactionCreationResultImpl(
                 OperationResult.FAILED,
-                null,
+                payment,
                 HandlingTask.of(ShopAction.HANDLE_ERROR),
                 message,
                 exception);

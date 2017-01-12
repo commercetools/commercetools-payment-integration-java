@@ -7,6 +7,7 @@ import com.commercetools.sunrise.payment.domain.PaymentTransactionCreationResult
 import com.commercetools.sunrise.payment.methods.CreatePaymentTransactionMethod;
 import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
 import io.sphere.sdk.payments.Payment;
+import io.sphere.sdk.payments.PaymentStatus;
 
 import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.REDIRECT_URL;
 
@@ -30,9 +31,11 @@ public class PayoneBankTransferCreateTransactionMethodProvider extends PayoneCre
                     .payment(updatedPayment)
                     .handlingTask(HandlingTask.of(ShopAction.REDIRECT).redirectUrl(redirectURL)).build();
         }
-        return PaymentTransactionCreationResultBuilder.ofError(
-                "There was no redirect set at the payment object which is required for Paypal ("
-                        + updatedPayment.getId()
-                        +"). Check Payone Connector log files!");
+        String errorMessage = "Payment provider redirect URL is not available.";
+        if ( updatedPayment.getPaymentStatus() != null) {
+            PaymentStatus paymentStatus = updatedPayment.getPaymentStatus();
+            errorMessage = errorMessage + String.format("Error code: %s, Error message: %s", paymentStatus.getInterfaceCode(), paymentStatus.getInterfaceText());
+        }
+        return PaymentTransactionCreationResultBuilder.ofError(errorMessage, null, updatedPayment);
     }
 }

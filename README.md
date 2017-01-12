@@ -1,14 +1,17 @@
 Payment
 ==================
 
-[![Build Status](https://travis-ci.org/commercetools/commercetools-sunrise-java-payment.png?branch=master)](https://travis-ci.org/commercetools/commercetools-sunrise-java-payment) [![Stories in Ready](https://badge.waffle.io/commercetools/commercetools-sunrise-java-payment.png?label=ready&title=Ready)](https://waffle.io/commercetools/commercetools-sunrise-java-payment)
+[![Build Status](https://travis-ci.com/commercetools/project-payment.svg?token=xBfuKwz4mtssFw4UENNy&branch=master)](https://travis-ci.com/commercetools/project-payment) 
+[![Stories in Ready](https://badge.waffle.io/commercetools/project-payment.png?label=ready&title=Ready)](https://waffle.io/commercetools/project-payment)
 
 Module for [Sunrise Java](https://github.com/sphereio/commercetools-sunrise-java) with different supported services to handle payment transactions. 
 
-* [Javadoc](https://commercetools.github.io/commercetools-sunrise-java-payment/javadoc/index.html)
+* [Javadoc](https://commercetools.github.io/project-payment/javadoc/index.html)
+
+* [Build and publish workflow](BUILD.md)
 
 ## General Info
-The commerectools-sunrise-java-payment project intend is to make payment integration easy.
+The project-payment project intend is to make payment integration easy.
 
 The checkout process in the shop can follow a standardized process via this module, even if different Payment Service Providers are used.
 `At the moment only PayOne is supported`
@@ -23,9 +26,44 @@ Create **JAR** and run tests:
 `sbt clean package test`
 
 ## Integration into the shop:
-Include the **JAR** files to the classpath of the shop. For the play framework that is done by putting them into the **lib** folder.
-In the future they should be available in a maven repository.
+Take the dependencies from Maven central.
 
+### Maven example
+
+```
+<dependency>
+  <groupId>com.commercetools.sunrise.payment</groupId>
+  <artifactId>payone-adapter</artifactId>
+  <version>0.1</version>
+</dependency>
+<dependency>
+  <groupId>com.commercetools.sunrise.payment</groupId>
+  <artifactId>common</artifactId>
+  <version>0.1</version>
+</dependency>
+```
+
+### SBT example
+
+```
+libraryDependencies ++= Seq(
+  "com.commercetools.sunrise.payment" % "common" % "0.1",
+  "com.commercetools.sunrise.payment" % "payone-adapter" % "0.1",
+)
+```
+
+### Gradle example
+
+```
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+    compile "com.commercetools.sunrise.payment:common:0.1"
+    compile "com.commercetools.sunrise.payment:payone-adapter:0.1"
+}
+```
 
 ### Getting the payment methods 
 Get all payment methods:
@@ -44,7 +82,8 @@ Get filtered payment methods: (Example to get Free and only Free if *TotalPrice*
     final List<PaymentMethodInfo> = paymentAdapterService.findAvailablePaymentMethods(filter);
 
 ### Creating the Payment 
-When the customer selected a payment method that she want to use, then the shop has to call the *createPayment* method with a [CreatePaymentData](https://commercetools.github.io/commercetools-sunrise-java-payment/javadoc/com/commercetools/sunrise/payment/model/CreatePaymentData.html) object as parameter.
+When the customer selected a payment method that she want to use, then the shop has to call the *createPayment* method with a 
+[CreatePaymentData](https://commercetools.github.io/project-payment/javadoc/com/commercetools/sunrise/payment/model/CreatePaymentData.html) object as parameter.
 
 Different payment methods require different additional values (i.e. successUrl etc.)
 

@@ -1,0 +1,1 @@
+version in ThisBuild := "0.2-SNAPSHOT" // make it without SNAPSHOT when you make 0.2 release to maven repo

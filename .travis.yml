@@ -1,4 +1,4 @@
-sudo: false
+sudo: required
 cache:
   directories:
     - "$HOME/.ivy2/cache"
@@ -6,18 +6,26 @@ cache:
 
 language: scala
 scala:
-- 2.11.8
+  - 2.11.8
+
+before_script:
+# install heroku stand alone cli to restart ct-payone-integration-test app
+# this script requires sudo
+  - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 
 script:
-- "sbt test it:test unidoc"
-- if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then sbt
-  "gitPublish target/javaunidoc https://$GH_TOKEN:x-oauth-basic@github.com/$TRAVIS_REPO_SLUG.git
-  javadoc sphere-oss automation@commercetools.de"; fi\
+  - /usr/local/heroku/bin/heroku restart --app ct-payone-integration-test # requires HEROKU_API_KEY env variable
+  - set -e
+  - sbt test it:test unidoc
+  - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then sbt
+    "gitPublish target/javaunidoc https://$GH_TOKEN:x-oauth-basic@github.com/$TRAVIS_REPO_SLUG.git
+    javadoc sphere-oss automation@commercetools.de" &&
+    echo "Published documentation to https://commercetools.github.io/project-payment/javadoc/"; fi\
 
 jdk:
-- oraclejdk8
+  - oraclejdk8
 
 notifications:
   email:
-    on_success: never
+    on_success: change
     on_failure: change

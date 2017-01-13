@@ -22,9 +22,9 @@ public class PayoneBanktransferInAdvancePaymentTransactionMethodProvider
 
     @Override
     protected PaymentTransactionCreationResult handleSuccessfulServiceCall(Payment updatedPayment) {
-        final String payToIBAN = updatedPayment.getCustom().getFieldAsString(PAID_TO_IBAN);
-        final String payToBIC = updatedPayment.getCustom().getFieldAsString(PAID_TO_BIC);
-        final String payToName = updatedPayment.getCustom().getFieldAsString(PAID_TO_NAME);
+        final String payToIBAN =  updatedPayment.getCustom() != null ?updatedPayment.getCustom().getFieldAsString(PAID_TO_IBAN):null;
+        final String payToBIC =  updatedPayment.getCustom() != null ?updatedPayment.getCustom().getFieldAsString(PAID_TO_BIC):null;
+        final String payToName = updatedPayment.getCustom() != null ? updatedPayment.getCustom().getFieldAsString(PAID_TO_NAME):null;
         if (null != payToIBAN && null != payToBIC && null != payToName) {
             return PaymentTransactionCreationResultBuilder.of(OperationResult.SUCCESS).payment(updatedPayment)
                     .handlingTask(HandlingTask.of(ShopAction.CONTINUE)

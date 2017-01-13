@@ -22,7 +22,7 @@ public class PayoneCreditCardCreatePaymentTransactionMethodProvider extends Payo
     @Override
     protected PaymentTransactionCreationResult handleSuccessfulServiceCall(Payment updatedPayment) {
         // check for a redirect URL as this leads us to 3D secure
-        String redirectURL = updatedPayment.getCustom().getFieldAsString(REDIRECT_URL);
+        String redirectURL = updatedPayment.getCustom() != null ? updatedPayment.getCustom().getFieldAsString(REDIRECT_URL) : null;
         if (null != redirectURL) {
             return PaymentTransactionCreationResultBuilder.of(OperationResult.SUCCESS)
                     .payment(updatedPayment)

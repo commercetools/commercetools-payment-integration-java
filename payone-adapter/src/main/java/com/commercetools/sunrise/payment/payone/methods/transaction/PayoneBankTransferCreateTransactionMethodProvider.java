@@ -25,7 +25,7 @@ public class PayoneBankTransferCreateTransactionMethodProvider extends PayoneCre
 
     @Override
     protected PaymentTransactionCreationResult handleSuccessfulServiceCall(Payment updatedPayment) {
-        String redirectURL = updatedPayment.getCustom().getFieldAsString(REDIRECT_URL);
+        String redirectURL =  updatedPayment.getCustom() != null ?updatedPayment.getCustom().getFieldAsString(REDIRECT_URL):null;
         if (null != redirectURL) {
             return PaymentTransactionCreationResultBuilder.of(OperationResult.SUCCESS)
                     .payment(updatedPayment)

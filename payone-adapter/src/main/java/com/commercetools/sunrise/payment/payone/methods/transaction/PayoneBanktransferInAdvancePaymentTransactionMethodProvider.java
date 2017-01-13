@@ -22,9 +22,10 @@ public class PayoneBanktransferInAdvancePaymentTransactionMethodProvider
 
     @Override
     protected PaymentTransactionCreationResult handleSuccessfulServiceCall(Payment updatedPayment) {
-        final String payToIBAN = updatedPayment.getCustom().getFieldAsString(PAID_TO_IBAN);
-        final String payToBIC = updatedPayment.getCustom().getFieldAsString(PAID_TO_BIC);
-        final String payToName = updatedPayment.getCustom().getFieldAsString(PAID_TO_NAME);
+        final String payToIBAN = getCustomFieldStringIfExists(updatedPayment, PAID_TO_IBAN);
+        final String payToBIC = getCustomFieldStringIfExists(updatedPayment, PAID_TO_BIC);
+        final String payToName = getCustomFieldStringIfExists(updatedPayment, PAID_TO_NAME);
+
         if (null != payToIBAN && null != payToBIC && null != payToName) {
             return PaymentTransactionCreationResultBuilder.of(OperationResult.SUCCESS).payment(updatedPayment)
                     .handlingTask(HandlingTask.of(ShopAction.CONTINUE)
@@ -33,8 +34,9 @@ public class PayoneBanktransferInAdvancePaymentTransactionMethodProvider
                             .addData(PAID_TO_NAME, payToName))
                     .build();
         }
-        return PaymentTransactionCreationResultBuilder
-                .ofError("There was no bank account data set at the payment object which is required for prepaiment ("
-                        + updatedPayment.getId() + "). Check Payone Connector log files!");
+
+        String errorMessage = "No bank account data available.";
+        return handleError(errorMessage, updatedPayment);
     }
+
 }

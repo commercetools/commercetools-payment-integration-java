@@ -23,7 +23,7 @@ public class PayonePaypalCreatePaymentTransactionMethodProvider
 
     @Override
     protected PaymentTransactionCreationResult handleSuccessfulServiceCall(Payment updatedPayment) {
-        String redirectURL = updatedPayment.getCustom() != null ? updatedPayment.getCustom().getFieldAsString(REDIRECT_URL) : null;
+        String redirectURL = getCustomFieldStringIfExists(updatedPayment, REDIRECT_URL);
         if (null != redirectURL) {
             return PaymentTransactionCreationResultBuilder.of(OperationResult.SUCCESS)
                     .payment(updatedPayment)

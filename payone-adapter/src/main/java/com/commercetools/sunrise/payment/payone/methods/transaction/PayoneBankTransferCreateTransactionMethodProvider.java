@@ -7,7 +7,6 @@ import com.commercetools.sunrise.payment.domain.PaymentTransactionCreationResult
 import com.commercetools.sunrise.payment.methods.CreatePaymentTransactionMethod;
 import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
 import io.sphere.sdk.payments.Payment;
-import io.sphere.sdk.payments.PaymentStatus;
 
 import static com.commercetools.sunrise.payment.payone.config.PayoneConfigurationNames.REDIRECT_URL;
 
@@ -25,7 +24,7 @@ public class PayoneBankTransferCreateTransactionMethodProvider extends PayoneCre
 
     @Override
     protected PaymentTransactionCreationResult handleSuccessfulServiceCall(Payment updatedPayment) {
-        String redirectURL =  updatedPayment.getCustom() != null ?updatedPayment.getCustom().getFieldAsString(REDIRECT_URL):null;
+        String redirectURL = getCustomFieldStringIfExists(updatedPayment, REDIRECT_URL);
         if (null != redirectURL) {
             return PaymentTransactionCreationResultBuilder.of(OperationResult.SUCCESS)
                     .payment(updatedPayment)

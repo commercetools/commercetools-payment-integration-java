@@ -8,9 +8,12 @@ import io.sphere.sdk.payments.TransactionDraftBuilder;
 import io.sphere.sdk.payments.TransactionType;
 import io.sphere.sdk.payments.commands.PaymentUpdateCommand;
 import io.sphere.sdk.payments.commands.updateactions.AddTransaction;
+import io.sphere.sdk.types.Custom;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 /**
@@ -54,5 +57,13 @@ public abstract class CreatePaymentTransactionMethodBase implements CreatePaymen
         return TransactionDraftBuilder.of(
                 data.getTransactionType().orElse(defaultType),
                 data.getPayment().getAmountPlanned());
+    }
+
+    @Nullable
+    protected static String getCustomFieldStringIfExists(@Nullable Custom custom, @Nullable String fieldName) {
+        return Optional.ofNullable(custom)
+                .map(Custom::getCustom)
+                .map(customFields -> customFields.getFieldAsString(fieldName))
+                .orElse(null);
     }
 }

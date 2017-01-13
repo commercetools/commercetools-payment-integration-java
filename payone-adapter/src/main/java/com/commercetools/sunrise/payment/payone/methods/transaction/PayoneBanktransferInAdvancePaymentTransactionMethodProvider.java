@@ -33,8 +33,8 @@ public class PayoneBanktransferInAdvancePaymentTransactionMethodProvider
                             .addData(PAID_TO_NAME, payToName))
                     .build();
         }
-        return PaymentTransactionCreationResultBuilder
-                .ofError("There was no bank account data set at the payment object which is required for prepaiment ("
-                        + updatedPayment.getId() + "). Check Payone Connector log files!");
+        String errorMessage = "No bank account data available.";
+        return handleError(errorMessage, updatedPayment);
+
     }
 }

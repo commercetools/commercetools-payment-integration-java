@@ -32,10 +32,6 @@ public class PayoneBankTransferCreateTransactionMethodProvider extends PayoneCre
                     .handlingTask(HandlingTask.of(ShopAction.REDIRECT).redirectUrl(redirectURL)).build();
         }
         String errorMessage = "Payment provider redirect URL is not available.";
-        if ( updatedPayment.getPaymentStatus() != null) {
-            PaymentStatus paymentStatus = updatedPayment.getPaymentStatus();
-            errorMessage = errorMessage + String.format("Error code: %s, Error message: %s", paymentStatus.getInterfaceCode(), paymentStatus.getInterfaceText());
-        }
-        return PaymentTransactionCreationResultBuilder.ofError(errorMessage, null, updatedPayment);
+        return handleError(errorMessage, updatedPayment);
     }
 }

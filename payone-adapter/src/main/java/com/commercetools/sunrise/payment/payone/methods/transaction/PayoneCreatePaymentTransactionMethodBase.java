@@ -8,8 +8,10 @@ import com.commercetools.sunrise.payment.model.PaymentTransactionCreationResult;
 import com.commercetools.sunrise.payment.payone.config.PayoneConfigurationProvider;
 import com.commercetools.sunrise.payment.utils.PaymentConnectorHelper;
 import com.commercetools.sunrise.payment.utils.PaymentLookupHelper;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ErrorMessages;
 import io.sphere.sdk.http.HttpStatusCode;
 import io.sphere.sdk.payments.Payment;
+import io.sphere.sdk.payments.PaymentStatus;
 import io.sphere.sdk.payments.TransactionType;
 
 import java.util.concurrent.CompletableFuture;
@@ -79,6 +81,13 @@ public abstract class PayoneCreatePaymentTransactionMethodBase extends CreatePay
                 });
     }
 
+    protected PaymentTransactionCreationResult handleError(String errorMessage,Payment payment ) {
+        if (payment!=null && payment.getPaymentStatus() != null) {
+            PaymentStatus paymentStatus = payment.getPaymentStatus();
+            errorMessage = errorMessage + String.format("Error code: %s, Error message: %s", paymentStatus.getInterfaceCode(), paymentStatus.getInterfaceText());
+        }
+        return PaymentTransactionCreationResultBuilder.ofError(errorMessage, null, payment);
+    }
     /**
      * Will be called after the Payone services handle URL request has finished successfully.
      * @param updatedPayment the refreshed payment object

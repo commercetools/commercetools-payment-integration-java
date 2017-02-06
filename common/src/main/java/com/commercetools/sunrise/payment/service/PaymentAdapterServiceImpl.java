@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 
 /**
  * Provides access to the payment service provider handling methods.
- *
+ * <p>
  * Created by mgatz on 7/18/16.
  */
 public class PaymentAdapterServiceImpl implements PaymentAdapterService {
 
-    private ServiceLoader<PaymentServiceProvider> pspLoader;
     private final List<PaymentServiceProvider> paymentServiceProviders;
+    private ServiceLoader<PaymentServiceProvider> pspLoader;
 
     public PaymentAdapterServiceImpl() {
         pspLoader = ServiceLoader.load(PaymentServiceProvider.class, PaymentAdapterServiceImpl.class.getClassLoader());
@@ -85,6 +85,6 @@ public class PaymentAdapterServiceImpl implements PaymentAdapterService {
     // TODO: what if no PSP is found?
     private PaymentServiceProvider findPaymentServiceProvider(String paymentInterfaceId) {
         return findAllPaymentServiceProviders().stream()
-                    .filter(psp -> psp.getId().equals(paymentInterfaceId)).findFirst().get();
+                .filter(psp -> psp.getId().equals(paymentInterfaceId)).findFirst().get();
     }
 }

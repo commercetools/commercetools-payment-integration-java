@@ -22,26 +22,17 @@ import java.util.stream.Collectors;
 public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
 
     /**
-     * Method to remove all payments from the cart and then attaching a new created one.
+     * Method to To add a new payment to the Cart
      * @param cpd contains the data for the new payment
      * @return the newly created Payment object
      */
-    protected CompletionStage<Payment> removePaymentsAndCreateNew(final CreatePaymentData cpd) {
+    protected CompletionStage<Payment> addNewPayment(final CreatePaymentData cpd) {
         final Cart cart = cpd.getCart();
-        final List<UpdateAction<Cart>> changeCartPaymentInfo = new ArrayList<>();
-
-
-        if (cart.getPaymentInfo() != null) {
-            changeCartPaymentInfo.addAll(cart.getPaymentInfo().getPayments().stream()
-                    .map(RemovePayment::of)
-                    .collect(Collectors.toList()));
-        }
 
         final Command<Payment> createPaymentCommand = PaymentCreateCommand.of(createPaymentDraft(cpd).build());
         return cpd.getSphereClient().execute(createPaymentCommand)
                 .thenCompose(p -> {
-                    changeCartPaymentInfo.add(AddPayment.of(p));
-                    return cpd.getSphereClient().execute(CartUpdateCommand.of(cpd.getCart(), changeCartPaymentInfo))
+                    return cpd.getSphereClient().execute(CartUpdateCommand.of(cpd.getCart(),AddPayment.of(p) ))
                             .thenApplyAsync(c -> p);
                 });
     }

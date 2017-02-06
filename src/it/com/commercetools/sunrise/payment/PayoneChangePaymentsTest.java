@@ -78,6 +78,9 @@ public class PayoneChangePaymentsTest extends BasePayoneTest {
 
         cart = updateCart(client, cart);
 
-        assertThat(cart.getPaymentInfo().getPayments()).hasSize(1);
+        assertThat(cart.getPaymentInfo().getPayments()).hasSize(3);
+        assertThat(cart.getPaymentInfo().getPayments().get(0).getObj().getPaymentMethodInfo().getMethod()).isEqualTo("WALLET-PAYPAL");
+        assertThat(cart.getPaymentInfo().getPayments().get(1).getObj().getPaymentMethodInfo().getMethod()).isEqualTo("BANK_TRANSFER-ADVANCE");
+        assertThat(cart.getPaymentInfo().getPayments().get(2).getObj().getPaymentMethodInfo().getMethod()).isEqualTo("CREDIT_CARD");
     }
 }

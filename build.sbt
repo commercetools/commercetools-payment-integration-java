@@ -48,7 +48,7 @@ lazy val `nopsp-adapter` = project
  */
 
 // Note: these hosts use different credentials (NEXUS_USER and NEXUS_PASS env variables)
-val nexusHost = "oss.sonatype.org"
+val nexusHost = "repo.ci.cloud.commercetools.de"
 //val nexusHost = "repo.ci.cloud.commercetools.de"
 
 lazy val commonSettings = Seq (
@@ -81,6 +81,11 @@ lazy val commonSettings = Seq (
         <id>andrii-kovalenko-ct</id>
         <name>Andrii Kovalenko</name>
         <url>https://github.com/andrii-kovalenko-ct</url>
+      </developer>
+      <developer>
+        <id>ahalberkamp</id>
+        <name>Andreas Halberkamp</name>
+        <url>https://github.com/ahalberkamp</url>
       </developer>
     </developers>,
 

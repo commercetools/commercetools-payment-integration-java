@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 /**
  * Provides access to the payment service provider handling methods.
- * <p>
+ *
  * Created by mgatz on 7/18/16.
  */
 public class PaymentAdapterServiceImpl implements PaymentAdapterService {

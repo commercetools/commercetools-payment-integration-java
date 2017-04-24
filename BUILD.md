@@ -97,7 +97,7 @@ http://www.scala-sbt.org/0.12.4/docs/Detailed-Topics/Publishing.html
 Ensure _nexusHost_ variable in [build.sbt](build.sbt) is "oss.sonatype.org".
 
 Current `sbt` build script expects to find Sonatype login/password in environment variables `$NEXUS_USER`/ `$NEXUS_PASS`.
-Ensure the variables values are adjusted with _nexusHost_ value.
+Ensure the variables values are adjusted with _nexusHost_ value. Please ask OPS to get the credentials for these enviroment variables.
 
 For simple publishing to Sonatype `sbt publish` may be used, but in this case it will not be able to deploy to 
 Maven Central. To publish signed app use `sbt publish-signed`:

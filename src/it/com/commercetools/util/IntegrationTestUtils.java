@@ -41,6 +41,7 @@ public class IntegrationTestUtils {
     /**
      * Returns the first product found inside the client connected project.
      * Executes blocking.
+     *
      * @param client the client handling the connection
      * @return the product projection
      * @throws ExecutionException
@@ -53,6 +54,7 @@ public class IntegrationTestUtils {
     /**
      * Returns the product found inside the client connected project with the passed offset.
      * Executes blocking.
+     *
      * @param client the client handling the connection
      * @param offset the offset used to get another product
      * @return the product projection
@@ -67,6 +69,7 @@ public class IntegrationTestUtils {
 
     /**
      * Creates a new cart and adds the passed product as a new line item using a random quantiy between 1 and 10.
+     *
      * @param client the client handling the connection
      * @return the created cart
      */
@@ -99,6 +102,8 @@ public class IntegrationTestUtils {
     }
 
     public static Cart updateCart(BlockingSphereClient client, Cart cart) throws ExecutionException, InterruptedException {
-        return client.executeBlocking(CartByIdGet.of(cart.getId()));
+        CartByIdGet cartGet = CartByIdGet.of(cart.getId());
+        cartGet = cartGet.plusExpansionPaths(m -> m.paymentInfo().payments());
+        return client.executeBlocking(cartGet);
     }
 }

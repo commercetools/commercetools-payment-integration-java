@@ -52,7 +52,6 @@ val nexusHost = "oss.sonatype.org"
 //val nexusHost = "repo.ci.cloud.commercetools.de"
 
 lazy val commonSettings = Seq (
-  // version      := "SNAPSHOT", // use value from version.sbt instead
   organization := "com.commercetools.payment", // maven groupId
   organizationName := "commercetools GmbH",
   organizationHomepage := Some(url("https://commercetools.com/")),

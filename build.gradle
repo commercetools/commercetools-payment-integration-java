@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.netflix.nebula:gradle-aggregate-javadocs-plugin:2.2.+'
+    }
+}
+
 allprojects {
     repositories {
         jcenter()
@@ -48,8 +58,6 @@ project(':common') {
 project(':nopsp-adapter') {
     description "Simple mock payment implementation (\"free-to-pay\") for $rootProject.name"
 
-    evaluationDependsOn(':common')
-
     dependencies {
         compile project(':common')
     }
@@ -57,7 +65,6 @@ project(':nopsp-adapter') {
 
 project(':payone-adapter') {
     description "Implementation of Payone PSP specific methods and transactions."
-    evaluationDependsOn(':common')
 
     dependencies {
         compile project(':common')
@@ -68,14 +75,16 @@ project(':') {
 
     description "Unit and Integration tests to verify $rootProject.name build"
 
-    evaluationDependsOn(':common')
+    // aggregate all javadocs to project.buildDir/docs/javadoc
+    // see https://github.com/nebula-plugins/gradle-aggregate-javadocs-plugin
+    apply plugin: 'nebula-aggregate-javadocs'
+
+    // Integration tests configuration
+    // TODO: carry out to a separate sub-project or task
 
     dependencies {
         compile project(':common'), project(':nopsp-adapter'), project(':payone-adapter')
     }
-
-    // Integration tests configuration
-    // TODO: carry out to a separate sub-project or task
 
     // run the integration tests after all other subtasks
     configure(subprojects) {
@@ -107,4 +116,3 @@ project(':') {
     check.dependsOn integrationTest
     integrationTest.mustRunAfter test
 }
-

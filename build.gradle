@@ -1,0 +1,56 @@
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    group = 'com.commercetools.payment'
+    version = '0.6.1-SNAPSHOT'
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    def jvmSdkVersion = '1.8.0' // 1.16.0
+
+    dependencies {
+        compile "com.commercetools.sdk.jvm.core:commercetools-models:$jvmSdkVersion"
+        compile "com.commercetools.sdk.jvm.core:commercetools-java-client:$jvmSdkVersion"
+
+        compileOnly 'com.google.code.findbugs:jsr305:3.0.0' // 3.0.2
+
+        testCompile 'junit:junit:4.12'
+        testCompile "org.assertj:assertj-core:3.4.1" // 3.6.2
+        compile 'org.mockito:mockito-core:1.9.5' // 2.7.22
+
+        // TODO gradle migration: looks like these dependencies are not used any more
+        //compile 'commons-codec:commons-codec:1.4' // 1.10
+        //testCompile "com.novocode:junit-interface:0.11"
+    }
+}
+
+project(':common') {
+
+}
+
+project(':nopsp-adapter') {
+    evaluationDependsOn(':common')
+
+    dependencies {
+        compile project(':common')
+    }
+}
+
+project(':payone-adapter') {
+    evaluationDependsOn(':common')
+
+    dependencies {
+        compile project(':common')
+    }
+}
+
+
+

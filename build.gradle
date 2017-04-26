@@ -5,6 +5,7 @@ buildscript {
 
     dependencies {
         classpath 'com.netflix.nebula:gradle-aggregate-javadocs-plugin:2.2.+'
+        classpath 'org.ajoberstar:gradle-git-publish:0.2.1'
     }
 }
 
@@ -78,6 +79,7 @@ project(':') {
     // aggregate all javadocs to project.buildDir/docs/javadoc
     // see https://github.com/nebula-plugins/gradle-aggregate-javadocs-plugin
     apply plugin: 'nebula-aggregate-javadocs'
+    apply plugin: 'org.ajoberstar.git-publish'
 
     // Integration tests configuration
     // TODO: carry out to a separate sub-project or task
@@ -115,4 +117,22 @@ project(':') {
 
     check.dependsOn integrationTest
     integrationTest.mustRunAfter test
+
+    // publish aggregated javadoc to the repo, https://github.com/ajoberstar/gradle-git-publish
+    gitPublish {
+        // NOTE: $GRGIT_USER environment variable must be set to actual github token
+        // see http://ajoberstar.org/grgit/docs/groovydoc/index.html?org/ajoberstar/grgit/auth/AuthConfig.html
+        // https://github.com/ajoberstar/grgit#usage
+
+        repoUri = 'https://github.com/commercetools/project-payment.git'
+        branch = 'gh-pages'
+
+        contents {
+            from(javadoc) {
+                into 'javadoc'
+            }
+        }
+
+        commitMessage = "Publishing a new java doc for $version"
+    }
 }

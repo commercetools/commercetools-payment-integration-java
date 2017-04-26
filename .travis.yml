@@ -16,11 +16,12 @@ before_script:
 script:
   - /usr/local/heroku/bin/heroku restart --app ct-payone-integration-test # requires HEROKU_API_KEY env variable
   - set -e
-  - sbt test it:test unidoc
-  - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
-    sbt "gitPublish target/javaunidoc https://$GH_TOKEN:x-oauth-basic@github.com/$TRAVIS_REPO_SLUG.git javadoc sphere-oss automation@commercetools.de" &&
-    echo "Published documentation to https://commercetools.github.io/project-payment/javadoc/";
-    fi
+  #- sbt test it:test unidoc
+  #- if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
+  #  sbt "gitPublish target/javaunidoc https://$GH_TOKEN:x-oauth-basic@github.com/$TRAVIS_REPO_SLUG.git javadoc sphere-oss automation@commercetools.de" &&
+  #  echo "Published documentation to https://commercetools.github.io/project-payment/javadoc/";
+  #  fi
+  - gradle build aggregateJavadocs gitPublishPush
 
 jdk:
   - oraclejdk8

@@ -1,4 +1,4 @@
-import sbt.Keys._
+
 
 lazy val jvmSdkVersion = "1.8.0"
 
@@ -6,7 +6,7 @@ lazy val jvmSdkVersion = "1.8.0"
  * PROJECT DEFINITIONS
  */
 
-lazy val `commercetools-sunrise-payment` = (project in file("."))
+lazy val `commercetools-payment-integration-java` = (project in file("."))
   .configs(IntegrationTest)
   .aggregate(`common`, `payone-adapter`, `nopsp-adapter`)
   .settings(javaUnidocSettings ++ commonSettings ++ commonTestSettings : _*)
@@ -52,8 +52,7 @@ val nexusHost = "oss.sonatype.org"
 //val nexusHost = "repo.ci.cloud.commercetools.de"
 
 lazy val commonSettings = Seq (
-  // version      := "SNAPSHOT", // use value from version.sbt instead
-  organization := "com.commercetools.sunrise.payment",
+  organization := "com.commercetools.payment", // maven groupId
   organizationName := "commercetools GmbH",
   organizationHomepage := Some(url("https://commercetools.com/")),
   description := "The commercetools java payment project intend is to make payment integration easy",

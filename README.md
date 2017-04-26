@@ -4,7 +4,8 @@ Payment
 [![Build Status](https://travis-ci.com/commercetools/project-payment.svg?token=xBfuKwz4mtssFw4UENNy&branch=master)](https://travis-ci.com/commercetools/project-payment) 
 [![Stories in Ready](https://badge.waffle.io/commercetools/project-payment.png?label=ready&title=Ready)](https://waffle.io/commercetools/project-payment)
 
-Module for [Sunrise Java](https://github.com/sphereio/commercetools-sunrise-java) with different supported services to handle payment transactions. 
+Java modules to create and handle payments and payment transactions in different _payment integration services (providers)_, 
+like [`commercetools Payone Integration Service`](https://github.com/commercetools/commercetools-payone-integration). 
 
 * [Javadoc](https://commercetools.github.io/project-payment/javadoc/index.html)
 
@@ -32,14 +33,14 @@ Take the dependencies from Maven central.
 
 ```
 <dependency>
-  <groupId>com.commercetools.sunrise.payment</groupId>
-  <artifactId>payone-adapter</artifactId>
-  <version>0.1</version>
+  <groupId>com.commercetools.payment</groupId>
+  <artifactId>commercetools-payment-integration-java</artifactId>
+  <version>0.5</version>
 </dependency>
 <dependency>
-  <groupId>com.commercetools.sunrise.payment</groupId>
+  <groupId>com.commercetools.payment</groupId>
   <artifactId>common</artifactId>
-  <version>0.1</version>
+  <version>0.5</version>
 </dependency>
 ```
 
@@ -47,8 +48,8 @@ Take the dependencies from Maven central.
 
 ```
 libraryDependencies ++= Seq(
-  "com.commercetools.sunrise.payment" % "common" % "0.1",
-  "com.commercetools.sunrise.payment" % "payone-adapter" % "0.1",
+  "com.commercetools.payment" % "commercetools-payment-integration-java" % "0.1",
+  "com.commercetools.payment" % "common" % "0.1",
 )
 ```
 
@@ -60,8 +61,8 @@ repositories {
 }
 
 dependencies {
-    compile "com.commercetools.sunrise.payment:common:0.1"
-    compile "com.commercetools.sunrise.payment:payone-adapter:0.1"
+    compile "com.commercetools.payment:commercetools-payment-integration-java:0.1"
+    compile "com.commercetools.payment:common:0.1"
 }
 ```
 
@@ -83,7 +84,7 @@ Get filtered payment methods: (Example to get Free and only Free if *TotalPrice*
 
 ### Creating the Payment 
 When the customer selected a payment method that she want to use, then the shop has to call the *createPayment* method with a 
-[CreatePaymentData](https://commercetools.github.io/project-payment/javadoc/com/commercetools/sunrise/payment/model/CreatePaymentData.html) object as parameter.
+[CreatePaymentData](https://commercetools.github.io/project-payment/javadoc/com/commercetools/payment/model/CreatePaymentData.html) object as parameter.
 
 Different payment methods require different additional values (i.e. successUrl etc.)
 

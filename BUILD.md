@@ -127,7 +127,7 @@ in the Maven Repo.
 
 As soon as artifacts are synced you will be able to find them in the Maven Central repo and mirrors:
 
-https://repo1.maven.org/maven2/com/commercetools/sunrise/payment/
+https://repo1.maven.org/maven2/com/commercetools/payment/
 
 For more details about the release workflow see:
 

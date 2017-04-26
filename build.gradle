@@ -112,7 +112,7 @@ project(':') {
     task integrationTest(type: Test) {
         testClassesDir = sourceSets.integrationTest.output.classesDir
         classpath = sourceSets.integrationTest.runtimeClasspath
-        //outputs.upToDateWhen { false }
+        //outputs.upToDateWhen { false } // uncommect this section if you want re-run the tests every build, even when no changes have been done
     }
 
     check.dependsOn integrationTest

@@ -7,15 +7,17 @@ allprojects {
     group = 'com.commercetools.payment'
     version = '0.6.1-SNAPSHOT'
     description "The commercetools java payment project intend is to make payment integration easy"
-}
 
-subprojects {
     apply plugin: 'java'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
     def jvmSdkVersion = '1.8.0' // 1.16.0
+
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    }
 
     dependencies {
         compile "com.commercetools.sdk.jvm.core:commercetools-models:$jvmSdkVersion"
@@ -26,11 +28,17 @@ subprojects {
         testCompile 'junit:junit:4.12'
         testCompile "org.assertj:assertj-core:3.4.1" // 3.6.2
         testCompile 'org.mockito:mockito-core:1.9.5' // 2.7.22
+        testCompile 'org.slf4j:slf4j-simple:1.7.25'
 
         // TODO gradle migration: looks like these dependencies are not used any more
         //compile 'commons-codec:commons-codec:1.4' // 1.10
         //testCompile "com.novocode:junit-interface:0.11"
     }
+
+}
+
+subprojects {
+
 }
 
 project(':common') {
@@ -56,5 +64,47 @@ project(':payone-adapter') {
     }
 }
 
+project(':') {
 
+    description "Unit and Integration tests to verify $rootProject.name build"
+
+    evaluationDependsOn(':common')
+
+    dependencies {
+        compile project(':common'), project(':nopsp-adapter'), project(':payone-adapter')
+    }
+
+    // Integration tests configuration
+    // TODO: carry out to a separate sub-project or task
+
+    // run the integration tests after all other subtasks
+    configure(subprojects) {
+        rootProject.compileJava.mustRunAfter.add(it.build)
+    }
+
+    sourceSets {
+        integrationTest {
+            java {
+                //compileClasspath += main.output + test.output
+                //runtimeClasspath += main.output + test.output
+                srcDir file('src/it/') // TODO: move to src/it/java, or even better to integration-test/src/it/java
+            }
+            resources.srcDir file('src/it/resources')
+        }
+    }
+
+    configurations {
+        integrationTestCompile.extendsFrom testCompile
+        integrationTestRuntime.extendsFrom testRuntime
+    }
+
+    task integrationTest(type: Test) {
+        testClassesDir = sourceSets.integrationTest.output.classesDir
+        classpath = sourceSets.integrationTest.runtimeClasspath
+        //outputs.upToDateWhen { false }
+    }
+
+    check.dependsOn integrationTest
+    integrationTest.mustRunAfter test
+}
 

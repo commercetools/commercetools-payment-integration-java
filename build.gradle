@@ -9,6 +9,13 @@ buildscript {
     }
 }
 
+def depVersions = [
+        commercetoolsSdkJvm: '1.8.0', // 1.16.0
+        assertJ: '3.4.1', // 3.6.2
+        mockito: '1.9.5', // 2.7.22'
+        junit: '4.12'
+]
+
 allprojects {
     repositories {
         jcenter()
@@ -29,23 +36,6 @@ allprojects {
     tasks.withType(JavaCompile) {
         options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
     }
-
-    dependencies {
-        compile "com.commercetools.sdk.jvm.core:commercetools-models:$jvmSdkVersion"
-        compile "com.commercetools.sdk.jvm.core:commercetools-java-client:$jvmSdkVersion"
-
-        compileOnly 'com.google.code.findbugs:jsr305:3.0.0' // 3.0.2
-
-        testCompile 'junit:junit:4.12'
-        testCompile "org.assertj:assertj-core:3.4.1" // 3.6.2
-        testCompile 'org.mockito:mockito-core:1.9.5' // 2.7.22
-        testCompile 'org.slf4j:slf4j-simple:1.7.25'
-
-        // TODO gradle migration: looks like these dependencies are not used any more
-        //compile 'commons-codec:commons-codec:1.4' // 1.10
-        //testCompile "com.novocode:junit-interface:0.11"
-    }
-
 }
 
 subprojects {
@@ -71,6 +61,15 @@ subprojects {
 
 project(':common') {
     description "Common API interfaces and methods for $rootProject.name"
+
+    dependencies {
+        compile "com.commercetools.sdk.jvm.core:commercetools-models:$depVersions.commercetoolsSdkJvm"
+        compile "com.commercetools.sdk.jvm.core:commercetools-java-client:$depVersions.commercetoolsSdkJvm"
+
+        testCompile "junit:junit:$depVersions.junit"
+        testCompile "org.assertj:assertj-core:$depVersions.assertJ"
+        testCompile "org.mockito:mockito-core:$depVersions.mockito"
+    }
 }
 
 project(':nopsp-adapter') {
@@ -86,6 +85,10 @@ project(':payone-adapter') {
 
     dependencies {
         compile project(':common')
+
+        testCompile "junit:junit:$depVersions.junit"
+        testCompile "org.assertj:assertj-core:$depVersions.assertJ"
+        testCompile "org.mockito:mockito-core:$depVersions.mockito"
     }
 }
 
@@ -103,6 +106,9 @@ project(':') {
 
     dependencies {
         compile project(':common'), project(':nopsp-adapter'), project(':payone-adapter')
+
+        testCompile "junit:junit:$depVersions.junit"
+        testCompile "org.assertj:assertj-core:$depVersions.assertJ"
     }
 
     // run the integration tests after all other subtasks

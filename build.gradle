@@ -57,6 +57,8 @@ subprojects {
         archives sourcesJar
         archives javadocJar
     }
+
+    install.dependsOn build
 }
 
 project(':common') {

@@ -21,7 +21,7 @@ script:
   #  sbt "gitPublish target/javaunidoc https://$GH_TOKEN:x-oauth-basic@github.com/$TRAVIS_REPO_SLUG.git javadoc sphere-oss automation@commercetools.de" &&
   #  echo "Published documentation to https://commercetools.github.io/project-payment/javadoc/";
   #  fi
-  - ./gradlew --info build aggregateJavadocs gitPublishPush
+  - ./gradlew --no-daemon --info build aggregateJavadocs gitPublishPush
 
 jdk:
   - oraclejdk8

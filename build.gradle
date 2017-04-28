@@ -19,7 +19,7 @@ def depVersions = [
 ]
 
 // dev version patch. Real version should be specified as Java property
-def versionWIP = 'WIP-version'
+ext.versionWIP = 'dev-WIP-version'
 
 allprojects {
     repositories {
@@ -171,12 +171,7 @@ subprojects {
                         'Or use -DbintrayUser and -DbintrayKey java runtime properties')
             }
 
-            // validate version is set and not a default version
-            if (!rootProject.version?.trim() || rootProject.version == versionWIP) {
-                throw new InvalidUserDataException('Bintray upload could be performed only with valid release version. ' +
-                        "Pls, specify -Dbuild.version=<version-name> as the build argument. " +
-                        "Current version is \"$rootProject.version\"")
-            }
+            validateVersion('Bintray upload could be performed only with valid release version')
         }
     }
 }
@@ -307,6 +302,8 @@ project(':') {
 
                 System.setProperty('org.ajoberstar.grgit.auth.username', githubToken)
             }
+
+            validateVersion('Documentation publishing could be performed only with a valid release version')
         }
     }
 
@@ -314,5 +311,14 @@ project(':') {
         doLast {
             println "Published javadoc to https://commercetools.github.io/project-payment/javadoc/$rootProject.version"
         }
+    }
+}
+
+void validateVersion(String prefix) throws InvalidUserDataException {
+    // validate version is set and not a default version
+    if (!rootProject.version?.trim() || rootProject.version == versionWIP) {
+        throw new InvalidUserDataException(prefix +
+                "$prefix.\nPls, specify -Dbuild.version=<version-name> as the build argument.\n" +
+                "Current version is \"$rootProject.version\"")
     }
 }

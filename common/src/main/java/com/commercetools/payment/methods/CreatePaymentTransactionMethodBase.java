@@ -51,7 +51,7 @@ public abstract class CreatePaymentTransactionMethodBase implements CreatePaymen
      * Can be overriden to manipulate data attached to the transaction.
      * @param data the data wrapper object
      * @param defaultType the default {@link TransactionType} that will be used if the data wrapper does not provide a special value
-     * @return
+     * @return builder of {@link TransactionDraft} initialized with {@code data} and {@code defaultType}
      */
     protected TransactionDraftBuilder createTransactionDraftBuilder(CreatePaymentTransactionData data, TransactionType defaultType) {
         return TransactionDraftBuilder.of(

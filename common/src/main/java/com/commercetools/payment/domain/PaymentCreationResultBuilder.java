@@ -24,7 +24,7 @@ public class PaymentCreationResultBuilder {
 
     /**
      * Create the builder instance.
-     * @param operationResult
+     * @param operationResult operation result to parse in {@link PaymentCreationResultBuilder}
      * @return new instance of the builder object
      */
     public static PaymentCreationResultBuilder of(final OperationResult operationResult) {

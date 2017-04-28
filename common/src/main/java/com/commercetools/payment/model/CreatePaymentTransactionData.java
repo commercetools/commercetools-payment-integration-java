@@ -36,7 +36,7 @@ public interface CreatePaymentTransactionData extends PaymentInteractionData {
 
     /**
      * Set the type of the transaction to be created. If non is set then the payment methods configured default will be used.
-     * @param type
+     * @param type typ of transaction to set
      */
     void setTransactionType(TransactionType type);
 }

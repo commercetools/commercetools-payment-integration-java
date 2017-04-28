@@ -6,6 +6,7 @@ buildscript {
     dependencies {
         classpath 'com.netflix.nebula:gradle-aggregate-javadocs-plugin:2.2.+'
         classpath 'org.ajoberstar:gradle-git-publish:0.2.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
     }
 }
 
@@ -13,7 +14,8 @@ def depVersions = [
         commercetoolsSdkJvm: '1.8.0', // 1.16.0
         assertJ: '3.4.1', // 3.6.2
         mockito: '1.9.5', // 2.7.22'
-        junit: '4.12'
+        junit: '4.12',
+        slf4j: '1.7.25'
 ]
 
 allprojects {
@@ -23,15 +25,13 @@ allprojects {
     }
 
     group = 'com.commercetools.payment'
-    version = '0.6.1-SNAPSHOT'
+    version = '0.6.2-beta'
     description "The commercetools java payment project intend is to make payment integration easy"
 
     apply plugin: 'java'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
-
-    def jvmSdkVersion = '1.8.0' // 1.16.0
 
     tasks.withType(JavaCompile) {
         options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
@@ -41,6 +41,13 @@ allprojects {
 subprojects {
 
     apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+
+    // this is an important plugin for maven/bintray publishing to avoid "all dependencies are runtime scope":
+    // see https://github.com/bintray/gradle-bintray-plugin#maven-publications and https://github.com/gradle/gradle/issues/1118
+    apply plugin: 'java-library'
+
+    apply plugin: 'com.jfrog.bintray'
 
     // package sources and javadoc to jar
     task sourcesJar(type: Jar, dependsOn: classes) {
@@ -59,6 +66,104 @@ subprojects {
     }
 
     install.dependsOn build
+
+    // library bintray/maven publish settings
+    def pomConfig = {
+        licenses {
+            license {
+                name "The Apache Software License, Version 2.0"
+                url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                distribution "repo"
+            }
+        }
+        developers {
+            developer {
+                id 'andrii-kovalenko-ct'
+                name 'Andrii Kovalenko'
+                url 'https://github.com/andrii-kovalenko-ct'
+                email 'andrii.kovalenko@commercetools.com'
+            }
+            developer {
+                id 'ahalberkamp'
+                name 'Andreas Halberkamp'
+                url 'https://github.com/ahalberkamp'
+                email 'andreas.halberkamp@commercetools.de'
+            }
+            developer {
+                id 'MGA-dotSource'
+                name 'Mirco'
+                url 'https://github.com/MGA-dotSource'
+            }
+            developer {
+                id 'mht-dotsource'
+                name 'Martin Horatschek'
+                url  'https://github.com/mht-dotsource'
+            }
+        }
+    }
+
+    // maven-specific publishing settings
+    publishing {
+        publications {
+            paymentPublication(MavenPublication) {
+                from components.java
+
+                artifact sourcesJar
+                artifact javadocJar
+
+                groupId rootProject.group
+                artifactId project.name
+                version rootProject.version
+
+                pom.withXml {
+                    def root = asNode()
+                    root.appendNode('description', 'The commercetools java payment project intend is to make payment integration easy')
+                    root.appendNode('name', "$project.name")
+                    root.appendNode('url', 'https://github.com/commercetools/project-payment.git')
+                    root.children().last() + pomConfig
+                }
+            }
+        }
+    }
+
+    // bintray-specific upload configuration
+    bintray {
+        user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+        key = project.hasProperty('bintrayKey') ? project.property('bintrayKey') : System.getenv('BINTRAY_KEY')
+
+        publications = ['paymentPublication']
+
+        pkg {
+            repo = 'maven'
+            userOrg = bintray.user
+            name = rootProject.name
+            licenses = ['Apache-2.0']
+            vcsUrl = 'https://github.com/commercetools/project-payment.git'
+
+            publicDownloadNumbers = true
+
+            version {
+                name = rootProject.version
+                released  = new Date()
+                //desc =
+                //vcsTag =
+                //attributes = []
+            }
+        }
+    }
+
+    // validate credentials before trying to upload to bintray
+    // this check is mandatory because of "bintrayUpload silently fails" issue of the plugin
+    // https://github.com/bintray/gradle-bintray-plugin/issues/170
+    bintrayUpload {
+        doFirst {
+            if (!(bintray.user?.trim() && bintray.key?.trim())) {
+                throw new InvalidUserDataException('Bintray User or Key is not set. ' +
+                        'Validate BINTRAY_USER and BINTRAY_KEY environment variables. ' +
+                        'Or use -DbintrayUser and -DbintrayKey java runtime properties')
+            }
+        }
+    }
 }
 
 project(':common') {
@@ -111,6 +216,7 @@ project(':') {
 
         testCompile "junit:junit:$depVersions.junit"
         testCompile "org.assertj:assertj-core:$depVersions.assertJ"
+        testCompile "org.slf4j:slf4j-simple:$depVersions.slf4j"
     }
 
     // run the integration tests after all other subtasks

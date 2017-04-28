@@ -275,11 +275,17 @@ project(':') {
 
         contents {
             from(javadoc) {
-                into 'javadoc'
+                // every version has it's own javadoc subdirectory
+                into "javadoc/$rootProject.version"
             }
         }
 
-        commitMessage = "Publishing a new java doc for $version"
+        preserve {
+            include 'javadoc/**' // don't remove previous javadoc versions
+            exclude "javadoc/$versionWIP" // but remove temporary WIP javadoc if any
+        }
+
+        commitMessage = "Publishing a new java doc for $rootProject.version version"
     }
 
     gitPublishReset {
@@ -301,6 +307,12 @@ project(':') {
 
                 System.setProperty('org.ajoberstar.grgit.auth.username', githubToken)
             }
+        }
+    }
+
+    gitPublishPush {
+        doLast {
+            println "Published javadoc to https://commercetools.github.io/project-payment/javadoc/$rootProject.version"
         }
     }
 }

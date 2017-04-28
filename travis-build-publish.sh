@@ -8,7 +8,7 @@ echo "TRAVIS_TAG $TRAVIS_TAG"
 export TAG=`if [ "$TRAVIS_PULL_REQUEST" = "false" -a -n "$TRAVIS_TAG" ] ; then echo "$TRAVIS_TAG" ; fi`
 
 if [ "$TAG" ]; then
-  echo "Build and upload Javadoc to https://commercetools.github.io/project-payment/javadoc/"
+  echo "Build and upload Javadoc to https://commercetools.github.io/project-payment/javadoc/$TAG"
   ./gradlew --no-daemon --info aggregateJavadocs gitPublishPush
 
   echo "Upload tag $TAG to bintray"

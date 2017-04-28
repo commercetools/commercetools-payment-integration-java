@@ -134,9 +134,10 @@ subprojects {
         publications = ['paymentPublication']
 
         pkg {
+            // see https://bintray.com/commercetools/maven/ settings
             repo = 'maven'
             userOrg = bintray.user
-            name = rootProject.name
+            name = 'payment'
             licenses = ['Apache-2.0']
             vcsUrl = 'https://github.com/commercetools/project-payment.git'
 

@@ -9,7 +9,7 @@ export TAG=`if [ "$TRAVIS_PULL_REQUEST" = "false" -a -n "$TRAVIS_TAG" ] ; then e
 
 if [ "$TAG" ]; then
   echo "Upload tag $TAG to bintray"
-  ./gradlew --no-daemon --info bintrayUpload
+  ./gradlew --no-daemon --info -Dbuild.version=$TRAVIS_TAG bintrayUpload
 else
   echo "The tag is empty - publish is skipped"
 fi

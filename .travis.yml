@@ -1,12 +1,25 @@
 sudo: required
+
+#cache:
+#  directories:
+#    - "$HOME/.ivy2/cache"
+#    - "$HOME/.sbt/boot/"
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - "$HOME/.ivy2/cache"
-    - "$HOME/.sbt/boot/"
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
 
-language: scala
-scala:
-  - 2.11.8
+language: java
+jdk:
+  - oraclejdk8
+
+#language: scala
+#scala:
+#  - 2.11.8
 
 before_script:
 # install heroku stand alone cli to restart ct-payone-integration-test app

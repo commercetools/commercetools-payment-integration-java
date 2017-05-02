@@ -28,23 +28,23 @@ For successful integration test the next settings are required:
     | CT_PROJECT_KEY            | project-payment-21                                                                |
     | CT_CLIENT_ID              | see admin Sphere API Settings for project-payment-21                              |
     | CT_CLIENT_SECRET          | see admin Sphere API Settings for project-payment-21                              |
-    | CT_PAYONE_INTEGRATION_URL | `https://ct-payone-integration-test.herokuapp.com/commercetools/handle/payments/` |
+    | CT_PAYONE_INTEGRATION_URL | `https://ct-payment-integration-java.herokuapp.com/commercetools/handle/payments/` |
     
   - *CT_PAYONE_INTEGRATION_URL* resource with deployed 
     [commercetools payone integration service](https://github.com/commercetools/commercetools-payone-integration).
     This service must be connected to the same project (*CT_PROJECT_KEY*).
-    - For current workflow the service is deployed to [Heroku](https://dashboard.heroku.com/apps/ct-payone-integration-test/settings)
+    - For current workflow the service is deployed to [Heroku](https://dashboard.heroku.com/apps/ct-payment-integration-java/settings)
     using *heroku cli*. To avoid any side-effect of previous tests it is recommended to re-start the service 
     before the build (this will re-initialize all custom types, see [IntegrationService#start()](https://github.com/commercetools/commercetools-payone-integration/blob/927adfa637918c20feb03242242f9d57f5561669/service/src/main/java/com/commercetools/pspadapter/payone/IntegrationService.java#L52)):
       ```
-      heroku restart --app ct-payone-integration-test
+      heroku restart --app ct-payment-integration-java
       ```
       This step requires local [installed and logged in heroku CLI](https://devcenter.heroku.com/articles/heroku-command-line).
       Alternatively for remote (travis) build `$HEROKU_API_KEY` environment variable may be used instead of `heroku login`. 
 
 If you have all above - run the tests (both unit and integration):
 ```
-heroku restart --app ct-payone-integration-test # may be skipped on secondary run
+heroku restart --app ct-payment-integration-java # may be skipped on secondary run
 sbt clean test it:test
 ```
 
@@ -102,7 +102,7 @@ Ensure the variables values are adjusted with _nexusHost_ value. Please ask OPS 
 For simple publishing to Sonatype `sbt publish` may be used, but in this case it will not be able to deploy to 
 Maven Central. To publish signed app use `sbt publish-signed`:
 ```
-heroku restart --app ct-payone-integration-test # may be skipped on secondary run
+heroku restart --app ct-payment-integration-java # may be skipped on secondary run
 sbt clean test it:test publish-signed
 ```
 

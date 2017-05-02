@@ -22,12 +22,12 @@ jdk:
 #  - 2.11.8
 
 before_script:
-# install heroku stand alone cli to restart ct-payone-integration-test app
+# install heroku stand alone cli to restart ct-payment-integration-java app
 # this script requires sudo
   - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 
 script:
-  - /usr/local/heroku/bin/heroku restart --app ct-payone-integration-test # requires HEROKU_API_KEY env variable
+  - /usr/local/heroku/bin/heroku restart --app ct-payment-integration-java # requires HEROKU_API_KEY env variable
   - set -e
   #- sbt test it:test unidoc
   #- if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then

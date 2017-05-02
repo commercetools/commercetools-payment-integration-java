@@ -9,6 +9,7 @@ publish the project using TravisCI, so manual publishing is required.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents** 
 
+- [Build and deploy a new version](#build-and-deploy-a-new-version)
 - [Integration tests](#integration-tests)
 - [Publish workflow](#publish-workflow)
   - [Full build with tests, documentation publishing and Bintray upload](#full-build-with-tests-documentation-publishing-and-bintray-upload)
@@ -19,6 +20,18 @@ publish the project using TravisCI, so manual publishing is required.
 - [Known issues](#known-issues)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# Build and deploy a new version
+
+If the project and CI tools (like Travis) are completely configured, to perform a new version deploy push a new git tag:
+```
+git tag X.X.X
+git push --tags
+```
+
+This will initiate [respective Travis build](https://travis-ci.org/commercetools/commercetools-payment-integration-java)
+and upload the artifacts to Bintray. Then one have to promote/publish them 
+from Bintray to _JCenter_ and/or _Maven Central_. See [Publish workflow](#publish-workflow) below for more details.
 
 # Integration tests
  

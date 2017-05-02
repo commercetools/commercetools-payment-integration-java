@@ -309,6 +309,23 @@ project(':') {
         }
     }
 
+    gitPublishCommit {
+
+        /**
+         * Before commit - list content of documentation versions (directories) in index.html
+         */
+        doFirst {
+            final docVDir = "${gitPublish.repoDir}/$javadocVersionPath"
+            def subdirsListing = ""
+            new File(docVDir).eachDir{
+                println "\tInclude documentation reference for version ${it.name}"
+                subdirsListing += "<li><a href=\"${it.name}\" title=\"${it.name}\">${it.name}</a></li>\n"
+            }
+            final indexHtml = new File("$docVDir/index.html")
+            indexHtml.text = "<html><body><h1>Documentation versions:</h1><pre id=\"contents\"><ul>$subdirsListing</ul></pre></body></html>"
+        }
+    }
+
     gitPublishPush {
         doLast {
             println "Published javadoc to https://commercetools.github.io/project-payment/$javadocVersionPath/$rootProject.version"

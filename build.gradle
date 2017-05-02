@@ -12,8 +12,8 @@ buildscript {
 
 final depVersions = [
         commercetoolsSdkJvm: '1.17.0',
-        assertJ: '3.4.1', // 3.6.2
-        mockito: '1.9.5', // 2.7.22'
+        assertJ: '3.6.2', // 3.6.2
+        mockito: '2.7.22', // 2.7.22'
         junit: '4.12',
         slf4j: '1.7.25'
 ]

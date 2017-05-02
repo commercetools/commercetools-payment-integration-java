@@ -1,4 +1,4 @@
-
+//TODO: Deprecated - this sbt build settings should be omitted in a favour of gradle build
 
 lazy val jvmSdkVersion = "1.8.0"
 

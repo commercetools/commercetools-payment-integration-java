@@ -6,4 +6,4 @@
 
 # Build, test and Publish to Bintray
 # See BUILD.md for more details about required environment to test and deploy the application
-heroku restart --app ct-payone-integration-test && ./gradlew clean build bintrayUpload
+heroku restart --app ct-payone-integration-test && ./gradlew --info clean build bintrayUpload

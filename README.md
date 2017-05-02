@@ -1,3 +1,21 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Payment](#payment)
+  - [General Info](#general-info)
+  - [Compiling](#compiling)
+  - [Integration into the shop:](#integration-into-the-shop)
+    - [Maven example](#maven-example)
+    - [SBT example](#sbt-example)
+    - [Gradle example](#gradle-example)
+    - [Getting the payment methods](#getting-the-payment-methods)
+    - [Creating the Payment](#creating-the-payment)
+    - [Creating the PaymentTransaction](#creating-the-paymenttransaction)
+  - [Supported payment methods](#supported-payment-methods)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Payment
 ==================
 
@@ -21,10 +39,21 @@ The shop has to provide a sphere client for all action this module
 
 ## Compiling
 Create **JAR** files:
-`sbt package`
+`./gradlew clean jar`
 
-Create **JAR** and run tests:
-`sbt clean package test`
+Create **JAR** files and test:
+`./gradlew clean check`
+
+(**Recommended**) Full build with tests, but without install to maven local repo:
+`./gradlew clean build`
+
+Install to local maven repo:
+`./gradlew clean install`
+
+Publish to Bintray:
+`./gradlew clean -Dbuild.version=$TRAVIS_TAG bintrayUpload`
+
+For more info about build and publish process see [BUILD](BUILD.md) documentation
 
 ## Integration into the shop:
 Take the dependencies from Maven central.
@@ -34,13 +63,13 @@ Take the dependencies from Maven central.
 ```
 <dependency>
   <groupId>com.commercetools.payment</groupId>
-  <artifactId>commercetools-payment-integration-java</artifactId>
-  <version>0.5</version>
+  <artifactId>common</artifactId>
+  <version>0.6.2</version>
 </dependency>
 <dependency>
   <groupId>com.commercetools.payment</groupId>
-  <artifactId>common</artifactId>
-  <version>0.5</version>
+  <artifactId>payone-adapter</artifactId>
+  <version>0.6.2</version>
 </dependency>
 ```
 
@@ -48,8 +77,8 @@ Take the dependencies from Maven central.
 
 ```
 libraryDependencies ++= Seq(
-  "com.commercetools.payment" % "commercetools-payment-integration-java" % "0.1",
-  "com.commercetools.payment" % "common" % "0.1",
+  "com.commercetools.payment" % "common" % "0.6.2",
+  "com.commercetools.payment" % "payone-adapter" % "0.6.2",
 )
 ```
 
@@ -61,8 +90,8 @@ repositories {
 }
 
 dependencies {
-    compile "com.commercetools.payment:commercetools-payment-integration-java:0.1"
-    compile "com.commercetools.payment:common:0.1"
+    compile "com.commercetools.payment:common:0.6.2"
+    compile "com.commercetools.payment:payone-adapter:0.6.2"
 }
 ```
 

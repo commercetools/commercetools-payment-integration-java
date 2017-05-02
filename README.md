@@ -1,18 +1,18 @@
 Payment
 ==================
 
-[![Build Status](https://travis-ci.com/commercetools/project-payment.svg?token=xBfuKwz4mtssFw4UENNy&branch=master)](https://travis-ci.com/commercetools/project-payment) 
-[![Stories in Ready](https://badge.waffle.io/commercetools/project-payment.png?label=ready&title=Ready)](https://waffle.io/commercetools/project-payment)
+[![Build Status](https://travis-ci.com/commercetools/commercetools-payment-integration-java.svg?token=xBfuKwz4mtssFw4UENNy&branch=master)](https://travis-ci.com/commercetools/project-payment) 
+[![Stories in Ready](https://badge.waffle.io/commercetools/commercetools-payment-integration-java.png?label=ready&title=Ready)](https://waffle.io/commercetools/project-payment)
 
 Java modules to create and handle payments and payment transactions in different _payment integration services (providers)_, 
 like [`commercetools Payone Integration Service`](https://github.com/commercetools/commercetools-payone-integration). 
 
-* [Javadoc](https://commercetools.github.io/project-payment/javadoc/index.html)
+* [Javadoc](https://commercetools.github.io/commercetools-payment-integration-java/javadoc/v/)
 
 * [Build and publish workflow](BUILD.md)
 
 ## General Info
-The project-payment project intend is to make payment integration easy.
+The `commercetools-payment-integration-java` project intend is to make payment integration easy.
 
 The checkout process in the shop can follow a standardized process via this module, even if different Payment Service Providers are used.
 `At the moment only PayOne is supported`
@@ -84,7 +84,7 @@ Get filtered payment methods: (Example to get Free and only Free if *TotalPrice*
 
 ### Creating the Payment 
 When the customer selected a payment method that she want to use, then the shop has to call the *createPayment* method with a 
-[CreatePaymentData](https://commercetools.github.io/project-payment/javadoc/com/commercetools/payment/model/CreatePaymentData.html) object as parameter.
+[CreatePaymentData](https://commercetools.github.io/commercetools-payment-integration-java/javadoc/com/commercetools/payment/model/CreatePaymentData.html) object as parameter.
 
 Different payment methods require different additional values (i.e. successUrl etc.)
 

@@ -32,7 +32,7 @@ script:
   #- sbt test it:test unidoc
   #- if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
   #  sbt "gitPublish target/javaunidoc https://$GH_TOKEN:x-oauth-basic@github.com/$TRAVIS_REPO_SLUG.git javadoc sphere-oss automation@commercetools.de" &&
-  #  echo "Published documentation to https://commercetools.github.io/project-payment/javadoc/";
+  #  echo "Published documentation to https://commercetools.github.io/commercetools-payment-integration-java/javadoc/";
   #  fi
   - ./gradlew --info build || travis_terminate 1
   - ./travis-build-publish.sh || travis_terminate 1

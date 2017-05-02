@@ -60,10 +60,10 @@ lazy val commonSettings = Seq (
 
   // these pom settings are mandatory for Maven central release
   pomExtra :=
-    <url>https://github.com/commercetools/project-payment</url>
+    <url>https://github.com/commercetools/commercetools-payment-integration-java</url>
     <scm>
-      <url>git@github.com:commercetools/project-payment.git</url>
-      <connection>scm:git:git@github.com:commercetools/project-payment.git</connection>
+      <url>git@github.com:commercetools/commercetools-payment-integration-java.git</url>
+      <connection>scm:git:git@github.com:commercetools/commercetools-payment-integration-java.git</connection>
     </scm>
     <developers>
       <developer>

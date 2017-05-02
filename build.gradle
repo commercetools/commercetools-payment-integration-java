@@ -18,8 +18,8 @@ final depVersions = [
         slf4j: '1.7.25'
 ]
 
+final scmProjectName = rootProject.name
 final scmRepo = 'github.com'
-final scmProjectName = 'project-payment'
 final projectPath = "commercetools/${scmProjectName}"
 final scmProjectPath = "${projectPath}.git"
 

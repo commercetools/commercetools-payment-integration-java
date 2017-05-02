@@ -170,6 +170,12 @@ subprojects {
                 //desc =
                 //vcsTag =
                 //attributes = []
+
+                gpg {
+                    sign = true
+                    // if private GPG key is not set in Bintray, Bintray's own key would be used,
+                    // see https://blog.bintray.com/2013/08/06/fight-crime-with-gpg/ for more details
+                }
             }
         }
     }

@@ -275,6 +275,7 @@ project(':') {
     integrationTest.mustRunAfter test
 
     final javadocVersionPath = 'javadoc/v'
+    final javadocVersionCurrentPath = 'javadoc/v/current'
 
     // publish aggregated javadoc to the repo, https://github.com/ajoberstar/gradle-git-publish
     gitPublish {
@@ -285,10 +286,16 @@ project(':') {
         repoUri = scmHttpsUrl
         branch = 'gh-pages'
 
+        // copy javadoc content to version-specific directory
         contents {
             from(javadoc) {
                 // every version has it's own javadoc subdirectory
                 into "$javadocVersionPath/$rootProject.version"
+            }
+
+            from(javadoc) {
+                // "current" directory has the latest javadoc
+                into "$javadocVersionCurrentPath/"
             }
         }
 

@@ -84,7 +84,7 @@ Get filtered payment methods: (Example to get Free and only Free if *TotalPrice*
 
 ### Creating the Payment 
 When the customer selected a payment method that she want to use, then the shop has to call the *createPayment* method with a 
-[CreatePaymentData](https://commercetools.github.io/commercetools-payment-integration-java/javadoc/com/commercetools/payment/model/CreatePaymentData.html) object as parameter.
+[CreatePaymentData](https://commercetools.github.io/commercetools-payment-integration-java/javadoc/v/current/com/commercetools/payment/model/CreatePaymentData.html) object as parameter.
 
 Different payment methods require different additional values (i.e. successUrl etc.)
 

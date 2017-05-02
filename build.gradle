@@ -10,13 +10,22 @@ buildscript {
     }
 }
 
-def depVersions = [
+final depVersions = [
         commercetoolsSdkJvm: '1.8.0', // 1.16.0
         assertJ: '3.4.1', // 3.6.2
         mockito: '1.9.5', // 2.7.22'
         junit: '4.12',
         slf4j: '1.7.25'
 ]
+
+final scmRepo = 'github.com'
+final scmProjectName = 'project-payment'
+final projectPath = "commercetools/${scmProjectName}"
+final scmProjectPath = "${projectPath}.git"
+
+final scmProjectUrl = "https://$projectPath"                  // just as web-page
+final scmHttpsUrl = "https://$scmRepo/$scmProjectPath"        // common read access
+final scmSshUrl = "git@$scmRepo:$scmProjectPath"              // developers read-write repo
 
 // dev version patch. Real version should be specified as Java property
 ext.versionWIP = 'dev-WIP-version'
@@ -82,6 +91,11 @@ subprojects {
                 distribution "repo"
             }
         }
+        scm {
+            connection "scm:git:$scmHttpsUrl"
+            developerConnection "scm:git:$scmSshUrl"
+            url "$scmProjectUrl"
+        }
         developers {
             developer {
                 id 'andrii-kovalenko-ct'
@@ -125,7 +139,8 @@ subprojects {
                     def root = asNode()
                     root.appendNode('description', 'The commercetools java payment project intend is to make payment integration easy')
                     root.appendNode('name', "$project.name")
-                    root.appendNode('url', 'https://github.com/commercetools/project-payment.git')
+                    root.appendNode('url', scmHttpsUrl)
+
                     root.children().last() + pomConfig
                 }
             }
@@ -145,7 +160,7 @@ subprojects {
             userOrg = bintray.user
             name = 'payment'
             licenses = ['Apache-2.0']
-            vcsUrl = 'https://github.com/commercetools/project-payment.git'
+            vcsUrl = scmHttpsUrl
 
             publicDownloadNumbers = true
 
@@ -267,7 +282,7 @@ project(':') {
         // see http://ajoberstar.org/grgit/docs/groovydoc/index.html?org/ajoberstar/grgit/auth/AuthConfig.html
         // https://github.com/ajoberstar/grgit#usage
 
-        repoUri = 'https://github.com/commercetools/project-payment.git'
+        repoUri = scmHttpsUrl
         branch = 'gh-pages'
 
         contents {
@@ -328,7 +343,7 @@ project(':') {
 
     gitPublishPush {
         doLast {
-            println "Published javadoc to https://commercetools.github.io/project-payment/$javadocVersionPath/$rootProject.version"
+            println "Published javadoc to https://commercetools.github.io/$scmProjectName/$javadocVersionPath/$rootProject.version"
         }
     }
 }

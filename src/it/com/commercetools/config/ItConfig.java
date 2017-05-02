@@ -88,7 +88,7 @@ public class ItConfig {
 
     static {
         // try to find and read the properties file.
-        // Since SBT (and some other tools) used execute the tests in parallel - we use static  blocking initialization
+        // Since some build tools used to execute the tests in parallel - we use static  blocking initialization
 
         try (InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(IT_PROPERTIES_FILE)) {
             if (in != null) {

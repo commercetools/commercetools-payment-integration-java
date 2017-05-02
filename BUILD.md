@@ -11,12 +11,10 @@ publish the project using TravisCI, so manual publishing is required.
 
 - [Integration tests](#integration-tests)
 - [Publish workflow](#publish-workflow)
+  - [Full build with tests, documentation publishing and Bintray upload](#full-build-with-tests-documentation-publishing-and-bintray-upload)
   - [Publish to local maven repo](#publish-to-local-maven-repo)
+  - [Publish to Bintray](#publish-to-bintray)
   - [Publish to Maven](#publish-to-maven)
-    - [2. Signing up the app with PGP key](#2-signing-up-the-app-with-pgp-key)
-    - [3. Deploy to OSS Sonatype](#3-deploy-to-oss-sonatype)
-    - [4. Manually release from Sonatype web page to Maven Central](#4-manually-release-from-sonatype-web-page-to-maven-central)
-    - [5. Publish to repo.ci.cloud.commercetools.de](#5-publish-to-repocicloudcommercetoolsde)
 - [All in one publish script](#all-in-one-publish-script)
 - [Known issues](#known-issues)
 

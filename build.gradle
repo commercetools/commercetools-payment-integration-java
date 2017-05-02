@@ -259,6 +259,8 @@ project(':') {
     check.dependsOn integrationTest
     integrationTest.mustRunAfter test
 
+    final javadocVersionPath = 'javadoc/v'
+
     // publish aggregated javadoc to the repo, https://github.com/ajoberstar/gradle-git-publish
     gitPublish {
         // NOTE: $GRGIT_USER environment variable must be set to actual github token
@@ -271,13 +273,13 @@ project(':') {
         contents {
             from(javadoc) {
                 // every version has it's own javadoc subdirectory
-                into "javadoc/$rootProject.version"
+                into "$javadocVersionPath/$rootProject.version"
             }
         }
 
         preserve {
-            include 'javadoc/**' // don't remove previous javadoc versions
-            exclude "javadoc/$versionWIP" // but remove temporary WIP javadoc if any
+            include "$javadocVersionPath/**" // don't remove previous javadoc versions
+            exclude "$javadocVersionPath/$versionWIP" // but remove temporary WIP javadoc if any
         }
 
         commitMessage = "Publishing a new java doc for $rootProject.version version"
@@ -309,7 +311,7 @@ project(':') {
 
     gitPublishPush {
         doLast {
-            println "Published javadoc to https://commercetools.github.io/project-payment/javadoc/$rootProject.version"
+            println "Published javadoc to https://commercetools.github.io/project-payment/$javadocVersionPath/$rootProject.version"
         }
     }
 }

@@ -60,40 +60,91 @@ Take the dependencies from Maven central.
 
 ### Maven example
 
-```
-<dependency>
-  <groupId>com.commercetools.payment</groupId>
-  <artifactId>common</artifactId>
-  <version>0.6.2</version>
-</dependency>
-<dependency>
-  <groupId>com.commercetools.payment</groupId>
-  <artifactId>payone-adapter</artifactId>
-  <version>0.6.2</version>
-</dependency>
-```
+  1. Add _JCenter_ and/or _Bintray_ repositories references in the project `pom.xml` or in common maven `settings.xml`.
+  An Example of `pom.xml` configuration:
+  ```
+    <repositories>
+      <repository>
+        <snapshots>
+          <enabled>false</enabled>
+        </snapshots>
+        <id>jcenter</id>
+        <url>https://jcenter.bintray.com/</url>
+        <name>jcenter</name>
+      </repository>
+      
+      <repository>
+        <snapshots>
+          <enabled>false</enabled>
+        </snapshots>
+        <id>bintray-commercetools-maven</id>
+        <name>bintray-commercetools-maven</name>
+        <url>https://dl.bintray.com/commercetools/maven</url>
+      </repository>
+    </repositories>
+  ```
+  
+  - **Note the difference**: [_JCenter_](https://bintray.com/bintray/jcenter) is a public common repository 
+  (almost the same as _Maven Central_), where the artifacts are published **forever** (almost). 
+  Opposite to this, [_bintray-commercetools-maven_](https://bintray.com/commercetools/maven/) 
+  is a corporate account storage, where temporary artifacts for development are stored and could be removed 
+  (almost like `SNAPSHOT`s in _OSS Sonatype_ repo)
+  
+  - See [Setting up Multiple Repositories](https://maven.apache.org/guides/mini/guide-multiple-repositories.html)
+  guide for more details how to configure third party maven repositories.
+
+  2. When the repositories are configure, add the payment dependencies:
+    
+  ```xml
+    <dependencies>
+      <dependency>
+        <groupId>com.commercetools.payment</groupId>
+        <artifactId>common</artifactId>
+        <version>0.6.2</version>
+      </dependency>
+      <dependency>
+        <groupId>com.commercetools.payment</groupId>
+        <artifactId>payone-adapter</artifactId>
+        <version>0.6.2</version>
+      </dependency>
+    </dependencies>
+  ```
 
 ### SBT example
 
-```
-libraryDependencies ++= Seq(
-  "com.commercetools.payment" % "common" % "0.6.2",
-  "com.commercetools.payment" % "payone-adapter" % "0.6.2",
-)
-```
+  1. [Configure _JCenter_ and/or _Bintray_ repositories](http://www.scala-sbt.org/0.13/docs/Resolvers.html)
+  
+  2. Add to `build.sbt`
+  
+  ```scala
+    libraryDependencies ++= Seq(
+      "com.commercetools.payment" % "common" % "0.6.2",
+      "com.commercetools.payment" % "payone-adapter" % "0.6.2"
+   )
+  ```
 
 ### Gradle example
 
-```
-repositories {
-  mavenCentral()
-}
+  1. Add dependencies repositories into the head of `build.gradle` (note, you are not obligated to add all of them):
+  
+  ```groovy
+    repositories {
+      mavenCentral()
+      jcenter()
+      maven {
+          url  "http://dl.bintray.com/commercetools/maven" // usually used only for developers to test non-stable not published versions
+      }
+    }
+  ```
 
-dependencies {
-    compile "com.commercetools.payment:common:0.6.2"
-    compile "com.commercetools.payment:payone-adapter:0.6.2"
-}
-```
+  2. Add dependencies to project/sub-project settings in `build.gradle`:
+  
+  ```groovy
+    dependencies {
+      compile "com.commercetools.payment:common:0.6.2"
+      compile "com.commercetools.payment:payone-adapter:0.6.2"
+    }
+  ```
 
 ### Getting the payment methods 
 Get all payment methods:
@@ -112,6 +163,7 @@ Get filtered payment methods: (Example to get Free and only Free if *TotalPrice*
     final List<PaymentMethodInfo> = paymentAdapterService.findAvailablePaymentMethods(filter);
 
 ### Creating the Payment 
+
 When the customer selected a payment method that she want to use, then the shop has to call the *createPayment* method with a 
 [CreatePaymentData](https://commercetools.github.io/commercetools-payment-integration-java/javadoc/v/current/com/commercetools/payment/model/CreatePaymentData.html) object as parameter.
 

@@ -66,6 +66,10 @@ heroku restart --app ct-payment-integration-java # may be skipped on secondary r
 ./gradlew clean build
 ```
 
+To run all these tests locally (including IDE) with mandatory properties above - use `it.properties` file 
+(in `it/resources` directory) with all secret values. See `ItConfig.java` for more details. 
+Also you could copy and edit `it/resources/it.properties.skeleton`.
+
 The gradle _build_ task is configured to be depended on all the tests, including Unit tests on all sub-projects and 
 common integration tests from [`src/`](/src/) directory.
 

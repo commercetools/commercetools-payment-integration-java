@@ -1,0 +1,9 @@
+ct.projectKey=project-payment-21
+ct.clientId=<<set from admin center>>
+ct.clientSecret=<<set from admin center>>
+
+# if testing against local service
+#ct.payoneIntegrationUrl=http://localhost:8080/commercetools/handle/payments/
+
+# if testing against heroku service
+ct.payoneIntegrationUrl=https://ct-payment-integration-java.herokuapp.com/commercetools/handle/payments/

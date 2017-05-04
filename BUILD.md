@@ -1,9 +1,8 @@
 Build and publish workflow
 ===========================
 
-Main project target is to release the artifacts to one of central dependencies repository 
-(Maven central so far, but might be Bintray in the future). Unfortunately there is no so far any consistent way to 
-publish the project using TravisCI, so manual publishing is required.
+The main goal of the build process is to publish the artifacts to public repositories, 
+like [JCenter](https://jcenter.bintray.com/) and [Maven Central](https://search.maven.org/).
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -65,6 +64,10 @@ If you have all above - build and run the tests (both unit and integration):
 heroku restart --app ct-payment-integration-java # may be skipped on secondary run
 ./gradlew clean build
 ```
+
+To run all these tests locally (including IDE) with mandatory properties above - use `it.properties` file 
+(in `it/resources` directory) with all secret values. See `ItConfig.java` for more details. 
+Also you could copy and edit `it/resources/it.properties.skeleton`.
 
 The gradle _build_ task is configured to be depended on all the tests, including Unit tests on all sub-projects and 
 common integration tests from [`src/`](/src/) directory.

@@ -19,6 +19,6 @@ project/plugins/project/
 .scala_dependencies
 .worksheet
 
-# gradle specifig
+# gradle specific
 .gradle/
 build/

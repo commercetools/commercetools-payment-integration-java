@@ -1,9 +1,8 @@
 Build and publish workflow
 ===========================
 
-Main project target is to release the artifacts to one of central dependencies repository 
-(Maven central so far, but might be Bintray in the future). Unfortunately there is no so far any consistent way to 
-publish the project using TravisCI, so manual publishing is required.
+The main goal of the build process is to publish the artifacts to public repositories, 
+like [JCenter](https://jcenter.bintray.com/) and [Maven Central](https://search.maven.org/).
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->

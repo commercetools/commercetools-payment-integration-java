@@ -1,6 +1,7 @@
 package com.commercetools.payment.service;
 
 import com.commercetools.payment.domain.PaymentServiceProvider;
+import com.commercetools.payment.domain.PaymentTransactionCreationResultBuilder;
 import com.commercetools.payment.model.CreatePaymentData;
 import com.commercetools.payment.model.CreatePaymentTransactionData;
 import com.commercetools.payment.model.PaymentCreationResult;
@@ -16,6 +17,9 @@ import java.util.ServiceLoader;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static java.lang.String.format;
+import static java.util.concurrent.CompletableFuture.completedFuture;
 
 /**
  * Provides access to the payment service provider handling methods.
@@ -68,8 +72,15 @@ public class PaymentAdapterServiceImpl implements PaymentAdapterService {
     public CompletionStage<PaymentTransactionCreationResult> createPaymentTransaction(CreatePaymentTransactionData createData) {
         return PaymentLookupHelper.of(createData.getSphereClient())
                 .findPaymentFor(createData)
-                .thenCompose(data -> findPaymentServiceProvider(data.getPayment().getPaymentMethodInfo().getPaymentInterface())
-                        .provideCreatePaymentTransactionHandler(data.getPayment().getPaymentMethodInfo().getMethod()).apply(data));
+                .thenCompose(data -> {
+                    if (data.getPayment() == null) {
+                        return completedFuture(PaymentTransactionCreationResultBuilder.ofError(
+                                format("Payment id=[%s] not found", createData.getPaymentRef())));
+                    }
+
+                    return findPaymentServiceProvider(data.getPayment().getPaymentMethodInfo().getPaymentInterface())
+                            .provideCreatePaymentTransactionHandler(data.getPayment().getPaymentMethodInfo().getMethod()).apply(data);
+                });
     }
 
     @Override

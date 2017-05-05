@@ -251,8 +251,10 @@ project(':') {
     }
 
     // run the integration tests after all other subtasks
-    configure(subprojects) {
-        rootProject.compileJava.mustRunAfter.add(it.build)
+    configure(subprojects) {subProj ->
+        subProj.tasks.each {subProjTask ->
+            rootProject.compileJava.mustRunAfter.add(subProjTask)
+        }
     }
 
     sourceSets {

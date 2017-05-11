@@ -88,7 +88,7 @@ Replace `X.X.X` in the snippet:
  
 This step may be used for local test versions:
 ```
-./gradlew clean build publishPaymentPublicationPublicationToMavenLocal
+./gradlew clean build publishPaymentPublicationPublicationToMavenLocal -Dbuild.version=X.X.X
 ```
 
 ## Publish to Bintray

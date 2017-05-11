@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 VERSION="$1"
 
@@ -11,9 +11,9 @@ if [ -z "$VERSION" ] ; then
   printf "${RED}First argument as a build version is required${NC}\n"
   exit 1
 else
-  printf "\n${GREEN}Build and deploy a new application version ${LIGHT_BLUE}${VERSION}${NC}\n\n"
+  printf "\n${GREEN}Publishing version ${LIGHT_BLUE}${VERSION}${NC} to maven local repository\n\n"
 fi
 
 # Build, test and Publish Docs to Github pages and artifacts to Bintray
 # See BUILD.md for more details about required environment to test and deploy the application
-heroku restart --app ct-payment-integration-java && ./gradlew clean build aggregateJavaDoc gitPublishPush bintrayUpload -Dbuild.version="$1"
+heroku restart --app ct-payment-integration-java && ./gradlew --info clean build aggregateJavaDoc gitPublishPush bintrayUpload -Dbuild.version="$1"

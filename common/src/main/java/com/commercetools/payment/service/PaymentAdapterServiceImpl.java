@@ -10,16 +10,17 @@ import com.commercetools.payment.utils.PaymentLookupHelper;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static java.lang.String.format;
 import static java.util.concurrent.CompletableFuture.completedFuture;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Provides access to the payment service provider handling methods.
@@ -29,15 +30,13 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 public class PaymentAdapterServiceImpl implements PaymentAdapterService {
 
     private final List<PaymentServiceProvider> paymentServiceProviders;
-    private ServiceLoader<PaymentServiceProvider> pspLoader;
 
     public PaymentAdapterServiceImpl() {
-        pspLoader = ServiceLoader.load(PaymentServiceProvider.class, PaymentAdapterServiceImpl.class.getClassLoader());
-        paymentServiceProviders = new ArrayList<>();
+        ServiceLoader<PaymentServiceProvider> pspLoader =
+                ServiceLoader.load(PaymentServiceProvider.class, PaymentAdapterServiceImpl.class.getClassLoader());
 
-        pspLoader.forEach(psp -> {
-            paymentServiceProviders.add(psp);
-        });
+        paymentServiceProviders = StreamSupport.stream(pspLoader.spliterator(), false)
+                .collect(toList());
     }
 
     @Override
@@ -49,14 +48,14 @@ public class PaymentAdapterServiceImpl implements PaymentAdapterService {
     public List<PaymentMethodInfo> findAvailablePaymentMethods() {
         return findAllPaymentServiceProviders().stream()
                 .flatMap(psp -> psp.getAvailablePaymentMethods().stream())
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     @Override
     public List<PaymentMethodInfo> findAvailablePaymentMethods(Function<List<PaymentMethodInfo>, List<PaymentMethodInfo>> filter) {
         return findAllPaymentServiceProviders().stream()
                 .flatMap(psp -> psp.getAvailablePaymentMethods(filter).stream())
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     @Override
@@ -90,12 +89,16 @@ public class PaymentAdapterServiceImpl implements PaymentAdapterService {
 
     @Override
     public Optional<PaymentMethodInfo> getPaymentMethodInfo(String interfaceId, String method) {
-        return findPaymentServiceProvider(interfaceId).getAvailablePaymentMethods().stream().filter(m -> m.getMethod().equals(method)).findFirst();
+        return findPaymentServiceProvider(interfaceId)
+                .getAvailablePaymentMethods().stream()
+                .filter(m -> Objects.equals(m.getMethod(), method))
+                .findFirst();
     }
 
-    // TODO: what if no PSP is found?
     private PaymentServiceProvider findPaymentServiceProvider(String paymentInterfaceId) {
         return findAllPaymentServiceProviders().stream()
-                .filter(psp -> psp.getId().equals(paymentInterfaceId)).findFirst().get();
+                .filter(psp -> psp.getId().equals(paymentInterfaceId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(format("Payment interface %s not found", paymentInterfaceId)));
     }
 }

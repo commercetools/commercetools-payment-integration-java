@@ -1,6 +1,14 @@
 {
   "interfaceId" : "PAYONE",
-  "enabledMethods" : ["CREDIT_CARD","WALLET-PAYPAL", "BANK_TRANSFER-SOFORTUEBERWEISUNG", "BANK_TRANSFER-ADVANCE", "BANK_TRANSFER-POSTFINANCE_EFINANCE", "BANK_TRANSFER-POSTFINANCE_CARD"],
+  "enabledMethods" : [
+                      "CREDIT_CARD",
+                      "WALLET-PAYPAL",
+                      "BANK_TRANSFER-SOFORTUEBERWEISUNG",
+                      "BANK_TRANSFER-ADVANCE",
+                      "BANK_TRANSFER-POSTFINANCE_EFINANCE",
+                      "BANK_TRANSFER-POSTFINANCE_CARD",
+                      "INVOICE-KLARNA"
+  ],
   "availableMethods" : {
     "CREDIT_CARD": {
       "paymentInterface": "PAYONE",
@@ -55,6 +63,15 @@
         "de": "Postfinance Card",
         "en": "Postfinance Card"
       }
+    },
+    "INVOICE-KLARNA" : {
+      "paymentInterface": "PAYONE",
+      "method": "INVOICE-KLARNA",
+      "name":
+      {
+        "de": "Kauf auf Rechnung",
+        "en": "Pay on delivery"
+      }
     }
   },
   "transactionTypes" : {
@@ -63,7 +80,8 @@
     "BANK_TRANSFER-SOFORTUEBERWEISUNG" : "Charge",
     "BANK_TRANSFER-ADVANCE" : "Charge",
     "BANK_TRANSFER-POSTFINANCE_EFINANCE" : "Charge",
-    "BANK_TRANSFER-POSTFINANCE_CARD" : "Charge"
+    "BANK_TRANSFER-POSTFINANCE_CARD" : "Charge",
+    "INVOICE-KLARNA" : "Authorization"
   },
   "creditCardConfig" : {
     "javascriptInclude" : "https://secure.pay1.de/client-api/js/v1/payone_hosted_min.js"

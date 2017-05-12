@@ -248,6 +248,7 @@ project(':') {
         testCompile "junit:junit:$depVersions.junit"
         testCompile "org.assertj:assertj-core:$depVersions.assertJ"
         testCompile "org.slf4j:slf4j-simple:$depVersions.slf4j"
+        testCompile "org.mockito:mockito-core:$depVersions.mockito"
     }
 
     // run the integration tests after all other subtasks

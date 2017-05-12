@@ -83,6 +83,7 @@ public class PaymentAdapterServiceImpl implements PaymentAdapterService {
     }
 
     @Override
+    @Deprecated
     public PaymentStatus getPaymentStatus(String ref) {
         return null;
     }

@@ -66,8 +66,12 @@ public interface PaymentAdapterService {
      * Get the status of the payment object referenced by the passed parameter.
      * @param ref the reference of to the payment the status should be returned for
      * @return the status of the referenced payment object
+     *
+     * @deprecated This has been never implemented and used. Looks like this method had been put here accidentally.
+     * Likely will be removed in the next releases.
      */
-    PaymentStatus getPaymentStatus(String ref); // TODO: check if parameter is sufficient
+    @Deprecated
+    PaymentStatus getPaymentStatus(String ref);
 
     /**
      * Get the full {@link PaymentMethodInfo} object from the configuration.

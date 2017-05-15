@@ -1,8 +1,5 @@
 package com.commercetools.payment.payone.methods.transaction;
 
-import com.commercetools.payment.actions.HandlingTask;
-import com.commercetools.payment.actions.OperationResult;
-import com.commercetools.payment.actions.ShopAction;
 import com.commercetools.payment.domain.PaymentTransactionCreationResultBuilder;
 import com.commercetools.payment.methods.CreatePaymentTransactionMethodBase;
 import com.commercetools.payment.model.CreatePaymentTransactionData;
@@ -21,7 +18,6 @@ import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.HANDLE_URL;
-import static com.commercetools.payment.payone.config.PayoneConfigurationNames.REDIRECT_URL;
 import static java.lang.String.format;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 
@@ -96,17 +92,6 @@ public abstract class PayoneCreatePaymentTransactionMethodBase extends CreatePay
      * @return the result object
      */
     protected abstract PaymentTransactionCreationResult handleSuccessfulServiceCall(Payment updatedPayment);
-
-    protected PaymentTransactionCreationResult redirectSuccessfulServiceCall(Payment updatedPayment) {
-        String redirectURL = getCustomFieldStringIfExists(updatedPayment, REDIRECT_URL);
-        if (null != redirectURL) {
-            return PaymentTransactionCreationResultBuilder.of(OperationResult.SUCCESS)
-                    .payment(updatedPayment)
-                    .handlingTask(HandlingTask.of(ShopAction.REDIRECT).redirectUrl(redirectURL)).build();
-        }
-        String errorMessage = "Payment provider redirect URL is not available.";
-        return handleError(errorMessage, updatedPayment);
-    }
 
     protected PaymentTransactionCreationResult handleExceptions(Throwable t) {
         return PaymentTransactionCreationResultBuilder.ofError("An exception occured that could not be handled: ", t);

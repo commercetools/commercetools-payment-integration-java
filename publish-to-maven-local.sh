@@ -19,7 +19,7 @@ fi
 
 # Build, test and Publish Docs to Github pages and artifacts to Bintray
 # See BUILD.md for more details about required environment to test and deploy the application
-heroku restart --app ct-payment-integration-java && ./gradlew --info clean build publishPaymentPublicationPublicationToMavenLocal -Dbuild.version="$1"
+heroku restart --app ct-payment-integration-java && ./gradlew --info clean build install -Dbuild.version="${VERSION}"
 
 if [ $? -eq 0 ]; then
     printf "\n${GREEN}\"${VERSION}\" is published to maven local repository ~/.m2/repository${NC}\n\n"

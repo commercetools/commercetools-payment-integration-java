@@ -29,4 +29,11 @@ public interface PayoneConfigurationNames {
     static final String NARRATIVE_TEXT = "narrative_text"; // optional
     static final String FINANCINGTYPE = "financingtype"; //KLV - Klarna Invoicing
 
+    // klarna line items array options
+    static final String IT = "it"; // item type, see KlarnaConstants.ItemTypes
+    static final String ID = "id"; // Product number, e.g. artikel
+    static final String PR = "pr"; // Unit price (in smallest currency unit! e.g. cent)
+    static final String NO = "no"; // Quantity
+    static final String DE = "de"; // Description (on invoice)
+    static final String VA = "va"; // VAT rate (%), value < 100 = percent
 }

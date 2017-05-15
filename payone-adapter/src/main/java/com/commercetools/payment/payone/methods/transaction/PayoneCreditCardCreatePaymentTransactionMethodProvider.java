@@ -8,11 +8,6 @@ import com.commercetools.payment.methods.CreatePaymentTransactionMethod;
 import com.commercetools.payment.model.PaymentTransactionCreationResult;
 import io.sphere.sdk.payments.Payment;
 
-import static com.commercetools.payment.payone.config.PayoneConfigurationNames.REDIRECT_URL;
-
-/**
- * Created by mgatz on 7/27/16.
- */
 public class PayoneCreditCardCreatePaymentTransactionMethodProvider extends PayoneCreatePaymentTransactionMethodBase implements CreatePaymentTransactionMethod {
 
     public static CreatePaymentTransactionMethod of() {
@@ -22,18 +17,19 @@ public class PayoneCreditCardCreatePaymentTransactionMethodProvider extends Payo
     @Override
     protected PaymentTransactionCreationResult handleSuccessfulServiceCall(Payment updatedPayment) {
         // check for a redirect URL as this leads us to 3D secure
-        String redirectURL = getCustomFieldStringIfExists(updatedPayment, REDIRECT_URL);
-        if (null != redirectURL) {
-            return PaymentTransactionCreationResultBuilder.of(OperationResult.SUCCESS)
-                    .payment(updatedPayment)
-                    .handlingTask(HandlingTask.of(ShopAction.REDIRECT).redirectUrl(redirectURL)).build();
-        }
+        return handleRedirectIfPresent(updatedPayment, this::noRedirectCreditCardFallback);
+    }
 
-        // no redirect URL
-        // we'll assume that this is perfectly fine for now
+    /**
+     * No redirect URL is ok for credit cards without verification.
+     * @param paymentWithoutRedirect updated payment reference
+     * @return {@link PaymentTransactionCreationResult} with {@link OperationResult#SUCCESS}
+     * and {@link ShopAction#CONTINUE}.
+     */
+    private PaymentTransactionCreationResult noRedirectCreditCardFallback(Payment paymentWithoutRedirect) {
         return PaymentTransactionCreationResultBuilder
                 .of(OperationResult.SUCCESS)
-                .payment(updatedPayment)
+                .payment(paymentWithoutRedirect)
                 .handlingTask(HandlingTask.of(ShopAction.CONTINUE))
                 .build();
     }

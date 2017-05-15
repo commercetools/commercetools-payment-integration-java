@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PayoneCreditCardCreatePaymentTransactionMethodProviderTest
@@ -17,8 +16,8 @@ public class PayoneCreditCardCreatePaymentTransactionMethodProviderTest
 
     @Before
     public void setUp() throws Exception {
+        super.setUp();
         transactionMethod = PayoneCreditCardCreatePaymentTransactionMethodProvider.of();
-        when(payment.getCustom()).thenReturn(customFields);
     }
 
     @Test
@@ -27,8 +26,12 @@ public class PayoneCreditCardCreatePaymentTransactionMethodProviderTest
         super.handleSuccessfulServiceCall_withRedirectUrl();
     }
 
+    /**
+     * Opposite to other redirect-bases payment methods, Credit card might have payments without redirect
+     * (without 3DS verification).
+     */
     @Test
-    public void handleSuccessfulServiceCall_withoutRedirectUrl() throws Exception {
+    public void handleSuccessfulServiceCall_success_withoutRedirectUrl() throws Exception {
         PaymentTransactionCreationResult ptcr = transactionMethod.handleSuccessfulServiceCall(payment);
         assertThat(ptcr).isNotNull();
         assertThat(ptcr.getRelatedPaymentObject()).contains(payment);

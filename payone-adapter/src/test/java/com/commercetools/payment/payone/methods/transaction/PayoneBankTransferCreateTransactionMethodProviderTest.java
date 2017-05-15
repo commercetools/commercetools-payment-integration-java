@@ -6,13 +6,13 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PayonePaypalCreatePaymentTransactionMethodProviderTest
+public class PayoneBankTransferCreateTransactionMethodProviderTest
         extends BasePayoneRedirectTransactionMethodProviderTest {
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        transactionMethod = PayonePaypalCreatePaymentTransactionMethodProvider.of();
+        transactionMethod = PayoneBankTransferCreateTransactionMethodProvider.of();
     }
 
     @Test
@@ -26,5 +26,4 @@ public class PayonePaypalCreatePaymentTransactionMethodProviderTest
     public void handleSuccessfulServiceCall_withoutRedirectUrl() throws Exception {
         super.handleSuccessfulServiceCall_withoutRedirectUrl();
     }
-
 }

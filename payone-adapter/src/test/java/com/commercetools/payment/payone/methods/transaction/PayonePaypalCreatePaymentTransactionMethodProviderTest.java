@@ -11,7 +11,7 @@ public class PayonePaypalCreatePaymentTransactionMethodProviderTest
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
+        applyStubbing();
         transactionMethod = PayonePaypalCreatePaymentTransactionMethodProvider.of();
     }
 

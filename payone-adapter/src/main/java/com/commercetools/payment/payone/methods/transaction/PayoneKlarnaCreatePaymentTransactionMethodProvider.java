@@ -11,6 +11,6 @@ public class PayoneKlarnaCreatePaymentTransactionMethodProvider extends PayoneCr
 
     @Override
     protected PaymentTransactionCreationResult handleSuccessfulServiceCall(Payment updatedPayment) {
-        return null;
+        return defaultSuccessTransactionCreationResult(updatedPayment);
     }
 }

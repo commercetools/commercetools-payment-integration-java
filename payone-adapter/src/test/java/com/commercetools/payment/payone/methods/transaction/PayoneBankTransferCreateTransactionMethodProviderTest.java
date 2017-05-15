@@ -11,7 +11,7 @@ public class PayoneBankTransferCreateTransactionMethodProviderTest
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
+        applyStubbing();
         transactionMethod = PayoneBankTransferCreateTransactionMethodProvider.of();
     }
 

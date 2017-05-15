@@ -55,7 +55,7 @@ public final class PaymentMappingUtil {
      *                       value could be <b>null</b>, thus functions reference like {@code String::toLowerCase}
      *                       might be unsafe to use, if some of the fields is missing or the value is <b>null</b>.
      *                       In such cases add additional checks, like:
-     *                       <pre> mapDraftCustomFields(a, b, value -> value != null ? value.toLowerCase() : null);
+     *                       <pre> mapDraftCustomFields(a, b, value -&gt; value != null ? value.toLowerCase() : null);
      *                                             </pre>
      *                       or use some null-safe methods, like {@link StringUtils#lowerCase(String)} in apache-commons
      * @return same {@code acceptor} instance.

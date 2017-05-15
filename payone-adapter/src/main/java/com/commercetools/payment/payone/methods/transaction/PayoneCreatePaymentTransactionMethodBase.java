@@ -91,16 +91,17 @@ public abstract class PayoneCreatePaymentTransactionMethodBase extends CreatePay
     }
 
     /**
-     * Try to handle redirect from the {@code updatedPayment}:<br/>
-     * if {@link com.commercetools.payment.payone.config.PayoneConfigurationNames#REDIRECT_URL} exists in the
-     * {@code updatedPayment} - return success result with {@link ShopAction#REDIRECT},<br/>
-     * otherwise fallback to {@code ifCantRedirect} function.
+     * Try to handle redirect from the {@code updatedPayment}:<ul>
+     *     <li>if {@link com.commercetools.payment.payone.config.PayoneConfigurationNames#REDIRECT_URL} exists in the
+     * {@code updatedPayment} - return success result with {@link ShopAction#REDIRECT}</li>
+     *     <li>otherwise fallback to {@code ifCantRedirect} function</li>
+     * </ul>
      *
      * @param updatedPayment reference to the updated payment
      * @param ifCantRedirect function which accepts the updated payment and returns respective result (likely with
      *                       {@link OperationResult#FAILED} and {@link ShopAction#HANDLE_ERROR}.
      * @return {@link PaymentTransactionCreationResult} with success action if payment contains redirect, or fallback
-     * action from {@code ifCantRedirect} is can't redirect the payment tranaction processing.
+     * action from {@code ifCantRedirect} is can't redirect the payment transaction processing.
      */
     @Nonnull
     protected PaymentTransactionCreationResult handleRedirectIfPresent(@Nullable Payment updatedPayment,

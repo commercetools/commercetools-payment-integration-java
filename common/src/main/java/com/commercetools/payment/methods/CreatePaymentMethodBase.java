@@ -16,6 +16,7 @@ public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
 
     /**
      * Method to To add a new payment to the Cart
+     *
      * @param cpd contains the data for the new payment
      * @return the newly created Payment object
      */
@@ -23,11 +24,12 @@ public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
         final Command<Payment> createPaymentCommand = PaymentCreateCommand.of(createPaymentDraft(cpd).build());
         return cpd.getSphereClient().execute(createPaymentCommand)
                 .thenCompose(p -> cpd.getSphereClient().execute(CartUpdateCommand.of(cpd.getCart(), AddPayment.of(p)))
-                                                       .thenApplyAsync(c -> p));
+                        .thenApplyAsync(c -> p));
     }
 
     /**
      * Creates a payment draft object used to create a new payment object at the CTP.
+     *
      * @param cpd the data object
      * @return the draft object
      */
@@ -36,7 +38,7 @@ public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
         PaymentDraftBuilder builder = PaymentDraftBuilder
                 .of(cpd.getCart().getTotalPrice());
 
-        if(cpd.getCustomer().isPresent()) {
+        if (cpd.getCustomer().isPresent()) {
             builder.customer(cpd.getCustomer().get());
         }
 

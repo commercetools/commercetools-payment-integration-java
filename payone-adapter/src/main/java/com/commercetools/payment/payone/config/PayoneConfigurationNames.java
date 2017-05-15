@@ -20,4 +20,13 @@ public interface PayoneConfigurationNames {
     static final String PAID_TO_IBAN = "paidToIBAN";
     static final String PAID_TO_BIC = "paidToBIC";
     static final String PAID_TO_NAME = "paidToAccountHolderName";
+
+    // KLARNA specific options
+    static final String GENDER = "gender"; // KlarnaConstants.Gender
+    static final String IP = "ip"; // IP address, IPv4 or IPv6
+    static final String TELEPHONE_NUMBER = "telephonenumber";
+    static final String BIRTHDAY = "birthday"; // Date of birth (YYYYMMDD), Mandatory for Germany, Netherlands and Austria
+    static final String NARRATIVE_TEXT = "narrative_text"; // optional
+    static final String FINANCINGTYPE = "financingtype"; //KLV - Klarna Invoicing
+
 }

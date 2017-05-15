@@ -1,20 +1,14 @@
 package com.commercetools.payment.payone;
 
-import com.commercetools.payment.payone.config.PayoneConfiguration;
-import com.commercetools.payment.payone.config.PayoneConfigurationProvider;
-import com.commercetools.payment.payone.methods.PayoneBankTransferCreatePaymentMethodProvider;
-import com.commercetools.payment.payone.methods.PayoneBanktransferInAdvanceCreatePaymentProvider;
-import com.commercetools.payment.payone.methods.PayoneCreditCardCreatePaymentMethodProvider;
-import com.commercetools.payment.payone.methods.PayonePaypalCreatePaymentMethodProvider;
-import com.commercetools.payment.payone.methods.transaction.PayoneBankTransferCreateTransactionMethodProvider;
-import com.commercetools.payment.payone.methods.transaction.PayoneBanktransferInAdvancePaymentTransactionMethodProvider;
-import com.commercetools.payment.payone.methods.transaction.PayoneCreditCardCreatePaymentTransactionMethodProvider;
-import com.commercetools.payment.payone.methods.transaction.PayonePaypalCreatePaymentTransactionMethodProvider;
 import com.commercetools.payment.domain.PaymentServiceProvider;
 import com.commercetools.payment.model.CreatePaymentData;
 import com.commercetools.payment.model.CreatePaymentTransactionData;
 import com.commercetools.payment.model.PaymentCreationResult;
 import com.commercetools.payment.model.PaymentTransactionCreationResult;
+import com.commercetools.payment.payone.config.PayoneConfiguration;
+import com.commercetools.payment.payone.config.PayoneConfigurationProvider;
+import com.commercetools.payment.payone.methods.*;
+import com.commercetools.payment.payone.methods.transaction.*;
 import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.PaymentStatus;
 
@@ -24,9 +18,6 @@ import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-/**
- * Created by mgatz on 7/18/16.
- */
 public class PayonePaymentServiceProvider implements PaymentServiceProvider {
 
     private PayoneConfiguration configuration;
@@ -66,6 +57,7 @@ public class PayonePaymentServiceProvider implements PaymentServiceProvider {
             case "BANK_TRANSFER-POSTFINANCE_EFINANCE":
             case "BANK_TRANSFER-POSTFINANCE_CARD":
                 return PayoneBankTransferCreatePaymentMethodProvider.of().create();
+            case "INVOICE-KLARNA": return PayoneKlarnaCreatePaymentMethodProvider.of().create();
         }
 
         throw new UnsupportedOperationException();
@@ -81,6 +73,7 @@ public class PayonePaymentServiceProvider implements PaymentServiceProvider {
             case "BANK_TRANSFER-POSTFINANCE_EFINANCE":
             case "BANK_TRANSFER-POSTFINANCE_CARD":
                 return PayoneBankTransferCreateTransactionMethodProvider.of().create();
+            case "INVOICE-KLARNA": return PayoneKlarnaCreatePaymentTransactionMethodProvider.of().create();
         }
 
         throw new UnsupportedOperationException();

@@ -11,9 +11,7 @@ import io.sphere.sdk.payments.commands.PaymentCreateCommand;
 
 import java.util.concurrent.CompletionStage;
 
-/**
- * Created by mgatz on 7/10/16.
- */
+
 public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
 
     /**
@@ -22,14 +20,10 @@ public abstract class CreatePaymentMethodBase implements CreatePaymentMethod {
      * @return the newly created Payment object
      */
     protected CompletionStage<Payment> addNewPayment(final CreatePaymentData cpd) {
-        final Cart cart = cpd.getCart();
-
         final Command<Payment> createPaymentCommand = PaymentCreateCommand.of(createPaymentDraft(cpd).build());
         return cpd.getSphereClient().execute(createPaymentCommand)
-                .thenCompose(p -> {
-                    return cpd.getSphereClient().execute(CartUpdateCommand.of(cpd.getCart(),AddPayment.of(p) ))
-                            .thenApplyAsync(c -> p);
-                });
+                .thenCompose(p -> cpd.getSphereClient().execute(CartUpdateCommand.of(cpd.getCart(), AddPayment.of(p)))
+                                                       .thenApplyAsync(c -> p));
     }
 
     /**

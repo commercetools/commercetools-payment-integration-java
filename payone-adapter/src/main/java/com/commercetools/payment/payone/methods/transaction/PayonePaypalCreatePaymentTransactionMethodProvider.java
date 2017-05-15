@@ -1,10 +1,8 @@
 package com.commercetools.payment.payone.methods.transaction;
 
-import com.commercetools.payment.methods.CreatePaymentTransactionMethod;
-
 public class PayonePaypalCreatePaymentTransactionMethodProvider extends PayoneRedirectCreatePaymentTransactionMethodProviderBase {
 
-    public static CreatePaymentTransactionMethod of() {
+    public static PayonePaypalCreatePaymentTransactionMethodProvider of() {
         return new PayonePaypalCreatePaymentTransactionMethodProvider();
     }
 }

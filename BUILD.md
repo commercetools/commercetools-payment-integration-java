@@ -17,6 +17,9 @@ like [JCenter](https://jcenter.bintray.com/) and [Maven Central](https://search.
   - [Publish to Maven](#publish-to-maven)
 - [All in one publish script](#all-in-one-publish-script)
 - [Known issues](#known-issues)
+    - [`PayonePrepaidTest.testPaymentFlow` and `PayonePaypalTest.testPaymentFlow`](#payoneprepaidtesttestpaymentflow-and-payonepaypaltesttestpaymentflow)
+    - [Any test which makes requests to Sphere environment may fail with:](#any-test-which-makes-requests-to-sphere-environment-may-fail-with)
+    - [Aggregated Javadoc may fail without visible reason](#aggregated-javadoc-may-fail-without-visible-reason)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -159,7 +162,7 @@ To execute the script successfully you should have all the settings above, namel
  - exported `BINTRAY_USER` and `BINTRAY_KEY` environment variables.
 
 # Known issues
- 1. `PayonePrepaidTest.testPaymentFlow` and `PayonePaypalTest.testPaymentFlow` 
+ ### `PayonePrepaidTest.testPaymentFlow` and `PayonePaypalTest.testPaymentFlow` 
  sometimes fail with error:
  > _expected:<[SUCCESS]> but was:<[FAILED]>_. 
  
@@ -170,7 +173,23 @@ To execute the script successfully you should have all the settings above, namel
  Still not clear why, but should be investigated.
  It might be connected to parallel execution, but likely not.
  
- 2. Any test which makes requests to Sphere environment may fail with:
+ ### Any test which makes requests to Sphere environment may fail with:
  > java.util.concurrent.ExecutionException: io.sphere.sdk.http.HttpException: 
  > The underlying HTTP client detected a problem.
  
+ ### Aggregated Javadoc may fail without visible reason
+  
+  The used `gradle-aggregate-javadocs-plugin` has know issue of bad errors reporting: 
+  it fails without explicitly pointing the reason, something like this:
+  
+  ```
+  gradle Javadoc generation failed. Generated Javadoc options file (useful for troubleshooting)... 
+  See generated javadoc.options
+  ```
+  
+  To find the real issue run default gradle `javadoc` task like this:
+  
+  ```
+    ./gradlew clean javadoc
+  ```
+  and this will point you the problematic files/docs. 

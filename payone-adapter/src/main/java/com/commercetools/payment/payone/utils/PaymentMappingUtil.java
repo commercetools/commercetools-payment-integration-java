@@ -19,7 +19,8 @@ public final class PaymentMappingUtil {
      * custom fields. The properties will have have the same name in both acceptor and supplier. No any conditions
      * or values formatting are applied. Missing (<b>null</b>) values from {@code acceptor} are mapped as <b>null</b>.
      * <p>
-     * For optional fields mapping see {@link #mapDraftCustomFieldsIfExist(CustomFieldsDraftBuilder, PaymentInteractionData, List)}
+     * For optional fields mapping see
+     * {@link #mapDraftCustomFieldsIfExist(CustomFieldsDraftBuilder, PaymentInteractionData, List)}
      * </p>
      *
      * @param acceptor   {@link CustomFieldsDraftBuilder} to which map the properties
@@ -39,18 +40,24 @@ public final class PaymentMappingUtil {
     }
 
     /**
-     * * Map values by names in the {@code properties} list from {@code supplier}'s config map to {@code acceptor}'s
+     * Map values by names in the {@code properties} list from {@code supplier}'s config map to {@code acceptor}'s
      * custom fields. The properties will have have the same name in both acceptor and supplier. No any conditions
      * are applied. Before setting value to the {@code acceptor} it will be processed (formatted)
      * by {@code valueFormatter}.
      *
      * @param acceptor       {@link CustomFieldsDraftBuilder} to which map the properties
      * @param supplier       {@link PaymentInteractionData} from which to read the properties.
-     * @param properties     list of string properties name to be mapped from {@code supplier} config to {@code acceptor}
-     *                       custom fields.
+     * @param properties     list of string properties name to be mapped from {@code supplier} config
+     *                       to {@code acceptor} custom fields.
      * @param valueFormatter a function which pre-processes string value from the {@code supplier} to some specific
      *                       field type or format (for instance, map string to boolean, or map string date
-     *                       to another date format)
+     *                       to another date format). <b>Caveat:</b> the formatter function should expect that input
+     *                       value could be <b>null</b>, thus functions reference like {@code String::toLowerCase}
+     *                       might be unsafe to use, if some of the fields is missing or the value is <b>null</b>.
+     *                       In such cases add additional checks, like:
+     *                       <pre> mapDraftCustomFields(a, b, value -> value != null ? value.toLowerCase() : null);
+     *                                             </pre>
+     *                       or use some null-safe methods, like {@link StringUtils#lowerCase(String)} in apache-commons
      * @return same {@code acceptor} instance.
      * @see #mapDraftCustomFields(CustomFieldsDraftBuilder, PaymentInteractionData, List)
      * @see #mapDraftCustomFieldsIfExist(CustomFieldsDraftBuilder, PaymentInteractionData, List)

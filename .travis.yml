@@ -26,9 +26,6 @@ script:
   - ./gradlew --info build || travis_terminate 1
   - ./travis-build-publish.sh || travis_terminate 1
 
-jdk:
-  - oraclejdk8
-
 notifications:
   email:
     on_success: change

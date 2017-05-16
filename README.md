@@ -4,13 +4,14 @@
 
 - [Payment](#payment)
   - [General Info](#general-info)
-  - [Compiling](#compiling)
-  - [Integration into the shop:](#integration-into-the-shop)
+  - [Build](#build)
+  - [Project configuration:](#project-configuration)
     - [Maven example](#maven-example)
     - [SBT example](#sbt-example)
     - [Gradle example](#gradle-example)
-    - [Getting the payment methods](#getting-the-payment-methods)
-    - [Creating the Payment](#creating-the-payment)
+  - [Usage](#usage)
+    - [List available payment methods](#list-available-payment-methods)
+    - [Create payment object](#create-payment-object)
     - [Creating the PaymentTransaction](#creating-the-paymenttransaction)
   - [Supported payment methods](#supported-payment-methods)
 
@@ -19,8 +20,7 @@
 Payment
 ==================
 
-[![Build Status](https://travis-ci.com/commercetools/commercetools-payment-integration-java.svg?token=xBfuKwz4mtssFw4UENNy&branch=master)](https://travis-ci.com/commercetools/project-payment) 
-[![Stories in Ready](https://badge.waffle.io/commercetools/commercetools-payment-integration-java.png?label=ready&title=Ready)](https://waffle.io/commercetools/project-payment)
+[![Build Status](https://travis-ci.org/commercetools/commercetools-payment-integration-java.svg?branch=master)](https://travis-ci.com/commercetools/project-payment) 
 
 Java modules to create and handle payments and payment transactions in different _payment integration services (providers)_, 
 like [`commercetools Payone Integration Service`](https://github.com/commercetools/commercetools-payone-integration). 
@@ -30,14 +30,15 @@ like [`commercetools Payone Integration Service`](https://github.com/commercetoo
 * [Build and publish workflow](BUILD.md)
 
 ## General Info
-The `commercetools-payment-integration-java` project intend is to make payment integration easy.
+This projects provides collection of utils which supports payment integrations based on intermediary services like 
+[Payone Integration Service](https://github.com/commercetools/commercetools-payone-integration).
 
 The checkout process in the shop can follow a standardized process via this module, even if different Payment Service Providers are used.
 `At the moment only PayOne is supported`
 
 The shop has to provide a sphere client for all action this module
 
-## Compiling
+## Build
 Create **JAR** files:
 `./gradlew clean jar`
 
@@ -55,8 +56,8 @@ Publish to Bintray:
 
 For more info about build and publish process see [BUILD](BUILD.md) documentation
 
-## Integration into the shop:
-Take the dependencies from Maven central.
+## Project configuration:
+Take the dependencies from Maven central, Bintray/JCenter.
 
 ### Maven example
 
@@ -145,8 +146,10 @@ Take the dependencies from Maven central.
       compile "com.commercetools.payment:payone-adapter:0.6.2"
     }
   ```
+  
+## Usage
 
-### Getting the payment methods 
+### List available payment methods 
 Get all payment methods:
 
     final List<PaymentMethodInfo> = paymentAdapterService.findAvailablePaymentMethods();
@@ -162,10 +165,11 @@ Get filtered payment methods: (Example to get Free and only Free if *TotalPrice*
         }
     final List<PaymentMethodInfo> = paymentAdapterService.findAvailablePaymentMethods(filter);
 
-### Creating the Payment 
+### Create payment object 
 
-When the customer selected a payment method that she want to use, then the shop has to call the *createPayment* method with a 
-[CreatePaymentData](https://commercetools.github.io/commercetools-payment-integration-java/javadoc/v/current/com/commercetools/payment/model/CreatePaymentData.html) object as parameter.
+In order to persist selected payment method in CTP use [createPayment(CreatePaymentData data)](https://commercetools.github.io/commercetools-payment-integration-java/javadoc/v/current/com/commercetools/payment/service/PaymentAdapterService.html#createPayment-com.commercetools.payment.model.CreatePaymentData-)
+method
+
 
 Different payment methods require different additional values (i.e. successUrl etc.)
 

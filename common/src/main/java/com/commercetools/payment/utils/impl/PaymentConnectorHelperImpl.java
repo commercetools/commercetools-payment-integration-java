@@ -6,11 +6,9 @@ import io.sphere.sdk.client.SphereClientFactory;
 import io.sphere.sdk.http.HttpClient;
 import io.sphere.sdk.http.HttpMethod;
 import io.sphere.sdk.http.HttpRequest;
-import io.sphere.sdk.http.HttpResponse;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import javax.annotation.Nonnull;
+import java.util.concurrent.CompletionStage;
 
 /**
  * Created by mgatz on 7/28/16.
@@ -18,15 +16,16 @@ import java.util.concurrent.TimeoutException;
 public class PaymentConnectorHelperImpl implements PaymentConnectorHelper {
 
     @Override
-    public HttpRequestResult sendHttpGetRequest(String url) {
+    @Nonnull
+    public CompletionStage<HttpRequestResult> sendHttpGetRequest(String url) {
         HttpRequest request = HttpRequest.of(HttpMethod.GET, url);
 
-        try(HttpClient client = SphereClientFactory.of().createHttpClient()) {
+        // TODO: must be injected, instead of initialization!!!
+        HttpClient client = SphereClientFactory.of().createHttpClient();
 
-            HttpResponse response = client.execute(request).toCompletableFuture().get(10000, TimeUnit.MILLISECONDS);
-            return HttpRequestResult.of(request, response, null);
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            return HttpRequestResult.of(request, null, e);
-        }
+        return client.execute(request)
+                     .thenApplyAsync(response -> HttpRequestResult.of(request, response, null))
+                     .exceptionally(throwable -> HttpRequestResult.of(request, null, throwable))
+                     .whenCompleteAsync((response, throwable) -> client.close());
     }
 }

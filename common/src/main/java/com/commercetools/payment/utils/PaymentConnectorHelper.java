@@ -3,6 +3,9 @@ package com.commercetools.payment.utils;
 import com.commercetools.payment.model.HttpRequestResult;
 import com.commercetools.payment.utils.impl.PaymentConnectorHelperImpl;
 
+import javax.annotation.Nonnull;
+import java.util.concurrent.CompletionStage;
+
 /**
  * Created by mgatz on 7/28/16.
  */
@@ -17,5 +20,6 @@ public interface PaymentConnectorHelper {
      * @param url the URL to be requested
      * @return the HTTP response
      */
-    HttpRequestResult sendHttpGetRequest(String url);
+    @Nonnull
+    CompletionStage<HttpRequestResult> sendHttpGetRequest(String url);
 }

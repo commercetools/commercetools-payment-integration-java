@@ -9,6 +9,7 @@ import io.sphere.sdk.http.HttpRequest;
 import io.sphere.sdk.http.HttpStatusCode;
 import io.sphere.sdk.payments.Payment;
 import io.sphere.sdk.payments.queries.PaymentByIdGet;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.concurrent.CompletionStage;
 
@@ -25,15 +26,16 @@ public class PayoneHandlePaymentHelperImpl implements PayoneHandlePaymentHelper 
 
     @Override
     public CompletionStage<Payment> requestHandling(String paymentId) {
-        try (final HttpClient httpClient = SphereClientFactory.of().createHttpClient()) {
-            return httpClient.execute(HttpRequest.of(HttpMethod.GET, buildUrl(paymentId)))
-                    .thenCompose(response -> {
-                        if(response.getStatusCode().equals(HttpStatusCode.OK_200)) {
-                            return sphereClient.execute(PaymentByIdGet.of(paymentId));
-                        }
-                        return null;
-                    });
-        }
+        HttpClient httpClient = SphereClientFactory.of().createHttpClient();
+
+        return httpClient.execute(HttpRequest.of(HttpMethod.GET, buildUrl(paymentId)))
+            .thenComposeAsync(response -> {
+                if (ObjectUtils.compare(response.getStatusCode(), HttpStatusCode.OK_200) == 0) {
+                    return sphereClient.execute(PaymentByIdGet.of(paymentId));
+                }
+                return null;
+            })
+            .whenCompleteAsync((p, e) -> httpClient.close());
     }
 
     private String buildUrl(String paymentId) {

@@ -35,7 +35,7 @@ public class PaymentCreationResultBuilder {
         return ofError(message, null);
     }
 
-    public static PaymentCreationResult ofError(final String message,final Throwable exception) {
+    public static PaymentCreationResult ofError(final String message, final Throwable exception) {
         return new PaymentCreationResultImpl(
                 OperationResult.FAILED,
                 null,

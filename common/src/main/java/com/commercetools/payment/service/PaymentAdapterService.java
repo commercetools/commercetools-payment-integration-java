@@ -50,12 +50,15 @@ public interface PaymentAdapterService {
     /**
      * Creates a new payment object at the CTP and thereby starts a new payment transaction workflow.
      * @param data the wrapper object for all possibly needed data
+     * @return {@link CompletionStage} of {@link PaymentCreationResult} with the result of {@code data} payment creation
      */
     CompletionStage<PaymentCreationResult> createPayment(CreatePaymentData data);
 
     /**
      * Create a new payment transaction for the payment with the passed reference.
      * @param data the wrapper object for all possibly needed data
+     * @return {@link CompletionStage} of {@link PaymentTransactionCreationResult} with the result of {@code data}
+     * transaction creation.
      */
     CompletionStage<PaymentTransactionCreationResult> createPaymentTransaction(CreatePaymentTransactionData data);
 
@@ -68,9 +71,9 @@ public interface PaymentAdapterService {
 
     /**
      * Get the full {@link PaymentMethodInfo} object from the configuration.
-     * @param interfaceId
-     * @param method
-     * @return
+     * @param interfaceId payment interface id name
+     * @param method payment method name
+     * @return {@link Optional} of {@link PaymentMethodInfo} if such method for such interface exists.
      */
     Optional<PaymentMethodInfo> getPaymentMethodInfo(String interfaceId, String method);
 }

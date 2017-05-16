@@ -1,0 +1,3 @@
+rootProject.name = 'commercetools-payment-integration-java'
+
+include 'common', 'nopsp-adapter', 'payone-adapter'

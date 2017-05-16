@@ -1,11 +1,11 @@
 package com.commercetools.payment.domain;
 
-import com.commercetools.payment.model.impl.PaymentTransactionCreationResultImpl;
 import com.commercetools.payment.actions.HandlingTask;
 import com.commercetools.payment.actions.OperationResult;
 import com.commercetools.payment.actions.ShopAction;
 import com.commercetools.payment.model.PaymentCreationResult;
 import com.commercetools.payment.model.PaymentTransactionCreationResult;
+import com.commercetools.payment.model.impl.PaymentTransactionCreationResultImpl;
 import io.sphere.sdk.payments.Payment;
 
 /**
@@ -25,7 +25,7 @@ public class PaymentTransactionCreationResultBuilder {
     /**
      * Create the builder instance.
      *
-     * @param operationResult
+     * @param operationResult operation result to parse in {@link PaymentTransactionCreationResultBuilder}
      * @return new instance of the builder object
      */
     public static PaymentTransactionCreationResultBuilder of(OperationResult operationResult) {

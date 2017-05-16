@@ -1,6 +1,20 @@
 #!/bin/bash
 
-# Build, test and Publish to Maven Central (actually, target repo is depended on build.sbt settings)
-# See BUILD.md for more details about required environment to test and deploy the application
+VERSION="$1"
 
-heroku restart --app ct-payone-integration-test && sbt clean test it:test publish-signed
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+LIGHT_BLUE='\033[1;34m'
+NC='\033[0m'
+
+if [ -z "$VERSION" ] ; then
+  printf "${RED}First argument as a build version is required${NC}\n"
+  exit 1
+else
+  printf "\n${GREEN}Build and deploy a new application version ${LIGHT_BLUE}${VERSION}${NC}\n\n"
+fi
+
+# Build, test and Publish Docs to Github pages and artifacts to Bintray
+# See BUILD.md for more details about required environment to test and deploy the application
+heroku restart --app ct-payment-integration-java
+./gradlew clean build aggregateJavaDoc gitPublishPush bintrayUpload -Dbuild.version="$1"

@@ -40,9 +40,10 @@ public interface PaymentLookupHelper {
      * Find a payment object related to the passed cart using its payment service provider ID and its method ID that has no transaction attached.
      * If more then on object is found then the newest one (concidering the creationdate) will be returned only.
      *
+     * @param cart a cart for which a new payment must be created.
      * @param pspId the payment service provider ID (mapped to "interfaceId" at CTP)
      * @param methodId the payment method ID (mapped to "paymentMethodInfo.paymentInterface" at CTP)
-     * @return
+     * @return {@link CompletionStage} of optional {@link Payment} if found any.
      */
     CompletionStage<Optional<Payment>> findPaymentWithoutTransaction(Cart cart, String pspId, String methodId);
 

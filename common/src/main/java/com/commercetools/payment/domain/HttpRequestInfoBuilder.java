@@ -24,7 +24,7 @@ public class HttpRequestInfoBuilder {
 
     /**
      * Add locale information of the HTTP request to the shop.
-     * @param l
+     * @param l {@link Locale} to set
      * @return enriched self
      */
     public HttpRequestInfoBuilder requestLocale(Locale l) {
@@ -34,7 +34,7 @@ public class HttpRequestInfoBuilder {
 
     /**
      * Add IPv4 address information of the client request.
-     * @param ip
+     * @param ip {@link InetAddress} to set
      * @return enriched self
      */
     public HttpRequestInfoBuilder inetAddress(InetAddress ip) {

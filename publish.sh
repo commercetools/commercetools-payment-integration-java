@@ -16,4 +16,5 @@ fi
 
 # Build, test and Publish Docs to Github pages and artifacts to Bintray
 # See BUILD.md for more details about required environment to test and deploy the application
-heroku restart --app ct-payment-integration-java && ./gradlew clean build aggregateJavaDoc gitPublishPush bintrayUpload -Dbuild.version="$1"
+heroku restart --app ct-payment-integration-java
+./gradlew clean build aggregateJavaDoc gitPublishPush bintrayUpload -Dbuild.version="$1"

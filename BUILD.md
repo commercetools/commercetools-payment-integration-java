@@ -34,21 +34,32 @@ from Bintray to _JCenter_ and/or _Maven Central_. See [Publish workflow](#publis
 
 # Integration tests
  
-For successful integration test on remote machine (e.g. Travis) the next settings are required:
- - **Mandatory CTP environment variables** (see `ItConfig.java`):
+For successful integration test on remote machine (e.g. Travis) following settings are required:
+ - **Mandatory CTP environment variables** (see [`ItConfig.java`](/blob/master/src/it/com/commercetools/config/ItConfig.java)):
  
-    |  Key name                 | commercetools test environment                                                    |
-    |---------------------------|-----------------------------------------------------------------------------------|
-    | CT_PROJECT_KEY            | project-payment-21                                                                |
-    | CT_CLIENT_ID              | see admin Sphere API Settings for project-payment-21                              |
-    | CT_CLIENT_SECRET          | see admin Sphere API Settings for project-payment-21                              |
-    | CT_PAYONE_INTEGRATION_URL | `https://ct-payment-integration-java.herokuapp.com/commercetools/handle/payments/` |
+    |  Key name                 | commercetools test environment                                                                    |
+    |---------------------------|---------------------------------------------------------------------------------------------------|
+    | CT_PROJECT_KEY            | project-payment-21                                                                                |
+    | CT_PROJECT_KEY            | project-payment-21                                                                                |
+    | CT_CLIENT_ID              | see [CTP API Settings for project-payment-21](https://admin.commercetools.com/project-payment-21) |
+    | CT_CLIENT_SECRET          | see [CTP API Settings for project-payment-21](https://admin.commercetools.com/project-payment-21) |
+    | CT_PAYONE_INTEGRATION_URL | `https://ct-payment-integration-java.herokuapp.com/commercetools/handle/payments/`                |
     
   - `CT_PAYONE_INTEGRATION_URL` resource with deployed 
     [commercetools payone integration service](https://github.com/commercetools/commercetools-payone-integration).
     This service must be connected to the same project (*CT_PROJECT_KEY*).
-    - For current workflow the service is deployed to [Heroku](https://dashboard.heroku.com/apps/ct-payment-integration-java/settings)
-    using *heroku cli*. To avoid any side-effect of previous tests it is recommended to re-start the service 
+    - For current workflow the service might be deployed to [Heroku](https://dashboard.heroku.com/apps/ct-payment-integration-java/settings)
+    using [*heroku cli*](https://devcenter.heroku.com/articles/heroku-cli) or direct push to heroku repository from 
+    [payone-integration-service](https://github.com/commercetools/commercetools-payone-integration):
+    ```
+    git clone git@github.com:commercetools/commercetools-payone-integration.git
+    cd commercetools-payone-integration
+    git push https://git.heroku.com/ct-payone-integration-staging.git master
+    ```
+      For more information about how to deploy the service see [Heroku Deployment](https://devcenter.heroku.com/categories/deployment) and 
+      [Payone integration service build](https://github.com/commercetools/commercetools-payone-integration#build)
+    
+    - To avoid any side-effect of previous tests it is recommended to re-start the service 
     before the build (this will re-initialize all custom types, see [IntegrationService#start()](https://github.com/commercetools/commercetools-payone-integration/blob/927adfa637918c20feb03242242f9d57f5561669/service/src/main/java/com/commercetools/pspadapter/payone/IntegrationService.java#L52)):
       ```
       heroku restart --app ct-payment-integration-java
@@ -66,13 +77,13 @@ heroku restart --app ct-payment-integration-java # may be skipped on secondary r
 ```
 
 To run all these tests locally (including IDE) with mandatory properties above - use `it.properties` file 
-(in `it/resources` directory) with all secret values. See `ItConfig.java` for more details. 
-Also you could copy and edit `it/resources/it.properties.skeleton`.
+(in `it/resources` directory) with all secret values. See [`ItConfig.java`](/blob/master/src/it/com/commercetools/config/ItConfig.java) for more details. 
+Also you could copy and edit [`it/resources/it.properties.skeleton`](/blob/master/src/it/resources/it.properties.skeleton).
 
 The gradle _build_ task is configured to be depended on all the tests, including Unit tests on all sub-projects and 
 common integration tests from [`src/`](/src/) directory.
 
-The tests some times fail because of this [known issues](#known-issues).
+Because of the [known issues](#known-issues) some tests may fail.
 
 # Publish workflow
 
@@ -88,32 +99,31 @@ Replace `X.X.X` in the snippet:
  
 This step may be used for local test versions:
 ```
-./gradlew clean build publishPaymentPublicationPublicationToMavenLocal
+./gradlew clean install
 ```
 
 ## Publish to Bintray
 
 [Bintray documentation about publish process](https://blog.bintray.com/2014/02/11/bintray-as-pain-free-gateway-to-maven-central/)
 
-Bintray publish is performed by `gradle-bintray-plugin`. The artifacts are published to 
-https://bintray.com/commercetools/maven/payment 
-repo.
+Bintray publish is performed by [`gradle-bintray-plugin`](https://github.com/bintray/gradle-bintray-plugin). 
+The artifacts are published to [bintray commercetools maven repo](https://bintray.com/commercetools/maven/payment).
 
 If you are a new developer in the project - update contributors list in 
 [`build.gradle`](/build.gradle)`-> subprojects -> pomConfig ->developers`.
 
 To initiate publish call:
 ```
-./gradlew clean build bintrayUpload -Dbuild.version=<<NEW_VERSION>>
+./gradlew clean build bintrayUpload -Dbuild.version=X.X.X
 ```
 
-**NOTE**: Bintray does not allow to publish snapshots thus `<<NEW_VERSION>>` should not contation _SNAPSHOT_.
+**NOTE**: Bintray does not allow to publish snapshots thus `X.X.X` should not contain _SNAPSHOT_.
 If you wish to use snapshots, https://oss.jfrog.com account should be configured.
 See https://blog.bintray.com/2014/02/11/bintray-as-pain-free-gateway-to-maven-central/ for more info.
 
 Instead of snapshots we recommend to use _alpha_, _beta_ etc version suffixes.
 
-When the publish done the artifacts are available in [Bintray Download](http://dl.bintray.com/commercetools/maven/com/commercetools/payment/),
+After publishing to Bintray artifacts are available in [Bintray Download](http://dl.bintray.com/commercetools/maven/com/commercetools/payment/)
 but still not available in [JCenter](https://jcenter.bintray.com/com/commercetools/payment/). 
 
 To publish the artifacts to JCenter do the next:
@@ -124,7 +134,7 @@ To publish the artifacts to JCenter do the next:
 
 ## Publish to Maven
 
-Publishing to Maven Central requires the next steps:
+Publishing to Maven Central requires the following steps:
 
  1. Build the app and upload to Bintray (see the steps above for integration tests)
  1. [Signing up the app with PGP key](https://blog.bintray.com/2013/08/06/fight-crime-with-gpg/): for now we use Bintray's 
@@ -151,7 +161,7 @@ As a summary of all the steps above you may use _all-in-one_ publish script from
 where `X.X.X` is a new deploy version.
 
 This scripts restarts Heroku integration test environment, builds the app, runs unit and integration tests, 
-aggregates and deploys to Github all javadoc, upload all artifacts to Bintray. 
+aggregates and deploys to Github all javadoc, uploads all artifacts to Bintray. 
 To execute the script successfully you should have all the settings above, namely:
 
  - installed and logged in heroku cli (or `$HEROKU_API_KEY` environment variable set instead of log in)
@@ -159,7 +169,8 @@ To execute the script successfully you should have all the settings above, namel
  - exported `BINTRAY_USER` and `BINTRAY_KEY` environment variables.
 
 # Known issues
- 1. `PayonePrepaidTest.testPaymentFlow` and `PayonePaypalTest.testPaymentFlow` 
+ 1. [`PayonePrepaidTest.testPaymentFlow`](https://github.com/commercetools/commercetools-payment-integration-java/blob/master/src/it/com/commercetools/payment/PayonePrepaidTest.java)
+  and [`PayonePaypalTest.testPaymentFlow`](https://github.com/commercetools/commercetools-payment-integration-java/blob/master/src/it/com/commercetools/payment/PayonePaypalTest.java)
  sometimes fail with error:
  > _expected:<[SUCCESS]> but was:<[FAILED]>_. 
  
@@ -170,7 +181,7 @@ To execute the script successfully you should have all the settings above, namel
  Still not clear why, but should be investigated.
  It might be connected to parallel execution, but likely not.
  
- 2. Any test which makes requests to Sphere environment may fail with:
+ 2. Any test which makes requests to commercetools platform environment may fail with:
  > java.util.concurrent.ExecutionException: io.sphere.sdk.http.HttpException: 
  > The underlying HTTP client detected a problem.
  

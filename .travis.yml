@@ -10,8 +10,10 @@ cache:
 
 language: java
 
+dist: trusty
+
 jdk:
-  - oraclejdk8
+  - openjdk8
 
 install: true # skip default travis build
 
@@ -25,9 +27,6 @@ script:
   - set -e
   - ./gradlew --info build || travis_terminate 1
   - ./travis-build-publish.sh || travis_terminate 1
-
-jdk:
-  - oraclejdk8
 
 notifications:
   email:

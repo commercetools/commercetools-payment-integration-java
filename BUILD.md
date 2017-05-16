@@ -106,9 +106,8 @@ This step may be used for local test versions:
 
 [Bintray documentation about publish process](https://blog.bintray.com/2014/02/11/bintray-as-pain-free-gateway-to-maven-central/)
 
-Bintray publish is performed by `gradle-bintray-plugin`. The artifacts are published to 
-https://bintray.com/commercetools/maven/payment 
-repo.
+Bintray publish is performed by [`gradle-bintray-plugin`](https://github.com/bintray/gradle-bintray-plugin). 
+The artifacts are published to [bintray commercetools maven repo](https://bintray.com/commercetools/maven/payment).
 
 If you are a new developer in the project - update contributors list in 
 [`build.gradle`](/build.gradle)`-> subprojects -> pomConfig ->developers`.
@@ -170,7 +169,8 @@ To execute the script successfully you should have all the settings above, namel
  - exported `BINTRAY_USER` and `BINTRAY_KEY` environment variables.
 
 # Known issues
- 1. `PayonePrepaidTest.testPaymentFlow` and `PayonePaypalTest.testPaymentFlow` 
+ 1. [`PayonePrepaidTest.testPaymentFlow`](https://github.com/commercetools/commercetools-payment-integration-java/blob/master/src/it/com/commercetools/payment/PayonePrepaidTest.java)
+  and [`PayonePaypalTest.testPaymentFlow`](https://github.com/commercetools/commercetools-payment-integration-java/blob/master/src/it/com/commercetools/payment/PayonePaypalTest.java)
  sometimes fail with error:
  > _expected:<[SUCCESS]> but was:<[FAILED]>_. 
  

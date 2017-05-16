@@ -6,9 +6,9 @@
   - [General Info](#general-info)
   - [Build](#build)
   - [Project configuration:](#project-configuration)
-    - [Maven example](#maven-example)
-    - [SBT example](#sbt-example)
-    - [Gradle example](#gradle-example)
+    - [Maven](#maven)
+    - [SBT](#sbt)
+    - [Gradle](#gradle)
   - [Usage](#usage)
     - [List available payment methods](#list-available-payment-methods)
     - [Create payment object](#create-payment-object)
@@ -59,7 +59,7 @@ For more info about build and publish process see [BUILD](BUILD.md) documentatio
 ## Project configuration:
 Take the dependencies from Maven central, Bintray/JCenter.
 
-### Maven example
+### Maven
 
   1. Add _JCenter_ and/or _Bintray_ repositories references in the project `pom.xml` or in common maven `settings.xml`.
   An Example of `pom.xml` configuration:
@@ -111,7 +111,7 @@ Take the dependencies from Maven central, Bintray/JCenter.
     </dependencies>
   ```
 
-### SBT example
+### SBT
 
   1. [Configure _JCenter_ and/or _Bintray_ repositories](http://www.scala-sbt.org/0.13/docs/Resolvers.html)
   
@@ -124,7 +124,7 @@ Take the dependencies from Maven central, Bintray/JCenter.
    )
   ```
 
-### Gradle example
+### Gradle
 
   1. Add dependencies repositories into the head of `build.gradle` (note, you are not obligated to add all of them):
   

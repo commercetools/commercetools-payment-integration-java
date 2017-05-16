@@ -152,6 +152,17 @@ public class CartTestImpl implements Cart {
         return null;
     }
 
+    @Nullable
+    @Override
+    public Integer getDeleteDaysAfterLastModification() {
+        return null;
+    }
+
+    @Override
+    public RoundingMode getTaxRoundingMode() {
+        return null;
+    }
+
     // Put the properties for the getters here
     // we keep them public for easy mocking
 

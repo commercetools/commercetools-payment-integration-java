@@ -9,8 +9,13 @@ cache:
     - $HOME/.gradle/wrapper/
 
 language: java
+
+dist: trusty
+
 jdk:
-  - oraclejdk8
+  - openjdk8
+
+install: true # skip default travis build
 
 before_script:
 # install heroku stand alone cli to restart ct-payment-integration-java app
@@ -22,9 +27,6 @@ script:
   - set -e
   - ./gradlew --info build || travis_terminate 1
   - ./travis-build-publish.sh || travis_terminate 1
-
-jdk:
-  - oraclejdk8
 
 notifications:
   email:

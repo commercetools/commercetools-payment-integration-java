@@ -10,6 +10,8 @@ cache:
 
 language: java
 
+dist: trusty
+
 jdk:
   - openjdk8
 

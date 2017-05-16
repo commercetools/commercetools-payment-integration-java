@@ -27,8 +27,8 @@ final scmProjectUrl = "https://$projectPath"                  // just as web-pag
 final scmHttpsUrl = "https://$scmRepo/$scmProjectPath"        // common read access
 final scmSshUrl = "git@$scmRepo:$scmProjectPath"              // developers read-write repo
 
-// dev version patch. Real version should be specified as Java property
-ext.versionWIP = 'dev-WIP-version'
+// dev version patch. Real version should be specified as Java property -Dbuild.version=XXX
+ext.versionWIP = 'development-SNAPSHOT'
 
 allprojects {
     repositories {

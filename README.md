@@ -101,12 +101,12 @@ Take the dependencies from Maven central, Bintray/JCenter.
       <dependency>
         <groupId>com.commercetools.payment</groupId>
         <artifactId>common</artifactId>
-        <version>0.6.2</version>
+        <version>0.7.0</version>
       </dependency>
       <dependency>
         <groupId>com.commercetools.payment</groupId>
         <artifactId>payone-adapter</artifactId>
-        <version>0.6.2</version>
+        <version>0.7.0</version>
       </dependency>
     </dependencies>
   ```
@@ -119,8 +119,8 @@ Take the dependencies from Maven central, Bintray/JCenter.
   
   ```scala
     libraryDependencies ++= Seq(
-      "com.commercetools.payment" % "common" % "0.6.2",
-      "com.commercetools.payment" % "payone-adapter" % "0.6.2"
+      "com.commercetools.payment" % "common" % "0.7.0",
+      "com.commercetools.payment" % "payone-adapter" % "0.7.0"
    )
   ```
 
@@ -142,8 +142,8 @@ Take the dependencies from Maven central, Bintray/JCenter.
   
   ```groovy
     dependencies {
-      compile "com.commercetools.payment:common:0.6.2"
-      compile "com.commercetools.payment:payone-adapter:0.6.2"
+      compile "com.commercetools.payment:common:0.7.0"
+      compile "com.commercetools.payment:payone-adapter:0.7.0"
     }
   ```
   

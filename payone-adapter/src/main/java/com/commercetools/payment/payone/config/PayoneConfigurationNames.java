@@ -24,5 +24,10 @@ public interface PayoneConfigurationNames {
     // KLARNA specific options
     static final String GENDER = "gender"; // KlarnaConstants.Gender
     static final String IP = "ip"; // IP address, IPv4 or IPv6
-    static final String BIRTHDAY = "birthday"; // Date of birth (YYYYMMDD), Mandatory for Germany, Netherlands and Austria
+
+    /**
+     * Date of birth, mandatory for Germany, Netherlands and Austria.
+     * The value must be in {@link java.time.LocalDate} parseable format, like <i>YYYY-MM-DD</i>
+     */
+    static final String BIRTHDAY = "birthday";
 }

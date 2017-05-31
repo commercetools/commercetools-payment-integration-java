@@ -10,15 +10,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.config.ItConfig.getPayoneIntegrationUrl;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Created by mgatz on 7/10/16.
- */
 public class PayoneKlarnaTest extends BasePayoneTest {
 
     @Before
@@ -44,7 +42,7 @@ public class PayoneKlarnaTest extends BasePayoneTest {
                                 reference)
                                 .configValue(GENDER, "female")
                                 .configValue(IP, "1.7.4.6")
-                                .configValue(BIRTHDAY, "19560831")
+                                .configValue(BIRTHDAY, "1956-08-31")
                                 .build())
                 .toCompletableFuture().get();
 
@@ -69,7 +67,7 @@ public class PayoneKlarnaTest extends BasePayoneTest {
 
         assertThat(customFields.getFieldAsString(GENDER)).isEqualTo("female");
         assertThat(customFields.getFieldAsString(IP)).isEqualTo("1.7.4.6");
-        assertThat(customFields.getFieldAsString(BIRTHDAY)).isEqualTo("19560831");
+        assertThat(customFields.getFieldAsDate(BIRTHDAY)).isEqualTo(LocalDate.of(1956, 8, 31));
     }
 
 }

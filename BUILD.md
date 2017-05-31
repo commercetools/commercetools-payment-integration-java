@@ -57,7 +57,7 @@ For successful integration test on remote machine (e.g. Travis) following settin
     ```
     git clone git@github.com:commercetools/commercetools-payone-integration.git
     cd commercetools-payone-integration
-    git push https://git.heroku.com/ct-payone-integration-staging.git master
+    git push https://git.heroku.com/ct-payment-integration-java.git master
     ```
       For more information about how to deploy the service see [Heroku Deployment](https://devcenter.heroku.com/categories/deployment) and 
       [Payone integration service build](https://github.com/commercetools/commercetools-payone-integration#build)

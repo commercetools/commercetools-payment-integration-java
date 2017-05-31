@@ -27,7 +27,7 @@ public class PayoneKlarnaCreatePaymentMethodProvider extends PayoneCreatePayment
     protected PaymentDraftBuilder createPaymentDraft(CreatePaymentData cpd) {
 
         CustomFieldsDraftBuilder customFieldsDraftBuilder = createCustomFieldsBuilder(cpd);
-        mapDraftCustomFields(customFieldsDraftBuilder, cpd, asList(GENDER, IP, BIRTHDAY));
+        mapDraftCustomFields(customFieldsDraftBuilder, cpd, asList(GENDER, IP, BIRTHDAY, TELEPHONENUMBER));
 
         return super.createPaymentDraft(cpd)
                 .custom(customFieldsDraftBuilder.build());

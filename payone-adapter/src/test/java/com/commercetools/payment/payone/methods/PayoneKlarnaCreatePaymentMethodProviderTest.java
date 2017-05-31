@@ -34,6 +34,7 @@ public class PayoneKlarnaCreatePaymentMethodProviderTest extends BasePayoneCreat
         config.put(GENDER, "m");
         config.put(IP, "127.0.0.8");
         config.put(BIRTHDAY, "19851112");
+        config.put(TELEPHONENUMBER, "89234579");
 
         testCart = new CartTestImpl();
         testCart.totalPrice = Monetary.getDefaultAmountFactory().setCurrency("EUR").setNumber(87.65).create();
@@ -61,13 +62,14 @@ public class PayoneKlarnaCreatePaymentMethodProviderTest extends BasePayoneCreat
         Map<String, JsonNode> customFields = custom.getFields();
 
         sa.assertThat(customFields).isNotNull();
-        sa.assertThat(customFields.size()).isEqualTo(5);
+        sa.assertThat(customFields.size()).isEqualTo(6);
         sa.assertThat(customFields.get(LANGUAGE_CODE).textValue()).isEqualTo("de");
         sa.assertThat(customFields.get(REFERENCE).textValue()).isEqualTo("test-klarna-reference-id");
 
         sa.assertThat(customFields.get(GENDER).textValue()).isEqualTo("m");
         sa.assertThat(customFields.get(IP).textValue()).isEqualTo("127.0.0.8");
         sa.assertThat(customFields.get(BIRTHDAY).textValue()).isEqualTo("19851112");
+        sa.assertThat(customFields.get(TELEPHONENUMBER).textValue()).isEqualTo("89234579");
 
         sa.assertAll();
     }
@@ -105,7 +107,7 @@ public class PayoneKlarnaCreatePaymentMethodProviderTest extends BasePayoneCreat
         Map<String, JsonNode> customFields = custom.getFields();
 
         sa.assertThat(customFields).isNotNull();
-        sa.assertThat(customFields.size()).isEqualTo(5);
+        sa.assertThat(customFields.size()).isEqualTo(6);
         sa.assertThat(customFields.get(LANGUAGE_CODE).textValue()).isEqualTo("de");
         sa.assertThat(customFields.get(REFERENCE).textValue()).isEqualTo("test-klarna-reference-id");
 
@@ -113,6 +115,7 @@ public class PayoneKlarnaCreatePaymentMethodProviderTest extends BasePayoneCreat
         assertContainsButNull(sa, customFields, GENDER);
         assertContainsButNull(sa, customFields, IP);
         assertContainsButNull(sa, customFields, BIRTHDAY);
+        assertContainsButNull(sa, customFields, TELEPHONENUMBER);
 
         sa.assertAll();
     }

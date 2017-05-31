@@ -30,4 +30,6 @@ public interface PayoneConfigurationNames {
      * The value must be in {@link java.time.LocalDate} parseable format, like <i>YYYY-MM-DD</i>
      */
     static final String BIRTHDAY = "birthday";
+
+    static final String TELEPHONENUMBER = "telephonenumber";
 }

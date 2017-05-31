@@ -43,6 +43,7 @@ public class PayoneKlarnaTest extends BasePayoneTest {
                                 .configValue(GENDER, "female")
                                 .configValue(IP, "1.7.4.6")
                                 .configValue(BIRTHDAY, "1956-08-31")
+                                .configValue(TELEPHONENUMBER, "472634876234")
                                 .build())
                 .toCompletableFuture().get();
 
@@ -68,6 +69,7 @@ public class PayoneKlarnaTest extends BasePayoneTest {
         assertThat(customFields.getFieldAsString(GENDER)).isEqualTo("female");
         assertThat(customFields.getFieldAsString(IP)).isEqualTo("1.7.4.6");
         assertThat(customFields.getFieldAsDate(BIRTHDAY)).isEqualTo(LocalDate.of(1956, 8, 31));
+        assertThat(customFields.getFieldAsString(TELEPHONENUMBER)).isEqualTo("472634876234");
     }
 
 }

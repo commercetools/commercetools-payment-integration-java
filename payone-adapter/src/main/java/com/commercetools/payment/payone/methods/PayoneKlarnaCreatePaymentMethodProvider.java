@@ -7,9 +7,7 @@ import io.sphere.sdk.types.CustomFieldsDraftBuilder;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
 import static com.commercetools.payment.payone.methods.PayonePaymentMethodType.PAYMENT_INVOICE_KLARNA;
 import static com.commercetools.payment.payone.utils.PaymentMappingUtil.mapDraftCustomFields;
-import static com.commercetools.payment.payone.utils.PaymentMappingUtil.mapDraftCustomFieldsIfExist;
 import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
 
 public class PayoneKlarnaCreatePaymentMethodProvider extends PayoneCreatePaymentMethodBase {
 
@@ -29,8 +27,7 @@ public class PayoneKlarnaCreatePaymentMethodProvider extends PayoneCreatePayment
     protected PaymentDraftBuilder createPaymentDraft(CreatePaymentData cpd) {
 
         CustomFieldsDraftBuilder customFieldsDraftBuilder = createCustomFieldsBuilder(cpd);
-        mapDraftCustomFields(customFieldsDraftBuilder, cpd, asList(GENDER, IP, TELEPHONE_NUMBER, BIRTHDAY));
-        mapDraftCustomFieldsIfExist(customFieldsDraftBuilder, cpd, singletonList(NARRATIVE_TEXT));
+        mapDraftCustomFields(customFieldsDraftBuilder, cpd, asList(GENDER, IP, BIRTHDAY));
 
         return super.createPaymentDraft(cpd)
                 .custom(customFieldsDraftBuilder.build());

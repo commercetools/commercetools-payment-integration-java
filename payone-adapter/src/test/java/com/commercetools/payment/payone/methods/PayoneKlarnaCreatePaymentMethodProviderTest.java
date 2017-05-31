@@ -33,9 +33,7 @@ public class PayoneKlarnaCreatePaymentMethodProviderTest extends BasePayoneCreat
         Map<String, String> config = new HashMap<>();
         config.put(GENDER, "m");
         config.put(IP, "127.0.0.8");
-        config.put(TELEPHONE_NUMBER, "+491234567");
         config.put(BIRTHDAY, "19851112");
-        config.put(NARRATIVE_TEXT, "narrative test text");
 
         testCart = new CartTestImpl();
         testCart.totalPrice = Monetary.getDefaultAmountFactory().setCurrency("EUR").setNumber(87.65).create();
@@ -63,15 +61,13 @@ public class PayoneKlarnaCreatePaymentMethodProviderTest extends BasePayoneCreat
         Map<String, JsonNode> customFields = custom.getFields();
 
         sa.assertThat(customFields).isNotNull();
-        sa.assertThat(customFields.size()).isEqualTo(7);
+        sa.assertThat(customFields.size()).isEqualTo(5);
         sa.assertThat(customFields.get(LANGUAGE_CODE).textValue()).isEqualTo("de");
         sa.assertThat(customFields.get(REFERENCE).textValue()).isEqualTo("test-klarna-reference-id");
 
         sa.assertThat(customFields.get(GENDER).textValue()).isEqualTo("m");
         sa.assertThat(customFields.get(IP).textValue()).isEqualTo("127.0.0.8");
-        sa.assertThat(customFields.get(TELEPHONE_NUMBER).textValue()).isEqualTo("+491234567");
         sa.assertThat(customFields.get(BIRTHDAY).textValue()).isEqualTo("19851112");
-        sa.assertThat(customFields.get(NARRATIVE_TEXT).textValue()).isEqualTo("narrative test text");
 
         sa.assertAll();
     }
@@ -109,16 +105,14 @@ public class PayoneKlarnaCreatePaymentMethodProviderTest extends BasePayoneCreat
         Map<String, JsonNode> customFields = custom.getFields();
 
         sa.assertThat(customFields).isNotNull();
-        sa.assertThat(customFields.size()).isEqualTo(6);
+        sa.assertThat(customFields.size()).isEqualTo(5);
         sa.assertThat(customFields.get(LANGUAGE_CODE).textValue()).isEqualTo("de");
         sa.assertThat(customFields.get(REFERENCE).textValue()).isEqualTo("test-klarna-reference-id");
 
         // mandatory klarna fields exist, but empty
         assertContainsButNull(sa, customFields, GENDER);
         assertContainsButNull(sa, customFields, IP);
-        assertContainsButNull(sa, customFields, TELEPHONE_NUMBER);
         assertContainsButNull(sa, customFields, BIRTHDAY);
-        sa.assertThat(customFields.containsKey(NARRATIVE_TEXT)).isFalse();
 
         sa.assertAll();
     }

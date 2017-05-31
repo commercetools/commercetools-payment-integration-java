@@ -12,6 +12,7 @@ import org.junit.Test;
 import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.config.ItConfig.getPayoneIntegrationUrl;
+import static com.commercetools.payment.methods.PaymentMethodKeys.WALLET_PAYPAL;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
 
 /**
@@ -39,7 +40,7 @@ public class PayonePaypalTest extends BasePayoneTest {
                         CreatePaymentDataBuilder.of(
                                 client,
                                 "PAYONE",
-                                "WALLET-PAYPAL",
+                                WALLET_PAYPAL,
                                 cart,
                                 reference)
                             .configValue(SUCCESS_URL, "http://google.de")

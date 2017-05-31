@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.util.concurrent.ExecutionException;
 
+import static com.commercetools.payment.methods.PaymentMethodKeys.BANK_TRANSFER_SOFORTUEBERWEISUNG;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
 
 /**
@@ -34,7 +35,7 @@ public class PayoneSofortTest extends BasePayoneTest {
                 .createPayment(CreatePaymentDataBuilder.of(
                         client,
                         "PAYONE",
-                        "BANK_TRANSFER-SOFORTUEBERWEISUNG",
+                        BANK_TRANSFER_SOFORTUEBERWEISUNG,
                         cart, reference)
                         .configValue(SUCCESS_URL, "http://google.de")
                         .configValue(ERROR_URL, "http://google.de")

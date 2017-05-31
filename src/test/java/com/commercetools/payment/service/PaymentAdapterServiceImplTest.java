@@ -11,6 +11,7 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.commercetools.payment.methods.PaymentMethodKeys.*;
 import static com.commercetools.payment.payone.config.PayoneConstants.PAYONE_INTERFACE_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -54,13 +55,13 @@ public class PaymentAdapterServiceImplTest {
         assertThat(availablePaymentMethods).isNotNull();
         assertThat(availablePaymentMethods.size()).isEqualTo(7 + 1); // 7 PAYONE methods + 1 INTERNAL:FREE
 
-        PaymentMethodInfo payoneCc = getByInterfaceAndMethod(availablePaymentMethods, PAYONE_INTERFACE_ID, "CREDIT_CARD");
+        PaymentMethodInfo payoneCc = getByInterfaceAndMethod(availablePaymentMethods, PAYONE_INTERFACE_ID, CREDIT_CARD);
         assertThat(payoneCc).isNotNull();
 
-        PaymentMethodInfo payoneBta = getByInterfaceAndMethod(availablePaymentMethods, PAYONE_INTERFACE_ID, "BANK_TRANSFER-ADVANCE");
+        PaymentMethodInfo payoneBta = getByInterfaceAndMethod(availablePaymentMethods, PAYONE_INTERFACE_ID, BANK_TRANSFER_ADVANCE);
         assertThat(payoneBta).isNotNull();
 
-        PaymentMethodInfo payoneKlv = getByInterfaceAndMethod(availablePaymentMethods, PAYONE_INTERFACE_ID, "INVOICE-KLARNA");
+        PaymentMethodInfo payoneKlv = getByInterfaceAndMethod(availablePaymentMethods, PAYONE_INTERFACE_ID, INVOICE_KLARNA);
         assertThat(payoneKlv).isNotNull();
 
         PaymentMethodInfo internal = getByInterfaceAndMethod(availablePaymentMethods, "INTERNAL", "FREE");
@@ -88,10 +89,10 @@ public class PaymentAdapterServiceImplTest {
 
     @Test
     public void getPaymentMethodInfo() throws Exception {
-        PaymentMethodInfo paypal = pas.getPaymentMethodInfo(PAYONE_INTERFACE_ID, "WALLET-PAYPAL")
+        PaymentMethodInfo paypal = pas.getPaymentMethodInfo(PAYONE_INTERFACE_ID, WALLET_PAYPAL)
                                                             .orElse(null);
         assertThat(paypal).isNotNull();
-        assertThat(paypal.getMethod()).isEqualTo("WALLET-PAYPAL");
+        assertThat(paypal.getMethod()).isEqualTo(WALLET_PAYPAL);
         assertThat(paypal.getName()).isNotNull();
         assertThat(paypal.getName().get("de")).isEqualTo("Paypal");
         assertThat(paypal.getName().get("en")).isEqualTo("Paypal");

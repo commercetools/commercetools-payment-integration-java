@@ -18,6 +18,8 @@ import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.commercetools.payment.methods.PaymentMethodKeys.*;
+
 public class PayonePaymentServiceProvider implements PaymentServiceProvider {
 
     private PayoneConfiguration configuration;
@@ -50,14 +52,14 @@ public class PayonePaymentServiceProvider implements PaymentServiceProvider {
     @Override
     public Function<CreatePaymentData, CompletionStage<PaymentCreationResult>> provideCreatePaymentHandler(final String methodId) throws UnsupportedOperationException {
         switch (methodId) {
-            case "CREDIT_CARD": return PayoneCreditCardCreatePaymentMethodProvider.of().create();
-            case "WALLET-PAYPAL": return PayonePaypalCreatePaymentMethodProvider.of().create();
-            case "BANK_TRANSFER-ADVANCE" : return PayoneBanktransferInAdvanceCreatePaymentProvider.of().create();
-            case "BANK_TRANSFER-SOFORTUEBERWEISUNG":
-            case "BANK_TRANSFER-POSTFINANCE_EFINANCE":
-            case "BANK_TRANSFER-POSTFINANCE_CARD":
+            case CREDIT_CARD: return PayoneCreditCardCreatePaymentMethodProvider.of().create();
+            case WALLET_PAYPAL: return PayonePaypalCreatePaymentMethodProvider.of().create();
+            case BANK_TRANSFER_ADVANCE : return PayoneBanktransferInAdvanceCreatePaymentProvider.of().create();
+            case BANK_TRANSFER_SOFORTUEBERWEISUNG:
+            case BANK_TRANSFER_POSTFINANCE_EFINANCE:
+            case BANK_TRANSFER_POSTFINANCE_CARD:
                 return PayoneBankTransferCreatePaymentMethodProvider.of().create();
-            case "INVOICE-KLARNA": return PayoneKlarnaCreatePaymentMethodProvider.of().create();
+            case INVOICE_KLARNA: return PayoneKlarnaCreatePaymentMethodProvider.of().create();
         }
 
         throw new UnsupportedOperationException();
@@ -66,14 +68,14 @@ public class PayonePaymentServiceProvider implements PaymentServiceProvider {
     @Override
     public Function<CreatePaymentTransactionData, CompletionStage<PaymentTransactionCreationResult>> provideCreatePaymentTransactionHandler(final String methodId) {
         switch (methodId) {
-            case "CREDIT_CARD": return PayoneCreditCardCreatePaymentTransactionMethodProvider.of().create();
-            case "WALLET-PAYPAL": return PayonePaypalCreatePaymentTransactionMethodProvider.of().create();
-            case "BANK_TRANSFER-ADVANCE" : return PayoneBanktransferInAdvancePaymentTransactionMethodProvider.of().create();
-            case "BANK_TRANSFER-SOFORTUEBERWEISUNG":
-            case "BANK_TRANSFER-POSTFINANCE_EFINANCE":
-            case "BANK_TRANSFER-POSTFINANCE_CARD":
+            case CREDIT_CARD: return PayoneCreditCardCreatePaymentTransactionMethodProvider.of().create();
+            case WALLET_PAYPAL: return PayonePaypalCreatePaymentTransactionMethodProvider.of().create();
+            case BANK_TRANSFER_ADVANCE : return PayoneBanktransferInAdvancePaymentTransactionMethodProvider.of().create();
+            case BANK_TRANSFER_SOFORTUEBERWEISUNG:
+            case BANK_TRANSFER_POSTFINANCE_EFINANCE :
+            case BANK_TRANSFER_POSTFINANCE_CARD:
                 return PayoneBankTransferCreateTransactionMethodProvider.of().create();
-            case "INVOICE-KLARNA": return PayoneKlarnaCreatePaymentTransactionMethodProvider.of().create();
+            case INVOICE_KLARNA: return PayoneKlarnaCreatePaymentTransactionMethodProvider.of().create();
         }
 
         throw new UnsupportedOperationException();

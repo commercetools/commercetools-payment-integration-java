@@ -10,8 +10,9 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
-import static com.commercetools.util.IntegrationTestUtils.*;
+import static com.commercetools.payment.methods.PaymentMethodKeys.*;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
+import static com.commercetools.util.IntegrationTestUtils.updateCart;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -38,7 +39,7 @@ public class PayoneChangePaymentsTest extends BasePayoneTest {
                         CreatePaymentDataBuilder.of(
                                 client,
                                 "PAYONE",
-                                "WALLET-PAYPAL",
+                                WALLET_PAYPAL,
                                 cart,
                                 Long.toString(System.nanoTime()))
                             .configValue(SUCCESS_URL, "http://google.de")
@@ -54,7 +55,7 @@ public class PayoneChangePaymentsTest extends BasePayoneTest {
                         CreatePaymentDataBuilder.of(
                                 client,
                                 "PAYONE",
-                                "BANK_TRANSFER-ADVANCE",
+                                BANK_TRANSFER_ADVANCE,
                                 cart,
                                 Long.toString(new Date().getTime())).build())
                 .toCompletableFuture().get();
@@ -64,7 +65,7 @@ public class PayoneChangePaymentsTest extends BasePayoneTest {
         // user selects creditcard
         PaymentCreationResult paymentCreationResult = PaymentAdapterService.of()
                 .createPayment(
-                        CreatePaymentDataBuilder.of(client, "PAYONE", "CREDIT_CARD", cart, Long.toString(new Date().getTime()))
+                        CreatePaymentDataBuilder.of(client, "PAYONE", CREDIT_CARD, cart, Long.toString(new Date().getTime()))
                                 .configValue(CREDIT_CARD_FORCE_3D_SECURE, "true")
                                 .configValue(SUCCESS_URL, "http://google.de")
                                 .configValue(ERROR_URL, "http://google.de")
@@ -77,8 +78,8 @@ public class PayoneChangePaymentsTest extends BasePayoneTest {
         cart = updateCart(client, cart);
 
         assertThat(cart.getPaymentInfo().getPayments()).hasSize(3);
-        assertThat(cart.getPaymentInfo().getPayments().get(0).getObj().getPaymentMethodInfo().getMethod()).isEqualTo("WALLET-PAYPAL");
-        assertThat(cart.getPaymentInfo().getPayments().get(1).getObj().getPaymentMethodInfo().getMethod()).isEqualTo("BANK_TRANSFER-ADVANCE");
-        assertThat(cart.getPaymentInfo().getPayments().get(2).getObj().getPaymentMethodInfo().getMethod()).isEqualTo("CREDIT_CARD");
+        assertThat(cart.getPaymentInfo().getPayments().get(0).getObj().getPaymentMethodInfo().getMethod()).isEqualTo(WALLET_PAYPAL);
+        assertThat(cart.getPaymentInfo().getPayments().get(1).getObj().getPaymentMethodInfo().getMethod()).isEqualTo(BANK_TRANSFER_ADVANCE);
+        assertThat(cart.getPaymentInfo().getPayments().get(2).getObj().getPaymentMethodInfo().getMethod()).isEqualTo(CREDIT_CARD);
     }
 }

@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.util.concurrent.ExecutionException;
 
+import static com.commercetools.payment.methods.PaymentMethodKeys.CREDIT_CARD;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,7 +34,7 @@ public class PayoneCreditCardTest extends BasePayoneTest {
         String reference = generateTestPayoneReference("cc-test");
         PaymentCreationResult paymentCreationResult = PaymentAdapterService.of()
                 .createPayment(
-                        CreatePaymentDataBuilder.of(client, "PAYONE", "CREDIT_CARD", cart, reference)
+                        CreatePaymentDataBuilder.of(client, "PAYONE", CREDIT_CARD, cart, reference)
                                 .configValue(CREDIT_CARD_FORCE_3D_SECURE, "true")
                                 .configValue(SUCCESS_URL, "http://google.de")
                                 .configValue(ERROR_URL, "http://google.de")

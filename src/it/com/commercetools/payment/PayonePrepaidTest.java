@@ -9,7 +9,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.config.ItConfig.getPayoneIntegrationUrl;
@@ -35,6 +34,7 @@ public class PayonePrepaidTest extends BasePayoneTest {
     @Test
     public void testPaymentFlow() throws ExecutionException, InterruptedException {
         // user selected paypal
+        String reference = generateTestPayoneReference("prepaid-test");
         PaymentCreationResult paymentCreationResult = PaymentAdapterService.of()
                 .createPayment(
                         CreatePaymentDataBuilder.of(
@@ -42,10 +42,10 @@ public class PayonePrepaidTest extends BasePayoneTest {
                                 "PAYONE",
                                 "BANK_TRANSFER-ADVANCE",
                                 cart,
-                                Long.toString(System.nanoTime())).build())
+                                reference).build())
                 .toCompletableFuture().get();
 
-        assertPaymentObjectCreation(paymentCreationResult);
+        assertPaymentObjectCreation(paymentCreationResult, reference);
 
         // user clicked "buy now" -> create transaction, trigger handle payment, return updated payment object
         PaymentTransactionCreationResult paymentTransactionCreationResult = PaymentAdapterService.of()

@@ -25,6 +25,7 @@ public class PayoneErrorsTest extends BasePayoneTest {
     public void setup() throws ExecutionException, InterruptedException {
         super.setup(1);
 
+        String reference = generateTestPayoneReference("error-test");
         paymentCreationResult = PaymentAdapterService.of()
                 .createPayment(
                         CreatePaymentDataBuilder.of(
@@ -32,13 +33,13 @@ public class PayoneErrorsTest extends BasePayoneTest {
                                 "PAYONE",
                                 "WALLET-PAYPAL",
                                 cart,
-                                Long.toString(System.nanoTime()))
+                                reference)
                                 .configValue(SUCCESS_URL, "http://google.de")
                                 .configValue(ERROR_URL, "http://google.de")
                                 .configValue(CANCEL_URL, "http://google.de").build())
                 .toCompletableFuture().get();
 
-        assertPaymentObjectCreation(paymentCreationResult);
+        assertPaymentObjectCreation(paymentCreationResult, reference);
     }
 
     @After

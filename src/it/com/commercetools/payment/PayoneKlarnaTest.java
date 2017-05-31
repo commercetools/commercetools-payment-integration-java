@@ -5,6 +5,7 @@ import com.commercetools.payment.domain.CreatePaymentTransactionDataBuilder;
 import com.commercetools.payment.model.PaymentCreationResult;
 import com.commercetools.payment.model.PaymentTransactionCreationResult;
 import com.commercetools.payment.service.PaymentAdapterService;
+import io.sphere.sdk.types.CustomFields;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,15 +14,16 @@ import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.config.ItConfig.getPayoneIntegrationUrl;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by mgatz on 7/10/16.
  */
-public class PayonePaypalTest extends BasePayoneTest {
+public class PayoneKlarnaTest extends BasePayoneTest {
 
     @Before
     public void setup() throws ExecutionException, InterruptedException {
-        super.setup(2);
+        super.setup(1);
     }
 
     @After
@@ -30,24 +32,23 @@ public class PayonePaypalTest extends BasePayoneTest {
     }
 
     @Test
-    public void testPaymentFlow() throws ExecutionException, InterruptedException {
-
-        // user selected paypal
-        String reference = generateTestPayoneReference("paypal-test");
+    public void createPaymentCreationMethod() throws ExecutionException, InterruptedException {
+        String reference = generateTestPayoneReference("klv");
         PaymentCreationResult paymentCreationResult = PaymentAdapterService.of()
                 .createPayment(
                         CreatePaymentDataBuilder.of(
                                 client,
                                 "PAYONE",
-                                "WALLET-PAYPAL",
+                                "INVOICE-KLARNA",
                                 cart,
                                 reference)
-                            .configValue(SUCCESS_URL, "http://google.de")
-                            .configValue(ERROR_URL, "http://google.de")
-                            .configValue(CANCEL_URL, "http://google.de").build())
+                                .configValue(GENDER, "female")
+                                .configValue(IP, "1.7.4.6")
+                                .configValue(BIRTHDAY, "19560831")
+                                .build())
                 .toCompletableFuture().get();
 
-        assertPaymentObjectCreation(paymentCreationResult, reference);
+        assertKlarnaPaymentCreation(paymentCreationResult, reference);
 
         // user clicked "buy now" -> create transaction, trigger handle payment, return updated payment object
         PaymentTransactionCreationResult paymentTransactionCreationResult = PaymentAdapterService.of()
@@ -59,6 +60,16 @@ public class PayonePaypalTest extends BasePayoneTest {
                 .toCompletableFuture().get();
 
         assertPaymentTransactionObjectCreation(paymentTransactionCreationResult);
+    }
+
+    private void assertKlarnaPaymentCreation(PaymentCreationResult pcr, String reference) {
+        assertPaymentObjectCreation(pcr, reference);
+
+        CustomFields customFields = getCustomFields(pcr);
+
+        assertThat(customFields.getFieldAsString(GENDER)).isEqualTo("female");
+        assertThat(customFields.getFieldAsString(IP)).isEqualTo("1.7.4.6");
+        assertThat(customFields.getFieldAsString(BIRTHDAY)).isEqualTo("19560831");
     }
 
 }

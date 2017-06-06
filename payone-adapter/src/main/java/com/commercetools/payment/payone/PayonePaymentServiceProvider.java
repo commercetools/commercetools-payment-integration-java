@@ -49,7 +49,8 @@ public class PayonePaymentServiceProvider implements PaymentServiceProvider {
     }
 
     @Override
-    public Function<CreatePaymentData, CompletionStage<PaymentCreationResult>> provideCreatePaymentHandler(final String methodId) throws UnsupportedOperationException {
+    public Function<CreatePaymentData, CompletionStage<PaymentCreationResult>> provideCreatePaymentHandler(final String methodId)
+            throws UnsupportedOperationException {
         switch (methodId) {
             case CREDIT_CARD: return PayoneCreditCardCreatePaymentMethodProvider.of().create();
             case WALLET_PAYPAL: return PayonePaypalCreatePaymentMethodProvider.of().create();
@@ -61,11 +62,12 @@ public class PayonePaymentServiceProvider implements PaymentServiceProvider {
             case INVOICE_KLARNA: return PayoneKlarnaCreatePaymentMethodProvider.of().create();
         }
 
-        throw new UnsupportedOperationException();
+        throw createUnsupportedMethodException(methodId);
     }
 
     @Override
-    public Function<CreatePaymentTransactionData, CompletionStage<PaymentTransactionCreationResult>> provideCreatePaymentTransactionHandler(final String methodId) {
+    public Function<CreatePaymentTransactionData, CompletionStage<PaymentTransactionCreationResult>> provideCreatePaymentTransactionHandler(final String methodId)
+            throws UnsupportedOperationException {
         switch (methodId) {
             case CREDIT_CARD: return PayoneCreditCardCreatePaymentTransactionMethodProvider.of().create();
             case WALLET_PAYPAL: return PayonePaypalCreatePaymentTransactionMethodProvider.of().create();
@@ -77,7 +79,7 @@ public class PayonePaymentServiceProvider implements PaymentServiceProvider {
             case INVOICE_KLARNA: return PayoneKlarnaCreatePaymentTransactionMethodProvider.of().create();
         }
 
-        throw new UnsupportedOperationException();
+        throw createUnsupportedMethodException(methodId);
     }
 
 }

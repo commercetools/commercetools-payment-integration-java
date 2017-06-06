@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @author mht@dotsource.de
  */
 public class NoPaymentServiceProvider implements PaymentServiceProvider {
-    NoPaymentServiceConfiguration configuration;
+    private NoPaymentServiceConfiguration configuration;
 
     public NoPaymentServiceProvider() {
         configuration = NoPaymentServiceConfigurationProvider.of().load();
@@ -48,21 +48,23 @@ public class NoPaymentServiceProvider implements PaymentServiceProvider {
     }
 
     @Override
-    public Function<CreatePaymentData, CompletionStage<PaymentCreationResult>> provideCreatePaymentHandler(String methodId) {
+    public Function<CreatePaymentData, CompletionStage<PaymentCreationResult>> provideCreatePaymentHandler(String methodId)
+            throws UnsupportedOperationException {
         switch (methodId) {
             case "FREE": return FreeCreatePaymentMethodProvider.of().create();
         }
 
-        throw new UnsupportedOperationException();
+        throw createUnsupportedMethodException(methodId);
     }
 
     @Override
-    public Function<CreatePaymentTransactionData, CompletionStage<PaymentTransactionCreationResult>> provideCreatePaymentTransactionHandler(String methodId) {
+    public Function<CreatePaymentTransactionData, CompletionStage<PaymentTransactionCreationResult>> provideCreatePaymentTransactionHandler(String methodId)
+            throws UnsupportedOperationException {
         switch (methodId) {
             case "FREE": return FreeCreatePaymentTransactionMethodProvider.of().create();
         }
 
-        throw new UnsupportedOperationException();
+        throw createUnsupportedMethodException(methodId);
     }
 
 }

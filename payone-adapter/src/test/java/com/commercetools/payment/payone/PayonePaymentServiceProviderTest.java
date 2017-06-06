@@ -2,10 +2,12 @@ package com.commercetools.payment.payone;
 
 import com.commercetools.payment.domain.PaymentServiceProvider;
 import io.sphere.sdk.payments.PaymentMethodInfo;
+import org.junit.Before;
 import org.junit.Test;
 
 import static com.commercetools.payment.methods.PaymentMethodKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Created by mgatz on 7/18/16.
@@ -13,14 +15,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PayonePaymentServiceProviderTest {
     public static final String METHOD_ID = "PAYONE";
 
+    private PaymentServiceProvider psp;
+
+    @Before
+    public void setUp() throws Exception {
+        psp = new PayonePaymentServiceProvider();
+    }
+
     @Test
     public void getId() throws Exception {
-        assertThat(new PayonePaymentServiceProvider().getId()).isEqualTo(METHOD_ID);
+        assertThat(psp.getId()).isEqualTo(METHOD_ID);
     }
 
     @Test
     public void getAvailablePaymentMethods() throws Exception {
-        PaymentServiceProvider psp = new PayonePaymentServiceProvider();
         assertThat(psp.getAvailablePaymentMethods().size()).isEqualTo(7);
 
         PaymentMethodInfo pmi = psp.getAvailablePaymentMethods().get(0); // credit card
@@ -75,6 +83,20 @@ public class PayonePaymentServiceProviderTest {
     @Test
     public void provideCreatePaymentHandler() throws Exception {
         assertThat(true).isTrue(); // TODO: implement
+    }
+
+    @Test
+    public void provideCreatePaymentHandler_exception() throws Exception {
+        assertThatThrownBy(() -> psp.provideCreatePaymentHandler("blah-blah"))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageContaining("blah-blah");
+    }
+
+    @Test
+    public void provideCreatePaymentTransactionHandler_exception() throws Exception {
+        assertThatThrownBy(() -> psp.provideCreatePaymentTransactionHandler("ya-hoooo"))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageContaining("ya-hoooo");
     }
 
 }

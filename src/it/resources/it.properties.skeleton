@@ -6,4 +6,4 @@ ct.clientSecret=<<set from admin center>>
 #ct.payoneIntegrationUrl=http://localhost:8080/commercetools/handle/payments/
 
 # if testing against heroku service
-ct.payoneIntegrationUrl=https://ct-payment-integration-java.herokuapp.com/commercetools/handle/payments/
+ct.payoneIntegrationUrl=https://ct-payment-integration-java.herokuapp.com/PAYMENT/commercetools/handle/payments/

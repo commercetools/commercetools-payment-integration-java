@@ -77,9 +77,4 @@ public class PayonePaymentServiceProviderTest {
         assertThat(true).isTrue(); // TODO: implement
     }
 
-    @Test
-    public void provideGetPaymentStatusHandler() throws Exception {
-        assertThat(true).isTrue(); // TODO: implement
-    }
-
 }

@@ -10,7 +10,6 @@ import com.commercetools.payment.nopsp.config.NoPaymentServiceConfigurationProvi
 import com.commercetools.payment.nopsp.methods.FreeCreatePaymentMethodProvider;
 import com.commercetools.payment.nopsp.methods.FreeCreatePaymentTransactionMethodProvider;
 import io.sphere.sdk.payments.PaymentMethodInfo;
-import io.sphere.sdk.payments.PaymentStatus;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -66,8 +65,4 @@ public class NoPaymentServiceProvider implements PaymentServiceProvider {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public Function<String, PaymentStatus> provideGetPaymentStatusHandler() {
-        return null;
-    }
 }

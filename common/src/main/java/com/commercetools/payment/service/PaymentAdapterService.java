@@ -6,7 +6,6 @@ import com.commercetools.payment.model.CreatePaymentTransactionData;
 import com.commercetools.payment.model.PaymentCreationResult;
 import com.commercetools.payment.model.PaymentTransactionCreationResult;
 import io.sphere.sdk.payments.PaymentMethodInfo;
-import io.sphere.sdk.payments.PaymentStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,17 +60,6 @@ public interface PaymentAdapterService {
      * transaction creation.
      */
     CompletionStage<PaymentTransactionCreationResult> createPaymentTransaction(CreatePaymentTransactionData data);
-
-    /**
-     * Get the status of the payment object referenced by the passed parameter.
-     * @param ref the reference of to the payment the status should be returned for
-     * @return the status of the referenced payment object
-     *
-     * @deprecated This has been never implemented and used. Looks like this method had been put here accidentally.
-     * Likely will be removed in the next releases.
-     */
-    @Deprecated
-    PaymentStatus getPaymentStatus(String ref);
 
     /**
      * Get the full {@link PaymentMethodInfo} object from the configuration.

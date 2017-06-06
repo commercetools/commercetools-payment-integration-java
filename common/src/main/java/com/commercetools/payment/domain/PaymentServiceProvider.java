@@ -5,7 +5,6 @@ import com.commercetools.payment.model.CreatePaymentTransactionData;
 import com.commercetools.payment.model.PaymentCreationResult;
 import com.commercetools.payment.model.PaymentTransactionCreationResult;
 import io.sphere.sdk.payments.PaymentMethodInfo;
-import io.sphere.sdk.payments.PaymentStatus;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -51,9 +50,4 @@ public interface PaymentServiceProvider {
      */
     Function<CreatePaymentTransactionData, CompletionStage<PaymentTransactionCreationResult>> provideCreatePaymentTransactionHandler(String methodId);
 
-    /**
-     * Create a function that can return the payment status for a passed payment reference.
-     * @return a function to be executed
-     */
-    Function<String, PaymentStatus> provideGetPaymentStatusHandler();
 }

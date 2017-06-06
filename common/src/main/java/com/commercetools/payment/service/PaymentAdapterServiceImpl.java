@@ -8,7 +8,6 @@ import com.commercetools.payment.model.PaymentCreationResult;
 import com.commercetools.payment.model.PaymentTransactionCreationResult;
 import com.commercetools.payment.utils.PaymentLookupHelper;
 import io.sphere.sdk.payments.PaymentMethodInfo;
-import io.sphere.sdk.payments.PaymentStatus;
 
 import java.util.List;
 import java.util.Objects;
@@ -80,12 +79,6 @@ public class PaymentAdapterServiceImpl implements PaymentAdapterService {
                     return findPaymentServiceProvider(data.getPayment().getPaymentMethodInfo().getPaymentInterface())
                             .provideCreatePaymentTransactionHandler(data.getPayment().getPaymentMethodInfo().getMethod()).apply(data);
                 });
-    }
-
-    @Override
-    @Deprecated
-    public PaymentStatus getPaymentStatus(String ref) {
-        return null;
     }
 
     @Override

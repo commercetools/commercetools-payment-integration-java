@@ -11,7 +11,7 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.commercetools.payment.methods.PaymentMethodKeys.*;
+import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.*;
 import static com.commercetools.payment.payone.config.PayoneConstants.PAYONE_INTERFACE_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 

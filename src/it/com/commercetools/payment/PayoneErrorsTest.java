@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.config.ItConfig.getPayoneIntegrationUrl;
 import static com.commercetools.payment.actions.ShopAction.HANDLE_ERROR;
-import static com.commercetools.payment.methods.PaymentMethodKeys.WALLET_PAYPAL;
+import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.WALLET_PAYPAL;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
 import static org.assertj.core.api.Assertions.assertThat;
 

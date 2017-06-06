@@ -17,7 +17,7 @@ import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.commercetools.payment.methods.PaymentMethodKeys.*;
+import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.*;
 
 public class PayonePaymentServiceProvider implements PaymentServiceProvider {
 

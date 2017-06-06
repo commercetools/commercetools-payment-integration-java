@@ -2,7 +2,7 @@ package com.commercetools.payment;
 
 import com.commercetools.payment.domain.CreatePaymentDataBuilder;
 import com.commercetools.payment.domain.CreatePaymentTransactionDataBuilder;
-import com.commercetools.payment.methods.PaymentMethodKeys;
+import com.commercetools.payment.payone.config.PayonePaymentMethodKeys;
 import com.commercetools.payment.model.PaymentCreationResult;
 import com.commercetools.payment.model.PaymentTransactionCreationResult;
 import com.commercetools.payment.service.PaymentAdapterService;
@@ -38,7 +38,7 @@ public class PayoneKlarnaTest extends BasePayoneTest {
                         CreatePaymentDataBuilder.of(
                                 client,
                                 "PAYONE",
-                                PaymentMethodKeys.INVOICE_KLARNA,
+                                PayonePaymentMethodKeys.INVOICE_KLARNA,
                                 cart,
                                 reference)
                                 .configValue(GENDER, "female")

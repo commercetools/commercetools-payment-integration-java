@@ -5,7 +5,7 @@ import io.sphere.sdk.payments.PaymentMethodInfo;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.commercetools.payment.methods.PaymentMethodKeys.*;
+import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

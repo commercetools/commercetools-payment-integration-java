@@ -10,7 +10,7 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
-import static com.commercetools.payment.methods.PaymentMethodKeys.*;
+import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.*;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
 import static com.commercetools.util.IntegrationTestUtils.updateCart;
 import static org.assertj.core.api.Assertions.assertThat;

@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import java.util.concurrent.ExecutionException;
 
-import static com.commercetools.payment.methods.PaymentMethodKeys.CREDIT_CARD;
+import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.CREDIT_CARD;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
 import static org.assertj.core.api.Assertions.assertThat;
 

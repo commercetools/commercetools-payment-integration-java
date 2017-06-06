@@ -4,7 +4,7 @@ import io.sphere.sdk.payments.PaymentMethodInfo;
 import io.sphere.sdk.payments.TransactionType;
 import org.junit.Test;
 
-import static com.commercetools.payment.methods.PaymentMethodKeys.CREDIT_CARD;
+import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.CREDIT_CARD;
 import static org.assertj.core.api.Assertions.assertThat;
 
 

@@ -12,7 +12,7 @@ import org.junit.Test;
 import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.config.ItConfig.getPayoneIntegrationUrl;
-import static com.commercetools.payment.methods.PaymentMethodKeys.BANK_TRANSFER_ADVANCE;
+import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.BANK_TRANSFER_ADVANCE;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.HANDLE_URL;
 
 /**

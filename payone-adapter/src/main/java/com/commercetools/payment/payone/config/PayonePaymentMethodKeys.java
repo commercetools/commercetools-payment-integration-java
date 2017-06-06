@@ -1,4 +1,4 @@
-package com.commercetools.payment.methods;
+package com.commercetools.payment.payone.config;
 
 /**
  * Method names/keys supported by the library.
@@ -6,7 +6,7 @@ package com.commercetools.payment.methods;
  * {@code com.commercetools.pspadapter.payone.domain.ctp.paymentmethods.MethodKeys}
  * in <i>commercetools-payone-integration</i> service.
  */
-public class PaymentMethodKeys {
+public class PayonePaymentMethodKeys {
 
     /**
      * Credit Card

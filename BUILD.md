@@ -13,12 +13,13 @@ like [JCenter](https://jcenter.bintray.com/) and [Maven Central](https://search.
 - [Publish workflow](#publish-workflow)
   - [Full build with tests, documentation publishing and Bintray upload](#full-build-with-tests-documentation-publishing-and-bintray-upload)
   - [Publish to local maven repo](#publish-to-local-maven-repo)
+  - [Publish snapshots to oss.sonatype.org](#publish-snapshots-to-osssonatypeorg)
   - [Publish to Bintray](#publish-to-bintray)
   - [Publish to Maven](#publish-to-maven)
 - [All in one publish script](#all-in-one-publish-script)
 - [Known issues](#known-issues)
-    - [`PayonePrepaidTest.testPaymentFlow` and `PayonePaypalTest.testPaymentFlow`](#payoneprepaidtesttestpaymentflow-and-payonepaypaltesttestpaymentflow)
-    - [Any test which makes requests to Sphere environment may fail with:](#any-test-which-makes-requests-to-sphere-environment-may-fail-with)
+    - [`PayonePrepaidTest.testPaymentFlow`](#payoneprepaidtesttestpaymentflow)
+    - [Any test which makes requests to commercetools platform environment may fail with:](#any-test-which-makes-requests-to-commercetools-platform-environment-may-fail-with)
     - [Aggregated Javadoc may fail without visible reason](#aggregated-javadoc-may-fail-without-visible-reason)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -105,6 +106,38 @@ This step may be used for local test versions:
 ./gradlew clean install -Dbuild.version=X.X.X
 ```
 
+If you want to review full generated `pom.xml` (with license, scm, developers) like it will be published, then use:
+```
+./gradlew clean publishToMavenLocal -Dbuild.version=X.X.X
+```
+
+where `publishToMavenLocal` is a task from 
+[`maven-publish`](https://docs.gradle.org/3.3/userguide/publishing_maven.html#publishing_maven:install)
+plugin.
+
+Use [publish-to-maven-local.sh](./publish-to-maven-local.sh) script for easier publishing process.
+
+## Publish snapshots to oss.sonatype.org
+
+**Note:** this expected to be changed to https://oss.jfrog.org in the future.
+
+To publish to [OSS Sonatype snapshots](https://oss.sonatype.org/content/repositories/snapshots/com/commercetools/)
+repo the following command is used:
+
+```bash
+./gradlew clean build uploadArchives -Dbuild.version=X.X.X-SNAPSHOT
+```
+
+The `-SNAPSHOT` suffix is mandatory. 
+
+**Note**: for publishing to OSS Sonatype you need specify **API** User/Key (not login credentials) for in 
+`OSS_USER`/`OSS_KEY` environment variables or `ossUser`/`ossKey` gradle build properties 
+(the properties have precedence over environment variables). 
+
+See more configuration details of the oss uploading in [oss-upload.gradle](./build-scripts/oss-upload.gradle) file.
+
+Use [publish-to-oss.sh](./publish-to-oss.sh) script for easier publishing process.
+
 ## Publish to Bintray
 
 [Bintray documentation about publish process](https://blog.bintray.com/2014/02/11/bintray-as-pain-free-gateway-to-maven-central/)
@@ -124,7 +157,10 @@ To initiate publish call:
 If you wish to use snapshots, https://oss.jfrog.com account should be configured.
 See https://blog.bintray.com/2014/02/11/bintray-as-pain-free-gateway-to-maven-central/ for more info.
 
-Instead of snapshots we recommend to use _alpha_, _beta_ etc version suffixes.
+Snapshots could be published to oss using [Publish snapshots](#publish-snapshots-to-osssonatypeorg) guides. 
+If you need to publish test versions to bintray - use _alpha_, _beta_ etc suffixes.
+
+Use [publish-to-bintray.sh](./publish-to-bintray.sh) script for easier publishing process.
 
 After publishing to Bintray artifacts are available in [Bintray Download](http://dl.bintray.com/commercetools/maven/com/commercetools/payment/)
 but still not available in [JCenter](https://jcenter.bintray.com/com/commercetools/payment/). 

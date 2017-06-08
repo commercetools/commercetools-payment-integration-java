@@ -12,23 +12,27 @@ buildscript {
 
 final depVersions = [
         commercetoolsSdkJvm: '1.17.0',
-        assertJ: '3.6.2',
-        mockito: '2.7.22',
-        junit: '4.12',
-        slf4j: '1.7.25'
+        assertJ            : '3.6.2',
+        mockito            : '2.7.22',
+        junit              : '4.12',
+        slf4j              : '1.7.25'
 ]
 
-final scmProjectName = rootProject.name
-final scmRepo = 'github.com'
-final projectPath = "commercetools/${scmProjectName}"
-final scmProjectPath = "${projectPath}.git"
+// these properties reused by external configurations in build-script directory,
+// that's why we use ext. global prefix
+ext.scmProjectName = rootProject.name
+ext.scmRepo = 'github.com'
 
-final scmProjectUrl = "https://$projectPath"                  // just as web-page
-final scmHttpsUrl = "https://$scmRepo/$scmProjectPath"        // common read access
-final scmSshUrl = "git@$scmRepo:$scmProjectPath"              // developers read-write repo
+ext.scmProjectPath = "commercetools/${scmProjectName}.git"  // github relative path with .git extension
+ext.scmProjectUrl = "https://$scmRepo/$scmProjectPath"      // just as web-page
+ext.scmHttpsUrl = "https://$scmRepo/$scmProjectPath"        // common VCS read access
+ext.scmSshUrl = "git@$scmRepo:$scmProjectPath"              // developers VCS read-write repo
+
+ext.SNAPSHOT = 'SNAPSHOT'
+ext.SNAPSHOT_SUFFIX = "-$SNAPSHOT"
 
 // dev version patch. Real version should be specified as Java property -Dbuild.version=XXX
-ext.versionWIP = 'development-SNAPSHOT'
+ext.versionWIP = "development$SNAPSHOT_SUFFIX"
 
 allprojects {
     repositories {
@@ -41,7 +45,7 @@ allprojects {
     group = 'com.commercetools.payment'
 
     // version should be defined from runtime property, e.g. should be passed to the build like -Dbuild.version=$TRAVIS_TAG
-    version = System.getProperty('build.version')?: versionWIP
+    version = System.getProperty('build.version') ?: versionWIP
 
     description "The commercetools java payment project intend is to make payment integration easy"
 
@@ -82,119 +86,11 @@ subprojects {
 
     install.dependsOn build
 
-    // library bintray/maven publish settings
-    def pomConfig = {
-        licenses {
-            license {
-                name "The Apache Software License, Version 2.0"
-                url "http://www.apache.org/licenses/LICENSE-2.0.txt"
-                distribution "repo"
-            }
-        }
-        scm {
-            connection "scm:git:$scmHttpsUrl"
-            developerConnection "scm:git:$scmSshUrl"
-            url "$scmProjectUrl"
-        }
-        developers {
-            developer {
-                id 'andrii-kovalenko-ct'
-                name 'Andrii Kovalenko'
-                url 'https://github.com/andrii-kovalenko-ct'
-                email 'andrii.kovalenko@commercetools.com'
-            }
-            developer {
-                id 'ahalberkamp'
-                name 'Andreas Halberkamp'
-                url 'https://github.com/ahalberkamp'
-                email 'andreas.halberkamp@commercetools.de'
-            }
-            developer {
-                id 'MGA-dotSource'
-                name 'Mirco'
-                url 'https://github.com/MGA-dotSource'
-            }
-            developer {
-                id 'mht-dotsource'
-                name 'Martin Horatschek'
-                url  'https://github.com/mht-dotsource'
-            }
-        }
-    }
+    apply from: "$rootDir/build-scripts/maven-publish.gradle"
 
-    // maven-specific publishing settings
-    publishing {
-        publications {
-            paymentPublication(MavenPublication) {
-                from components.java
+    apply from: "$rootDir/build-scripts/bintray-upload.gradle"
 
-                artifact sourcesJar
-                artifact javadocJar
-
-                groupId rootProject.group
-                artifactId project.name
-                version rootProject.version
-
-                pom.withXml {
-                    def root = asNode()
-                    root.appendNode('description', 'The commercetools java payment project intend is to make payment integration easy')
-                    root.appendNode('name', "$project.name")
-                    root.appendNode('url', scmHttpsUrl)
-
-                    root.children().last() + pomConfig
-                }
-            }
-        }
-    }
-
-    // bintray-specific upload configuration
-    bintray {
-        user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
-        key = project.hasProperty('bintrayKey') ? project.property('bintrayKey') : System.getenv('BINTRAY_KEY')
-
-        publications = ['paymentPublication']
-
-        pkg {
-            // see https://bintray.com/commercetools/maven/ settings
-            repo = 'maven'
-            userOrg = bintray.user
-            name = 'payment'
-            licenses = ['Apache-2.0']
-            vcsUrl = scmHttpsUrl
-
-            publicDownloadNumbers = true
-
-            version {
-                name = rootProject.version
-                released  = new Date()
-                //desc =
-                //vcsTag =
-                //attributes = []
-
-                gpg {
-                    sign = true
-                    // if private GPG key is not set in Bintray, Bintray's own key would be used,
-                    // see https://blog.bintray.com/2013/08/06/fight-crime-with-gpg/ for more details
-                }
-            }
-        }
-    }
-
-    // validate values before bintray upload starting
-    bintrayUpload {
-        doFirst {
-            // validate credentials before trying to upload to bintray
-            // this check is mandatory because of "bintrayUpload silently fails" issue of the plugin
-            // https://github.com/bintray/gradle-bintray-plugin/issues/170
-            if (!(bintray.user?.trim() && bintray.key?.trim())) {
-                throw new InvalidUserDataException('Bintray User or Key is not set. ' +
-                        'Validate BINTRAY_USER and BINTRAY_KEY environment variables. ' +
-                        'Or use -DbintrayUser and -DbintrayKey java runtime properties')
-            }
-
-            validateVersion('Bintray upload could be performed only with valid release version')
-        }
-    }
+    apply from: "$rootDir/build-scripts/oss-upload.gradle"
 }
 
 project(':common') {
@@ -252,8 +148,8 @@ project(':') {
     }
 
     // run the integration tests after all other subtasks
-    configure(subprojects) {subProj ->
-        subProj.tasks.each {subProjTask ->
+    configure(subprojects) { subProj ->
+        subProj.tasks.each { subProjTask ->
             rootProject.compileJava.mustRunAfter.add(subProjTask)
         }
     }
@@ -283,91 +179,13 @@ project(':') {
     check.dependsOn integrationTest
     integrationTest.mustRunAfter test
 
-    final javadocVersionPath = 'javadoc/v'
-    final javadocVersionCurrentPath = 'javadoc/v/current'
-
-    // publish aggregated javadoc to the repo, https://github.com/ajoberstar/gradle-git-publish
-    gitPublish {
-        // NOTE: $GRGIT_USER environment variable must be set to actual github token
-        // see http://ajoberstar.org/grgit/docs/groovydoc/index.html?org/ajoberstar/grgit/auth/AuthConfig.html
-        // https://github.com/ajoberstar/grgit#usage
-
-        repoUri = scmHttpsUrl
-        branch = 'gh-pages'
-
-        // copy javadoc content to version-specific directory
-        contents {
-            from(javadoc) {
-                // every version has it's own javadoc subdirectory
-                into "$javadocVersionPath/$rootProject.version"
-            }
-
-            from(javadoc) {
-                // "current" directory has the latest javadoc
-                into "$javadocVersionCurrentPath/"
-            }
-        }
-
-        preserve {
-            include "$javadocVersionPath/**" // don't remove previous javadoc versions
-            exclude "$javadocVersionPath/$versionWIP" // but remove temporary WIP javadoc if any
-        }
-
-        commitMessage = "Publishing a new java doc for $rootProject.version version"
-    }
-
-    gitPublishReset {
-        doFirst {
-            // try to find github publish token in the next order:
-            // 1) -Dorg.ajoberstar.grgit.auth.username
-            // 2) $GRGIT_USER
-            // 3) $GH_TOKEN
-            // interrupt the task if neither of them is set.
-            if (!System.getProperty('org.ajoberstar.grgit.auth.username')?.trim()) {
-                def githubToken = System.getProperty('org.ajoberstar.grgit.auth.username') ?:
-                            (System.getenv('GRGIT_USER') ?:
-                                    System.getenv('GH_TOKEN'))
-
-                if (!githubToken?.trim()) {
-                    throw new InvalidUserDataException('For github publish GRGIT_USER or GH_TOKEN environment variable ' +
-                            'or org.ajoberstar.grgit.auth.username Java runtime property must be set')
-                }
-
-                System.setProperty('org.ajoberstar.grgit.auth.username', githubToken)
-            }
-
-            validateVersion('Documentation publishing could be performed only with a valid release version')
-        }
-    }
-
-    gitPublishCommit {
-
-        /**
-         * Before commit - list content of documentation versions (directories) in index.html
-         */
-        doFirst {
-            final docVDir = "${gitPublish.repoDir}/$javadocVersionPath"
-            def subdirsListing = ""
-            new File(docVDir).eachDir{
-                println "\tInclude documentation reference for version ${it.name}"
-                subdirsListing += "<li><a href=\"${it.name}\" title=\"${it.name}\">${it.name}</a></li>\n"
-            }
-            final indexHtml = new File("$docVDir/index.html")
-            indexHtml.text = "<html><body><h1>Documentation versions:</h1><pre id=\"contents\"><ul>$subdirsListing</ul></pre></body></html>"
-        }
-    }
-
-    gitPublishPush {
-        doLast {
-            println "Published javadoc to https://commercetools.github.io/$scmProjectName/$javadocVersionPath/$rootProject.version"
-        }
-    }
+    apply from: "$rootDir/build-scripts/git-publish.gradle"
 }
 
 void validateVersion(String prefix) throws InvalidUserDataException {
     // validate version is set and not a default version
     if (!rootProject.version?.trim() || rootProject.version == versionWIP) {
-        throw new InvalidUserDataException(prefix +
+        throw new InvalidUserDataException(
                 "$prefix.\nPls, specify -Dbuild.version=<version-name> as the build argument.\n" +
                 "Current version is \"$rootProject.version\"")
     }

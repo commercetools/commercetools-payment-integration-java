@@ -1,0 +1,82 @@
+// OSS SONATYPE SNAPSHOTS upload configuration
+final snapshotsRepository = 'https://oss.sonatype.org/content/repositories/snapshots/'
+
+uploadArchives {
+    doFirst {
+        logger.info("Verify OSS SONATYPE credentials:")
+        def authentication = repositories.mavenDeployer.snapshotRepository.authentication
+        if (!(authentication.userName?.trim() && authentication.password?.trim())) {
+            throw new InvalidUserDataException('OSS SONATYPE User or API Key is not set. ' +
+                    'Validate OSS_USER and OSS_KEY environment variables.\n' +
+                    'Or use -DossUser and -DossKey java runtime properties.\n' +
+                    'Or specify ossUser and ossKey properties in gradle.properties file')
+        }
+
+        validateSnapshotVersion("OSS SONATYPE upload could be performed only for $SNAPSHOT versions")
+    }
+
+    repositories {
+        mavenDeployer {
+            snapshotRepository(url: snapshotsRepository) {
+                authentication(
+                        userName: rootProject.hasProperty('ossUser') ? rootProject.property('ossUser') : System.getenv('OSS_USER'),
+                        password: rootProject.hasProperty('ossKey') ? rootProject.property('ossKey') : System.getenv('OSS_KEY')
+                )
+            }
+
+            pom.project {
+                name rootProject.name
+
+                url scmProjectUrl
+
+                // TODO: how to inherit these properties from pomConfig?
+
+                licenses {
+                    license {
+                        name "The Apache Software License, Version 2.0"
+                        url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                        distribution "repo"
+                    }
+                }
+                scm {
+                    connection "scm:git:$scmHttpsUrl"
+                    developerConnection "scm:git:$scmSshUrl"
+                    url "$scmProjectUrl"
+                }
+                developers {
+                    developer {
+                        id 'andrii-kovalenko-ct'
+                        name 'Andrii Kovalenko'
+                        url 'https://github.com/andrii-kovalenko-ct'
+                        email 'andrii.kovalenko@commercetools.com'
+                    }
+                    developer {
+                        id 'ahalberkamp'
+                        name 'Andreas Halberkamp'
+                        url 'https://github.com/ahalberkamp'
+                        email 'andreas.halberkamp@commercetools.de'
+                    }
+                    developer {
+                        id 'MGA-dotSource'
+                        name 'Mirco'
+                        url 'https://github.com/MGA-dotSource'
+                    }
+                    developer {
+                        id 'mht-dotsource'
+                        name 'Martin Horatschek'
+                        url 'https://github.com/mht-dotsource'
+                    }
+                }
+            }
+        }
+    }
+}
+
+void validateSnapshotVersion(String prefix) throws InvalidUserDataException {
+    // validate version has snapshot suffix to publish it to oss sonatype
+    if (!(rootProject.version?.trim() && rootProject.version.endsWith(SNAPSHOT_SUFFIX))) {
+        throw new InvalidUserDataException(
+                "$prefix.\nPls, specify -Dbuild.version=<version-name>$SNAPSHOT_SUFFIX as the build argument.\n" +
+                        "Current version is \"$rootProject.version\"")
+    }
+}

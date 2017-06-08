@@ -11,7 +11,7 @@ if [ -z "$VERSION" ] ; then
   printf "${RED}First argument as a build version is required${NC}\n"
   exit 1
 else
-  printf "\n${GREEN}Publishing version ${LIGHT_BLUE}${VERSION}${NC} to maven local repository\n\n"
+  printf "\n${GREEN}Publishing version ${LIGHT_BLUE}${VERSION}${GREEN} to BINTRAY repository \n\n${NC}"
 fi
 
 # Build, test and Publish Docs to Github pages and artifacts to Bintray

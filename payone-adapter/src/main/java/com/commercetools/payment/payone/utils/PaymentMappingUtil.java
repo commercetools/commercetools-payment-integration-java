@@ -34,9 +34,7 @@ public final class PaymentMappingUtil {
     public static CustomFieldsDraftBuilder mapDraftCustomFields(@Nonnull CustomFieldsDraftBuilder acceptor,
                                                                 @Nonnull PaymentInteractionData supplier,
                                                                 @Nonnull List<String> properties) {
-        properties.forEach(propertyName ->
-                acceptor.addObject(propertyName, supplier.getConfigByName(propertyName)));
-        return acceptor;
+        return mapDraftCustomFields(acceptor, supplier, properties, t -> t);
     }
 
     /**

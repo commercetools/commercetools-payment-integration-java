@@ -54,7 +54,7 @@ public interface PaymentAdapterService {
     CompletionStage<PaymentCreationResult> createPayment(CreatePaymentData data);
 
     /**
-     * Create a new payment transaction for the payment with the passed reference.
+     * Create <b>and handle</b> a new payment transaction for the payment with the passed reference.
      * @param data the wrapper object for all possibly needed data
      * @return {@link CompletionStage} of {@link PaymentTransactionCreationResult} with the result of {@code data}
      * transaction creation.

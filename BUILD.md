@@ -130,7 +130,7 @@ repo the following command is used:
 
 The `-SNAPSHOT` suffix is mandatory. 
 
-**Note**: for publishing to OSS Sonatype you need specify **API** User/Key (not login credentials) for in 
+**Note**: for publishing to OSS Sonatype you need specify **API** User/Key (not login credentials) for  
 `OSS_USER`/`OSS_KEY` environment variables or `ossUser`/`ossKey` gradle build properties 
 (the properties have precedence over environment variables). 
 

@@ -147,9 +147,10 @@ project(':') {
         testCompile "org.mockito:mockito-core:$depVersions.mockito"
     }
 
-    // run the integration tests after all other subtasks
+    // run the integration tests after all other subtasks are built
     configure(subprojects) { subProj ->
-        subProj.tasks.each { subProjTask ->
+        subProj.tasks.findAll { it.name.endsWith("build") }
+                .each { subProjTask ->
             rootProject.compileJava.mustRunAfter.add(subProjTask)
         }
     }

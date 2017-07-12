@@ -21,15 +21,28 @@ public interface PayoneConfigurationNames {
     static final String PAID_TO_BIC = "paidToBIC";
     static final String PAID_TO_NAME = "paidToAccountHolderName";
 
-    // KLARNA specific options
-    static final String GENDER = "gender"; // KlarnaConstants.Gender
-    static final String IP = "ip"; // IP address, IPv4 or IPv6
+    /**
+     * Customer's gender. Single character {@code m} or {@code f}. Mandatory for <i>Klarna</i>.
+     */
+    static final String GENDER = "gender"; // "m" or "f"
 
     /**
-     * Date of birth, mandatory for Germany, Netherlands and Austria.
-     * The value must be in {@link java.time.LocalDate} parseable format, like <i>YYYY-MM-DD</i>
+     * Customer's IPv4/IPv6 address. Mandatory for Klarna.
+     */
+    static final String IP = "ip";
+
+    /**
+     * Customer's date of birth. Mandatory for <i>Klarna</i> in Germany, Netherlands and Austria.
+     * <p>
+     * In CTP project the value is type of Date and must be in {@link java.time.LocalDate#parse(CharSequence)}
+     * parsable format, like {@code YYYY-MM-DD}.
+     * <p>
+     * <b>Note:</b> Payone API requires birthday as a string in {@code YYYYMMDD} format.
      */
     static final String BIRTHDAY = "birthday";
 
+    /**
+     * Customer's telephone number. Mandatory for <i>Klarna</i>.
+     */
     static final String TELEPHONENUMBER = "telephonenumber";
 }

@@ -28,7 +28,7 @@ public abstract class PayoneCreatePaymentMethodBase extends CreatePaymentMethodB
      * @return String Payone payment method name.
      * @see PayonePaymentMethodType
      */
-    abstract protected String getMethodType();
+    abstract String getMethodType();
 
     /**
      * @return new instance of {@link CustomFieldsDraftBuilder} with implementation specific type key
@@ -77,16 +77,16 @@ public abstract class PayoneCreatePaymentMethodBase extends CreatePaymentMethodB
     public Function<CreatePaymentData, CompletionStage<PaymentCreationResult>> create() {
         return cpd ->
                 addNewPayment(cpd)
-                    .thenApply(payment -> null != payment
-                        ? PaymentCreationResultBuilder
+                        .thenApply(payment -> PaymentCreationResultBuilder
                                 .of(OperationResult.SUCCESS)
                                 .payment(payment)
-                                 // so far for the payments we use only CONTINUE handling task action,
-                                 // aka "proceed to checkout page",
-                                 // but later a transactions creation results could be REDIRECT (like for paypal)
+                                // so far for the payments we use only CONTINUE handling task action,
+                                // aka "proceed to checkout page",
+                                // but later a transactions creation results could be REDIRECT (like for paypal)
                                 .handlingTask(HandlingTask.of(ShopAction.CONTINUE))
-                                .build()
-                        : PaymentCreationResultBuilder
-                            .ofError(format("An error occurred during creation of %s payment object.", getMethodType())));
+                                .build())
+                        .exceptionally(ex -> PaymentCreationResultBuilder
+                                .ofError(format("An error occurred during creation of [%s] payment object",
+                                        getMethodType()), ex));
     }
 }

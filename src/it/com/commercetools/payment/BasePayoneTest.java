@@ -7,6 +7,8 @@ import com.commercetools.payment.model.PaymentTransactionCreationResult;
 import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.client.BlockingSphereClient;
 import io.sphere.sdk.payments.Payment;
+import io.sphere.sdk.payments.Transaction;
+import io.sphere.sdk.payments.TransactionType;
 import io.sphere.sdk.types.CustomFields;
 import io.sphere.sdk.utils.MoneyImpl;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.money.Monetary;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.REFERENCE;
@@ -46,7 +49,8 @@ public class BasePayoneTest {
 
     /**
      * Assert default payment creation results (operation result, handle task action, price etc)
-     * @param pcr {@link PaymentCreationResult} to validate.
+     *
+     * @param pcr       {@link PaymentCreationResult} to validate.
      * @param reference reference (order number) custom field.
      */
     protected void assertPaymentObjectCreation(PaymentCreationResult pcr, String reference) {
@@ -71,9 +75,12 @@ public class BasePayoneTest {
 
     /**
      * Assert default transaction creation results (operation result, Related Payment Objects)
+     *
      * @param ptcr {@link PaymentTransactionCreationResult} to validate.
+     * @param expectedType expected transaction type from {@code payone.json} project settings.
      */
-    protected void assertPaymentTransactionObjectCreation(PaymentTransactionCreationResult ptcr) {
+    protected void assertPaymentTransactionObjectCreation(PaymentTransactionCreationResult ptcr,
+                                                          TransactionType expectedType) {
         assertThat(ptcr).isNotNull();
 
         assertThat(ptcr.getOperationResult())
@@ -81,20 +88,25 @@ public class BasePayoneTest {
                         ptcr.getMessage(), ptcr.getException())
                 .isEqualTo(OperationResult.SUCCESS);
 
-        assertThat(ptcr.getRelatedPaymentObject()).isPresent();
-        assertThat(ptcr.getRelatedPaymentObject().get().getTransactions().size()).isGreaterThan(0); // at least one has to be there
+        Payment payment = ptcr.getRelatedPaymentObject().orElse(null);
+        assertThat(payment).isNotNull();
+        List<Transaction> transactions = payment.getTransactions();
+        final int size = transactions.size();
+        assertThat(size).isGreaterThan(0); // at least one has to be there
+        assertThat(transactions.get(size - 1).getType()).isEqualTo(expectedType);
     }
 
     /**
      * Create an order (reference) number for test purpose.
+     *
      * @param suffix suffix for the order number (for instance, payment name)
      * @return system nano-seconds value concatenated with optional "-" and {@code suffix}.
      * The full result is truncated to 20 characters (Payone requirements).
      */
     protected static String generateTestPayoneReference(@Nullable String suffix) {
         return StringUtils.left(Long.toString(System.nanoTime()) + ofNullable(suffix)
-                                                    .map(str -> "-" + str)
-                                                    .orElse(""),
+                        .map(str -> "-" + str)
+                        .orElse(""),
                 20); // Payone reference length limit
     }
 

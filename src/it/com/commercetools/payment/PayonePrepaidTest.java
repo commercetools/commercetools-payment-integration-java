@@ -5,15 +5,17 @@ import com.commercetools.payment.domain.CreatePaymentTransactionDataBuilder;
 import com.commercetools.payment.model.PaymentCreationResult;
 import com.commercetools.payment.model.PaymentTransactionCreationResult;
 import com.commercetools.payment.service.PaymentAdapterService;
+import io.sphere.sdk.payments.TransactionType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.config.ItConfig.getPayoneIntegrationUrl;
+import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.BANK_TRANSFER_ADVANCE;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.HANDLE_URL;
+import static io.sphere.sdk.payments.TransactionType.CHARGE;
 
 /**
  *
@@ -35,17 +37,18 @@ public class PayonePrepaidTest extends BasePayoneTest {
     @Test
     public void testPaymentFlow() throws ExecutionException, InterruptedException {
         // user selected paypal
+        String reference = generateTestPayoneReference("prepaid-test");
         PaymentCreationResult paymentCreationResult = PaymentAdapterService.of()
                 .createPayment(
                         CreatePaymentDataBuilder.of(
                                 client,
                                 "PAYONE",
-                                "BANK_TRANSFER-ADVANCE",
+                                BANK_TRANSFER_ADVANCE,
                                 cart,
-                                Long.toString(System.nanoTime())).build())
+                                reference).build())
                 .toCompletableFuture().get();
 
-        assertPaymentObjectCreation(paymentCreationResult);
+        assertPaymentObjectCreation(paymentCreationResult, reference);
 
         // user clicked "buy now" -> create transaction, trigger handle payment, return updated payment object
         PaymentTransactionCreationResult paymentTransactionCreationResult = PaymentAdapterService.of()
@@ -56,7 +59,7 @@ public class PayonePrepaidTest extends BasePayoneTest {
                                 .build())
                 .toCompletableFuture().get();
 
-        assertPaymentTransactionObjectCreation(paymentTransactionCreationResult);
+        assertPaymentTransactionObjectCreation(paymentTransactionCreationResult, CHARGE);
     }
 
 }

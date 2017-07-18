@@ -1,18 +1,20 @@
 package com.commercetools.payment;
 
-import com.commercetools.payment.actions.OperationResult;
 import com.commercetools.payment.domain.CreatePaymentDataBuilder;
+import com.commercetools.payment.domain.CreatePaymentTransactionDataBuilder;
 import com.commercetools.payment.model.PaymentCreationResult;
+import com.commercetools.payment.model.PaymentTransactionCreationResult;
 import com.commercetools.payment.service.PaymentAdapterService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+import static com.commercetools.config.ItConfig.getPayoneIntegrationUrl;
+import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.BANK_TRANSFER_SOFORTUEBERWEISUNG;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import static io.sphere.sdk.payments.TransactionType.CHARGE;
 
 /**
  * Created by mgatz on 7/10/16.
@@ -32,21 +34,31 @@ public class PayoneSofortTest extends BasePayoneTest {
     @Test
     public void createPaymentCreationMethod() throws ExecutionException, InterruptedException {
 
+        String reference = generateTestPayoneReference("sofort-test");
         PaymentCreationResult paymentCreationResult = PaymentAdapterService.of()
                 .createPayment(CreatePaymentDataBuilder.of(
                         client,
                         "PAYONE",
-                        "BANK_TRANSFER-SOFORTUEBERWEISUNG",
-                        cart, Long.toString(new Date().getTime()))
+                        BANK_TRANSFER_SOFORTUEBERWEISUNG,
+                        cart, reference)
                         .configValue(SUCCESS_URL, "http://google.de")
                         .configValue(ERROR_URL, "http://google.de")
                         .configValue(CANCEL_URL, "http://google.de")
                         .build())
                 .toCompletableFuture().get();
-        assertThat(paymentCreationResult).isNotNull();
-        assertThat(paymentCreationResult.getOperationResult()).isEqualTo(OperationResult.SUCCESS);
-        assertThat(paymentCreationResult.getRelatedPaymentObject().isPresent()).isTrue();
-        assertThat(paymentCreationResult.getRelatedPaymentObject().get().getAmountPlanned()).isEqualTo(cart.getTotalPrice());
+
+        assertPaymentObjectCreation(paymentCreationResult, reference);
+
+        // user clicked "buy now" -> create transaction, trigger handle payment, return updated payment object
+        PaymentTransactionCreationResult paymentTransactionCreationResult = PaymentAdapterService.of()
+                .createPaymentTransaction(
+                        CreatePaymentTransactionDataBuilder
+                                .of(client, paymentCreationResult.getRelatedPaymentObject().get().getId())
+                                .setConfigValue(HANDLE_URL, getPayoneIntegrationUrl())
+                                .build())
+                .toCompletableFuture().get();
+
+        assertPaymentTransactionObjectCreation(paymentTransactionCreationResult, CHARGE);
     }
 
 }

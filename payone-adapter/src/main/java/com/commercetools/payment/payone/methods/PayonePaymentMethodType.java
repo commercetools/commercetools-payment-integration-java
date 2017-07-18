@@ -11,7 +11,9 @@ public enum PayonePaymentMethodType {
     /**
      * It's a generic method for all <em>payment-BANK_TRANSFER</em> types that just uses redirect
      */
-    PAYMENT_BANK_TRANSFER("payment-BANK_TRANSFER");
+    PAYMENT_BANK_TRANSFER("payment-BANK_TRANSFER"),
+
+    PAYMENT_INVOICE_KLARNA("payment-INVOICE-KLARNA");
 
     private String value;
 

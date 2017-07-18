@@ -1,0 +1,84 @@
+// publish aggregated javadoc to the repo, https://github.com/ajoberstar/gradle-git-publish
+
+final javadocVersionPath = 'javadoc/v'
+final javadocVersionCurrentPath = 'javadoc/v/current'
+
+gitPublish {
+    // NOTE: $GRGIT_USER environment variable must be set to actual github token
+    // see http://ajoberstar.org/grgit/docs/groovydoc/index.html?org/ajoberstar/grgit/auth/AuthConfig.html
+    // https://github.com/ajoberstar/grgit#usage
+
+    repoUri = scmHttpsUrl
+    branch = 'gh-pages'
+
+    // copy javadoc content to version-specific directory
+    contents {
+        from(javadoc) {
+            // every version has it's own javadoc subdirectory
+            into "$javadocVersionPath/$rootProject.version"
+        }
+
+        from(javadoc) {
+            // "current" directory has the latest javadoc
+            into "$javadocVersionCurrentPath/"
+        }
+    }
+
+    preserve {
+        include "$javadocVersionPath/**" // don't remove previous javadoc versions
+        exclude "$javadocVersionPath/$versionWIP" // but remove temporary WIP javadoc if any
+    }
+
+    commitMessage = "Publishing a new java doc for $rootProject.version version"
+}
+
+gitPublishReset {
+    doFirst {
+        // try to find github publish token in the next order:
+        // 1) -Dorg.ajoberstar.grgit.auth.username
+        // 2) $GRGIT_USER
+        // 3) $GH_TOKEN
+        // interrupt the task if neither of them is set.
+        final authProperty = 'org.ajoberstar.grgit.auth.username'
+        if (!System.getProperty(authProperty)?.trim()) {
+            def githubToken =
+                    System.getProperty(authProperty) ?:
+                        (project.hasProperty(authProperty) ? project.property(authProperty) :
+                            (System.getenv('GRGIT_USER') ?:
+                                System.getenv('GH_TOKEN')))
+
+            if (!githubToken?.trim()) {
+                throw new InvalidUserDataException('For github publish GRGIT_USER or GH_TOKEN environment variable\n' +
+                        "or $authProperty Java runtime property must be set\n" +
+                        "or set $authProperty in gradle.properties file")
+            }
+
+            System.setProperty(authProperty, githubToken)
+        }
+
+        validateVersion('Documentation publishing could be performed only with a valid release version')
+    }
+}
+
+gitPublishCommit {
+
+    /**
+     * Before commit - list content of documentation versions (directories) in index.html
+     */
+    doFirst {
+        final docVDir = "${gitPublish.repoDir}/$javadocVersionPath"
+        def subdirsListing = ""
+        new File(docVDir).eachDir {
+            println "\tInclude documentation reference for version ${it.name}"
+            subdirsListing += "<li><a href=\"${it.name}\" title=\"${it.name}\">${it.name}</a></li>\n"
+        }
+        final indexHtml = new File("$docVDir/index.html")
+        indexHtml.text = "<html><body><h1>Documentation versions:</h1><pre id=\"contents\"><ul>$subdirsListing</ul></pre></body></html>"
+    }
+}
+
+gitPublishPush {
+    doLast {
+        println "Published javadoc to https://commercetools.github.io/$scmProjectName/$javadocVersionPath/$rootProject.version"
+    }
+}

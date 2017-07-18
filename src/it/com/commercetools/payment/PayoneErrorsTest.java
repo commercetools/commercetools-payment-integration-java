@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.config.ItConfig.getPayoneIntegrationUrl;
 import static com.commercetools.payment.actions.ShopAction.HANDLE_ERROR;
+import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.WALLET_PAYPAL;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,20 +26,21 @@ public class PayoneErrorsTest extends BasePayoneTest {
     public void setup() throws ExecutionException, InterruptedException {
         super.setup(1);
 
+        String reference = generateTestPayoneReference("error-test");
         paymentCreationResult = PaymentAdapterService.of()
                 .createPayment(
                         CreatePaymentDataBuilder.of(
                                 client,
                                 "PAYONE",
-                                "WALLET-PAYPAL",
+                                WALLET_PAYPAL,
                                 cart,
-                                Long.toString(System.nanoTime()))
+                                reference)
                                 .configValue(SUCCESS_URL, "http://google.de")
                                 .configValue(ERROR_URL, "http://google.de")
                                 .configValue(CANCEL_URL, "http://google.de").build())
                 .toCompletableFuture().get();
 
-        assertPaymentObjectCreation(paymentCreationResult);
+        assertPaymentObjectCreation(paymentCreationResult, reference);
     }
 
     @After

@@ -1,16 +1,23 @@
 package com.commercetools.payment.payone.methods;
 
-import com.commercetools.payment.payone.config.PayoneConfigurationNames;
+import com.commercetools.payment.actions.HandlingTask;
+import com.commercetools.payment.actions.OperationResult;
+import com.commercetools.payment.actions.ShopAction;
+import com.commercetools.payment.domain.PaymentCreationResultBuilder;
 import com.commercetools.payment.methods.CreatePaymentMethodBase;
 import com.commercetools.payment.model.CreatePaymentData;
+import com.commercetools.payment.model.PaymentCreationResult;
 import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.types.CustomFieldsDraftBuilder;
 
 import java.util.Locale;
 import java.util.Optional;
+import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
 
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.LANGUAGE_CODE;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.REFERENCE;
+import static java.lang.String.format;
 
 /**
  * Base class for <b>Payone</b> related payment methods.
@@ -21,7 +28,7 @@ public abstract class PayoneCreatePaymentMethodBase extends CreatePaymentMethodB
      * @return String Payone payment method name.
      * @see PayonePaymentMethodType
      */
-    abstract protected String getMethodType();
+    abstract String getMethodType();
 
     /**
      * @return new instance of {@link CustomFieldsDraftBuilder} with implementation specific type key
@@ -64,5 +71,22 @@ public abstract class PayoneCreatePaymentMethodBase extends CreatePaymentMethodB
                         .map(CreatePaymentData::getCart)
                         .map(CreatePaymentMethodBase::getLanguageFromCart)
                         .orElseGet(Locale.ENGLISH::getLanguage));
+    }
+
+    @Override
+    public Function<CreatePaymentData, CompletionStage<PaymentCreationResult>> create() {
+        return cpd ->
+                addNewPayment(cpd)
+                        .thenApply(payment -> PaymentCreationResultBuilder
+                                .of(OperationResult.SUCCESS)
+                                .payment(payment)
+                                // so far for the payments we use only CONTINUE handling task action,
+                                // aka "proceed to checkout page",
+                                // but later a transactions creation results could be REDIRECT (like for paypal)
+                                .handlingTask(HandlingTask.of(ShopAction.CONTINUE))
+                                .build())
+                        .exceptionally(ex -> PaymentCreationResultBuilder
+                                .ofError(format("An error occurred during creation of [%s] payment object",
+                                        getMethodType()), ex));
     }
 }

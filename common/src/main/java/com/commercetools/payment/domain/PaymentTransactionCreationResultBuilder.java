@@ -32,6 +32,17 @@ public class PaymentTransactionCreationResultBuilder {
         return new PaymentTransactionCreationResultBuilder(operationResult);
     }
 
+    /**
+     * Default success action - {@link ShopAction#CONTINUE}
+     * @param payment payment reference to set in the result builder.
+     * @return result builder with {@link OperationResult#SUCCESS} and {@link ShopAction#CONTINUE}
+     */
+    public static PaymentTransactionCreationResultBuilder ofSuccess(Payment payment) {
+        return of(OperationResult.SUCCESS)
+                .payment(payment)
+                .handlingTask(HandlingTask.of(ShopAction.CONTINUE));
+    }
+
     public static PaymentTransactionCreationResult ofError(String message) {
         return ofError(message, null, null);
     }

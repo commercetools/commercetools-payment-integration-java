@@ -6,7 +6,6 @@ import com.commercetools.payment.model.CreatePaymentTransactionData;
 import com.commercetools.payment.model.PaymentCreationResult;
 import com.commercetools.payment.model.PaymentTransactionCreationResult;
 import io.sphere.sdk.payments.PaymentMethodInfo;
-import io.sphere.sdk.payments.PaymentStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -55,19 +54,12 @@ public interface PaymentAdapterService {
     CompletionStage<PaymentCreationResult> createPayment(CreatePaymentData data);
 
     /**
-     * Create a new payment transaction for the payment with the passed reference.
+     * Create <b>and handle</b> a new payment transaction for the payment with the passed reference.
      * @param data the wrapper object for all possibly needed data
      * @return {@link CompletionStage} of {@link PaymentTransactionCreationResult} with the result of {@code data}
      * transaction creation.
      */
     CompletionStage<PaymentTransactionCreationResult> createPaymentTransaction(CreatePaymentTransactionData data);
-
-    /**
-     * Get the status of the payment object referenced by the passed parameter.
-     * @param ref the reference of to the payment the status should be returned for
-     * @return the status of the referenced payment object
-     */
-    PaymentStatus getPaymentStatus(String ref); // TODO: check if parameter is sufficient
 
     /**
      * Get the full {@link PaymentMethodInfo} object from the configuration.

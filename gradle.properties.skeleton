@@ -1,0 +1,6 @@
+# these 2 properties are used only if one publishes snapshots to oss, see :uploadArchives gradle task
+ossUser=<<ask support of search respective wiki pages>>
+ossKey=<<ask support of search respective wiki pages>>
+bintrayUser=<<ask support of search respective wiki pages>>
+bintrayKey=<<ask support of search respective wiki pages>>
+org.ajoberstar.grgit.auth.username=<<github token to publish javadoc>>

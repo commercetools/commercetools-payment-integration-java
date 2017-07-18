@@ -5,15 +5,17 @@ import com.commercetools.payment.domain.CreatePaymentTransactionDataBuilder;
 import com.commercetools.payment.model.PaymentCreationResult;
 import com.commercetools.payment.model.PaymentTransactionCreationResult;
 import com.commercetools.payment.service.PaymentAdapterService;
+import io.sphere.sdk.payments.TransactionType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.config.ItConfig.getPayoneIntegrationUrl;
+import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.WALLET_PAYPAL;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
+import static io.sphere.sdk.payments.TransactionType.CHARGE;
 
 /**
  * Created by mgatz on 7/10/16.
@@ -34,20 +36,21 @@ public class PayonePaypalTest extends BasePayoneTest {
     public void testPaymentFlow() throws ExecutionException, InterruptedException {
 
         // user selected paypal
+        String reference = generateTestPayoneReference("paypal-test");
         PaymentCreationResult paymentCreationResult = PaymentAdapterService.of()
                 .createPayment(
                         CreatePaymentDataBuilder.of(
                                 client,
                                 "PAYONE",
-                                "WALLET-PAYPAL",
+                                WALLET_PAYPAL,
                                 cart,
-                                Long.toString(System.nanoTime()))
+                                reference)
                             .configValue(SUCCESS_URL, "http://google.de")
                             .configValue(ERROR_URL, "http://google.de")
                             .configValue(CANCEL_URL, "http://google.de").build())
                 .toCompletableFuture().get();
 
-        assertPaymentObjectCreation(paymentCreationResult);
+        assertPaymentObjectCreation(paymentCreationResult, reference);
 
         // user clicked "buy now" -> create transaction, trigger handle payment, return updated payment object
         PaymentTransactionCreationResult paymentTransactionCreationResult = PaymentAdapterService.of()
@@ -58,7 +61,7 @@ public class PayonePaypalTest extends BasePayoneTest {
                                 .build())
                 .toCompletableFuture().get();
 
-        assertPaymentTransactionObjectCreation(paymentTransactionCreationResult);
+        assertPaymentTransactionObjectCreation(paymentTransactionCreationResult, CHARGE);
     }
 
 }

@@ -17,6 +17,9 @@ import io.sphere.sdk.payments.PaymentStatus;
 import io.sphere.sdk.payments.TransactionType;
 import org.apache.commons.lang3.ObjectUtils;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 
@@ -25,9 +28,7 @@ import static com.commercetools.payment.payone.config.PayoneConfigurationNames.R
 import static java.lang.String.format;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 
-/**
- * Created by mgatz on 8/1/16.
- */
+
 public abstract class PayoneCreatePaymentTransactionMethodBase extends CreatePaymentTransactionMethodBase {
 
     private String handleUrl;
@@ -90,23 +91,35 @@ public abstract class PayoneCreatePaymentTransactionMethodBase extends CreatePay
     }
 
     /**
+     * Try to handle redirect from the {@code updatedPayment}:<ul>
+     *     <li>if {@link com.commercetools.payment.payone.config.PayoneConfigurationNames#REDIRECT_URL} exists in the
+     * {@code updatedPayment} - return success result with {@link ShopAction#REDIRECT}</li>
+     *     <li>otherwise fallback to {@code ifCantRedirect} function</li>
+     * </ul>
+     *
+     * @param updatedPayment reference to the updated payment
+     * @param ifCantRedirect function which accepts the updated payment and returns respective result (likely with
+     *                       {@link OperationResult#FAILED} and {@link ShopAction#HANDLE_ERROR}.
+     * @return {@link PaymentTransactionCreationResult} with success action if payment contains redirect, or fallback
+     * action from {@code ifCantRedirect} is can't redirect the payment transaction processing.
+     */
+    @Nonnull
+    protected PaymentTransactionCreationResult handleRedirectIfPresent(@Nullable Payment updatedPayment,
+                                                                       @Nonnull Function<? super Payment, ? extends PaymentTransactionCreationResult> ifCantRedirect) {
+        return Optional.ofNullable(getCustomFieldStringIfExists(updatedPayment, REDIRECT_URL))
+                .map(redirectUrl -> PaymentTransactionCreationResultBuilder.of(OperationResult.SUCCESS)
+                        .payment(updatedPayment)
+                        .handlingTask(HandlingTask.of(ShopAction.REDIRECT).redirectUrl(redirectUrl)).build())
+                .orElseGet(() -> ifCantRedirect.apply(updatedPayment));
+    }
+
+    /**
      * Will be called after the Payone services handle URL request has finished successfully.
      *
      * @param updatedPayment the refreshed payment object
      * @return the result object
      */
     protected abstract PaymentTransactionCreationResult handleSuccessfulServiceCall(Payment updatedPayment);
-
-    protected PaymentTransactionCreationResult redirectSuccessfulServiceCall(Payment updatedPayment) {
-        String redirectURL = getCustomFieldStringIfExists(updatedPayment, REDIRECT_URL);
-        if (null != redirectURL) {
-            return PaymentTransactionCreationResultBuilder.of(OperationResult.SUCCESS)
-                    .payment(updatedPayment)
-                    .handlingTask(HandlingTask.of(ShopAction.REDIRECT).redirectUrl(redirectURL)).build();
-        }
-        String errorMessage = "Payment provider redirect URL is not available.";
-        return handleError(errorMessage, updatedPayment);
-    }
 
     protected PaymentTransactionCreationResult handleExceptions(Throwable t) {
         return PaymentTransactionCreationResultBuilder.ofError("An exception occured that could not be handled: ", t);

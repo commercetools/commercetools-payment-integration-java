@@ -1,6 +1,8 @@
 package com.commercetools.payment.methods;
 
+import com.commercetools.payment.domain.PaymentTransactionCreationResultBuilder;
 import com.commercetools.payment.model.CreatePaymentTransactionData;
+import com.commercetools.payment.model.PaymentTransactionCreationResult;
 import io.sphere.sdk.commands.UpdateAction;
 import io.sphere.sdk.payments.Payment;
 import io.sphere.sdk.payments.TransactionDraft;
@@ -16,9 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
-/**
- * Created by mgatz on 7/27/16.
- */
 public abstract class CreatePaymentTransactionMethodBase implements CreatePaymentTransactionMethod {
 
     /**
@@ -65,5 +64,18 @@ public abstract class CreatePaymentTransactionMethodBase implements CreatePaymen
                 .map(Custom::getCustom)
                 .map(customFields -> customFields.getFieldAsString(fieldName))
                 .orElse(null);
+    }
+
+    /**
+     *
+     * @param paymentWithoutRedirect updated payment reference
+     * @return {@link PaymentTransactionCreationResult} with
+     * {@link com.commercetools.payment.actions.OperationResult#SUCCESS}
+     * and {@link com.commercetools.payment.actions.ShopAction#CONTINUE}.
+     */
+    protected PaymentTransactionCreationResult defaultSuccessTransactionCreationResult(Payment paymentWithoutRedirect) {
+        return PaymentTransactionCreationResultBuilder
+                .ofSuccess(paymentWithoutRedirect)
+                .build();
     }
 }

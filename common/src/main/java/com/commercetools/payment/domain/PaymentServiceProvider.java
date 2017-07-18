@@ -5,12 +5,14 @@ import com.commercetools.payment.model.CreatePaymentTransactionData;
 import com.commercetools.payment.model.PaymentCreationResult;
 import com.commercetools.payment.model.PaymentTransactionCreationResult;
 import io.sphere.sdk.payments.PaymentMethodInfo;
-import io.sphere.sdk.payments.PaymentStatus;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
+
+import static java.lang.String.format;
 
 /**
  * A payment service provider provides functions that can be used to handle payment related tasks in
@@ -38,22 +40,29 @@ public interface PaymentServiceProvider {
 
     /**
      * Create a function that can create a payment for the passed method Id
+     *
      * @param methodId the ID of the payment method to be used for the payment object
      * @return a function method creating the payment object for the passed method Id
+     *
+     * @throws UnsupportedOperationException if such {@code methodId} is not implemented
      */
-    Function<CreatePaymentData, CompletionStage<PaymentCreationResult>> provideCreatePaymentHandler(String methodId);
+    Function<CreatePaymentData, CompletionStage<PaymentCreationResult>> provideCreatePaymentHandler(String methodId) throws UnsupportedOperationException;
 
     /**
      * Create a function that can create a payment transaction for a payment object
      * and has the ability to handle overriding of configuration values via given key value pairs.
+     *
      * @param methodId the ID of the payment method to be used for the payment transaction object
      * @return a function method creating a payment transaction
+     *
+     * @throws UnsupportedOperationException if such {@code methodId} is not implemented
      */
-    Function<CreatePaymentTransactionData, CompletionStage<PaymentTransactionCreationResult>> provideCreatePaymentTransactionHandler(String methodId);
+    Function<CreatePaymentTransactionData, CompletionStage<PaymentTransactionCreationResult>> provideCreatePaymentTransactionHandler(String methodId) throws UnsupportedOperationException;
 
-    /**
-     * Create a function that can return the payment status for a passed payment reference.
-     * @return a function to be executed
-     */
-    Function<String, PaymentStatus> provideGetPaymentStatusHandler();
+    @Nonnull
+    default UnsupportedOperationException createUnsupportedMethodException(String methodId) throws UnsupportedOperationException {
+        return new UnsupportedOperationException(format("[%s] does not support [%s] method",
+                this.getClass().getName(), methodId));
+    }
+
 }

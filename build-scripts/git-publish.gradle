@@ -4,9 +4,11 @@ final javadocVersionPath = 'javadoc/v'
 final javadocVersionCurrentPath = 'javadoc/v/current'
 
 gitPublish {
-    // NOTE: $GRGIT_USER environment variable must be set to actual github token
-    // see http://ajoberstar.org/grgit/docs/groovydoc/index.html?org/ajoberstar/grgit/auth/AuthConfig.html
-    // https://github.com/ajoberstar/grgit#usage
+    // NOTE:
+    // 1) $GRGIT_USER environment variable must be set to actual github token
+    //    see http://ajoberstar.org/grgit/docs/groovydoc/index.html?org/ajoberstar/grgit/auth/AuthConfig.html
+    //    https://github.com/ajoberstar/grgit#usage
+    // 2) to use GH token `repoUri` must have an https (not git or ssh) protocol
 
     repoUri = scmHttpsUrl
     branch = 'gh-pages'

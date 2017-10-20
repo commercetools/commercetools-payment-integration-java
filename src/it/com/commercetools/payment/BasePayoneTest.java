@@ -109,8 +109,4 @@ public class BasePayoneTest {
                         .orElse(""),
                 20); // Payone reference length limit
     }
-
-    protected static String generateTestPayoneReference() {
-        return generateTestPayoneReference(null);
-    }
 }

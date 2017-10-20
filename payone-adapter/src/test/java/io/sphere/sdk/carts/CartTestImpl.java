@@ -1,6 +1,7 @@
 package io.sphere.sdk.carts;
 
 import com.neovisionaries.i18n.CountryCode;
+import io.sphere.sdk.cartdiscounts.CartDiscount;
 import io.sphere.sdk.customergroups.CustomerGroup;
 import io.sphere.sdk.discountcodes.DiscountCodeInfo;
 import io.sphere.sdk.models.Address;
@@ -163,7 +164,13 @@ public class CartTestImpl implements Cart {
         return null;
     }
 
-    // Put the properties for the getters here
+    @Nullable
+    @Override
+    public List<Reference<CartDiscount>> getRefusedGifts() {
+        return null;
+    }
+
+// Put the properties for the getters here
     // we keep them public for easy mocking
 
     public MonetaryAmount totalPrice;

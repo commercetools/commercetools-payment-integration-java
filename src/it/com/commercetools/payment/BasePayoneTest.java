@@ -100,7 +100,7 @@ public class BasePayoneTest {
         assertThat(transaction.getType()).isEqualTo(expectedType);
 
         // PaymentAdapterService.createPaymentTransaction() creates transaction and immediately handles the payment,
-        // and the payment handling - the status switches from INITIAL to some other
+        // thus after execution the status switches from INITIAL to some other
         assertThat(transaction.getState()).isNotEqualByComparingTo(INITIAL);
         assertThat(transaction.getState()).isEqualTo(expectedState);
     }

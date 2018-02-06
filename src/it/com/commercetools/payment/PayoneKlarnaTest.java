@@ -6,7 +6,6 @@ import com.commercetools.payment.payone.config.PayonePaymentMethodKeys;
 import com.commercetools.payment.model.PaymentCreationResult;
 import com.commercetools.payment.model.PaymentTransactionCreationResult;
 import com.commercetools.payment.service.PaymentAdapterService;
-import io.sphere.sdk.payments.TransactionType;
 import io.sphere.sdk.types.CustomFields;
 import org.junit.After;
 import org.junit.Before;
@@ -17,6 +16,7 @@ import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.config.ItConfig.getPayoneIntegrationUrl;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
+import static io.sphere.sdk.payments.TransactionState.FAILURE;
 import static io.sphere.sdk.payments.TransactionType.AUTHORIZATION;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -61,7 +61,8 @@ public class PayoneKlarnaTest extends BasePayoneTest {
                                 .build())
                 .toCompletableFuture().get();
 
-        assertPaymentTransactionObjectCreation(paymentTransactionCreationResult, AUTHORIZATION);
+        // with random data Klarna payment is expected to failure
+        assertPaymentTransactionObjectCreation(paymentTransactionCreationResult, AUTHORIZATION, FAILURE);
     }
 
     private void assertKlarnaPaymentCreation(PaymentCreationResult pcr, String reference) {

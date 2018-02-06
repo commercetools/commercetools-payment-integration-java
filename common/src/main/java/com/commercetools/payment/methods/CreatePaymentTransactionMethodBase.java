@@ -4,10 +4,7 @@ import com.commercetools.payment.domain.PaymentTransactionCreationResultBuilder;
 import com.commercetools.payment.model.CreatePaymentTransactionData;
 import com.commercetools.payment.model.PaymentTransactionCreationResult;
 import io.sphere.sdk.commands.UpdateAction;
-import io.sphere.sdk.payments.Payment;
-import io.sphere.sdk.payments.TransactionDraft;
-import io.sphere.sdk.payments.TransactionDraftBuilder;
-import io.sphere.sdk.payments.TransactionType;
+import io.sphere.sdk.payments.*;
 import io.sphere.sdk.payments.commands.PaymentUpdateCommand;
 import io.sphere.sdk.payments.commands.updateactions.AddTransaction;
 import io.sphere.sdk.types.Custom;
@@ -55,7 +52,8 @@ public abstract class CreatePaymentTransactionMethodBase implements CreatePaymen
     protected TransactionDraftBuilder createTransactionDraftBuilder(CreatePaymentTransactionData data, TransactionType defaultType) {
         return TransactionDraftBuilder.of(
                 data.getTransactionType().orElse(defaultType),
-                data.getPayment().getAmountPlanned());
+                data.getPayment().getAmountPlanned())
+                .state(TransactionState.INITIAL);
     }
 
     @Nullable
@@ -67,7 +65,6 @@ public abstract class CreatePaymentTransactionMethodBase implements CreatePaymen
     }
 
     /**
-     *
      * @param paymentWithoutRedirect updated payment reference
      * @return {@link PaymentTransactionCreationResult} with
      * {@link com.commercetools.payment.actions.OperationResult#SUCCESS}

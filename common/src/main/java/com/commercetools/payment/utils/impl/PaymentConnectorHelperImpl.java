@@ -20,7 +20,6 @@ public class PaymentConnectorHelperImpl implements PaymentConnectorHelper {
     public CompletionStage<HttpRequestResult> sendHttpGetRequest(String url) {
         HttpRequest request = HttpRequest.of(HttpMethod.GET, url);
 
-        // TODO: must be injected, instead of initialization!!!
         HttpClient client = SphereClientFactory.of().createHttpClient();
 
         return client.execute(request)

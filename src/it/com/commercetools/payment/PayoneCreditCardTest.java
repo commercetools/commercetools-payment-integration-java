@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 import static com.commercetools.config.ItConfig.getPayoneIntegrationUrl;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
 import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.CREDIT_CARD;
+import static io.sphere.sdk.payments.TransactionState.FAILURE;
 import static io.sphere.sdk.payments.TransactionType.AUTHORIZATION;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -59,7 +60,8 @@ public class PayoneCreditCardTest extends BasePayoneTest {
                                 .build())
                 .toCompletableFuture().get();
 
-        assertPaymentTransactionObjectCreation(paymentTransactionCreationResult, AUTHORIZATION);
+        // with random pseudocardpan (CREDIT_CARD_CARD_DATA_PLACEHOLDER) the payment should fail
+        assertPaymentTransactionObjectCreation(paymentTransactionCreationResult, AUTHORIZATION, FAILURE);
     }
 
     private void assertPaymentCreation(PaymentCreationResult paymentCreationResult, String reference) {

@@ -12,8 +12,9 @@ import org.junit.Test;
 import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.config.ItConfig.getPayoneIntegrationUrl;
-import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.BANK_TRANSFER_SOFORTUEBERWEISUNG;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
+import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.BANK_TRANSFER_SOFORTUEBERWEISUNG;
+import static io.sphere.sdk.payments.TransactionState.PENDING;
 import static io.sphere.sdk.payments.TransactionType.CHARGE;
 
 /**
@@ -58,7 +59,7 @@ public class PayoneSofortTest extends BasePayoneTest {
                                 .build())
                 .toCompletableFuture().get();
 
-        assertPaymentTransactionObjectCreation(paymentTransactionCreationResult, CHARGE);
+        assertPaymentTransactionObjectCreation(paymentTransactionCreationResult, CHARGE, PENDING);
     }
 
 }

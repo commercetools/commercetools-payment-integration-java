@@ -5,7 +5,6 @@ import com.commercetools.payment.domain.CreatePaymentTransactionDataBuilder;
 import com.commercetools.payment.model.PaymentCreationResult;
 import com.commercetools.payment.model.PaymentTransactionCreationResult;
 import com.commercetools.payment.service.PaymentAdapterService;
-import io.sphere.sdk.payments.TransactionType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 import static com.commercetools.config.ItConfig.getPayoneIntegrationUrl;
 import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.WALLET_PAYPAL;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
+import static io.sphere.sdk.payments.TransactionState.PENDING;
 import static io.sphere.sdk.payments.TransactionType.CHARGE;
 
 /**
@@ -61,7 +61,7 @@ public class PayonePaypalTest extends BasePayoneTest {
                                 .build())
                 .toCompletableFuture().get();
 
-        assertPaymentTransactionObjectCreation(paymentTransactionCreationResult, CHARGE);
+        assertPaymentTransactionObjectCreation(paymentTransactionCreationResult, CHARGE, PENDING);
     }
 
 }

@@ -93,21 +93,6 @@ public class CreatePaymentTransactionMethodBaseTest {
     }
 
     @Test
-    public void whenTransactionTypeIsSetInData_createTransactionDraftBuilder_usesValueFromData() {
-        transactionData.setTransactionType(CHARGE);
-        TransactionDraft transactionDraft = createPaymentTransactionMethod.createTransactionDraftBuilder(transactionData, AUTHORIZATION).build();
-        assertThat(transactionDraft).isNotNull();
-        assertThat(transactionDraft.getType()).isEqualByComparingTo(CHARGE);
-        assertThat(transactionDraft.getState()).isEqualByComparingTo(INITIAL);
-
-        transactionData.setTransactionType(AUTHORIZATION);
-        transactionDraft = createPaymentTransactionMethod.createTransactionDraftBuilder(transactionData, CHARGE).build();
-        assertThat(transactionDraft).isNotNull();
-        assertThat(transactionDraft.getType()).isEqualByComparingTo(AUTHORIZATION);
-        assertThat(transactionDraft.getState()).isEqualByComparingTo(INITIAL);
-    }
-
-    @Test
     public void whenTransactionTypeSkippedInData_createTransactionDraftBuilder_usesValueFromDefault() {
         TransactionDraft transactionDraft = createPaymentTransactionMethod.createTransactionDraftBuilder(transactionData, AUTHORIZATION).build();
         assertThat(transactionDraft).isNotNull();
@@ -117,6 +102,26 @@ public class CreatePaymentTransactionMethodBaseTest {
         transactionDraft = createPaymentTransactionMethod.createTransactionDraftBuilder(transactionData, CHARGE).build();
         assertThat(transactionDraft).isNotNull();
         assertThat(transactionDraft.getType()).isEqualByComparingTo(CHARGE);
+        assertThat(transactionDraft.getState()).isEqualByComparingTo(INITIAL);
+    }
+
+    /**
+     * Same as {@link #whenTransactionTypeSkippedInData_createTransactionDraftBuilder_usesValueFromDefault()},
+     * but sets explicitly transaction type <code>transactionData.setTransactionType(CHARGE);</code>
+     */
+    @Test
+    public void whenTransactionTypeIsSetInData_createTransactionDraftBuilder_usesValueFromData() {
+        transactionData.setTransactionType(CHARGE);
+
+        TransactionDraft transactionDraft = createPaymentTransactionMethod.createTransactionDraftBuilder(transactionData, AUTHORIZATION).build();
+        assertThat(transactionDraft).isNotNull();
+        assertThat(transactionDraft.getType()).isEqualByComparingTo(CHARGE);
+        assertThat(transactionDraft.getState()).isEqualByComparingTo(INITIAL);
+
+        transactionData.setTransactionType(AUTHORIZATION);
+        transactionDraft = createPaymentTransactionMethod.createTransactionDraftBuilder(transactionData, CHARGE).build();
+        assertThat(transactionDraft).isNotNull();
+        assertThat(transactionDraft.getType()).isEqualByComparingTo(AUTHORIZATION);
         assertThat(transactionDraft.getState()).isEqualByComparingTo(INITIAL);
     }
 }

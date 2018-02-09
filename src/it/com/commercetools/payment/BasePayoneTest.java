@@ -8,6 +8,7 @@ import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.client.BlockingSphereClient;
 import io.sphere.sdk.payments.Payment;
 import io.sphere.sdk.payments.Transaction;
+import io.sphere.sdk.payments.TransactionState;
 import io.sphere.sdk.payments.TransactionType;
 import io.sphere.sdk.types.CustomFields;
 import io.sphere.sdk.utils.MoneyImpl;
@@ -21,6 +22,7 @@ import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.REFERENCE;
 import static com.commercetools.util.IntegrationTestUtils.*;
+import static io.sphere.sdk.payments.TransactionState.INITIAL;
 import static java.util.Optional.ofNullable;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -76,11 +78,12 @@ public class BasePayoneTest {
     /**
      * Assert default transaction creation results (operation result, Related Payment Objects)
      *
-     * @param ptcr {@link PaymentTransactionCreationResult} to validate.
+     * @param ptcr         {@link PaymentTransactionCreationResult} to validate.
      * @param expectedType expected transaction type from {@code payone.json} project settings.
      */
     protected void assertPaymentTransactionObjectCreation(PaymentTransactionCreationResult ptcr,
-                                                          TransactionType expectedType) {
+                                                          TransactionType expectedType,
+                                                          TransactionState expectedState) {
         assertThat(ptcr).isNotNull();
 
         assertThat(ptcr.getOperationResult())
@@ -93,7 +96,13 @@ public class BasePayoneTest {
         List<Transaction> transactions = payment.getTransactions();
         final int size = transactions.size();
         assertThat(size).isGreaterThan(0); // at least one has to be there
-        assertThat(transactions.get(size - 1).getType()).isEqualTo(expectedType);
+        Transaction transaction = transactions.get(size - 1);
+        assertThat(transaction.getType()).isEqualTo(expectedType);
+
+        // PaymentAdapterService.createPaymentTransaction() creates transaction and immediately handles the payment,
+        // thus after execution the status switches from INITIAL to some other
+        assertThat(transaction.getState()).isNotEqualByComparingTo(INITIAL);
+        assertThat(transaction.getState()).isEqualTo(expectedState);
     }
 
     /**

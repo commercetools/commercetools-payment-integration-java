@@ -34,6 +34,11 @@ ext.SNAPSHOT_SUFFIX = "-$SNAPSHOT"
 // dev version patch. Real version should be specified as Java property -Dbuild.version=XXX
 ext.versionWIP = "development$SNAPSHOT_SUFFIX"
 
+// version should be defined from runtime property, e.g. should be passed to the build like -Dbuild.version=$TRAVIS_TAG
+version = System.getProperty('build.version') ?: versionWIP
+
+println "\nEffective entire project build version: ${version}\n"
+
 allprojects {
     repositories {
         jcenter()
@@ -44,8 +49,7 @@ allprojects {
 
     group = 'com.commercetools.payment'
 
-    // version should be defined from runtime property, e.g. should be passed to the build like -Dbuild.version=$TRAVIS_TAG
-    version = System.getProperty('build.version') ?: versionWIP
+    version = rootProject.version
 
     description "The commercetools java payment project intend is to make payment integration easy"
 
@@ -85,6 +89,10 @@ subprojects {
     }
 
     install.dependsOn build
+
+    build.doLast {
+        println "\nEffective project \"${project.version}\" built version: ${project.version}\n"
+    }
 
     apply from: "$rootDir/build-scripts/maven-publish.gradle"
 

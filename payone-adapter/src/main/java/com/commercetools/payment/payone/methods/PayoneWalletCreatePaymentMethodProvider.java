@@ -2,9 +2,9 @@ package com.commercetools.payment.payone.methods;
 
 import static com.commercetools.payment.payone.methods.PayonePaymentMethodType.PAYMENT_WALLET;
 
-public class PayonePaypalCreatePaymentMethodProvider extends PayoneRedirectPaymentMethodBase {
+public class PayoneWalletCreatePaymentMethodProvider extends PayoneRedirectPaymentMethodBase {
 
-    private PayonePaypalCreatePaymentMethodProvider() {
+    private PayoneWalletCreatePaymentMethodProvider() {
     }
 
     @Override
@@ -13,7 +13,7 @@ public class PayonePaypalCreatePaymentMethodProvider extends PayoneRedirectPayme
     }
 
     public static PayoneCreatePaymentMethodBase of() {
-        return new PayonePaypalCreatePaymentMethodProvider();
+        return new PayoneWalletCreatePaymentMethodProvider();
     }
 
 }

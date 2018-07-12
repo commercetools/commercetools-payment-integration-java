@@ -3,6 +3,7 @@
   "enabledMethods" : [
                       "CREDIT_CARD",
                       "WALLET-PAYPAL",
+                      "WALLET-PAYDIREKT",
                       "BANK_TRANSFER-SOFORTUEBERWEISUNG",
                       "BANK_TRANSFER-ADVANCE",
                       "BANK_TRANSFER-POSTFINANCE_EFINANCE",
@@ -26,6 +27,15 @@
       {
         "de": "Paypal",
         "en": "Paypal"
+      }
+    },
+    "WALLET-PAYDIREKT" : {
+      "paymentInterface": "PAYONE",
+      "method": "WALLET-PAYDIREKT",
+      "name":
+      {
+        "de": "Paydirekt",
+        "en": "Paydirekt"
       }
     },
     "BANK_TRANSFER-SOFORTUEBERWEISUNG" : {
@@ -77,6 +87,7 @@
   "transactionTypes" : {
     "CREDIT_CARD" : "Authorization",
     "WALLET-PAYPAL" : "Charge",
+    "WALLET-PAYDIREKT" : "Charge",
     "BANK_TRANSFER-SOFORTUEBERWEISUNG" : "Charge",
     "BANK_TRANSFER-ADVANCE" : "Charge",
     "BANK_TRANSFER-POSTFINANCE_EFINANCE" : "Charge",

@@ -21,10 +21,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by akovalenko on 20/10/16.
  */
-public class PayonePaypalCreatePaymentMethodProviderTest extends BasePayoneCreatePaymentMethodTest {
+public class PayoneWalletCreatePaymentMethodProviderTest extends BasePayoneCreatePaymentMethodTest {
     @Before
     public void setUp() throws Exception {
-        provider = PayonePaypalCreatePaymentMethodProvider.of();
+        provider = PayoneWalletCreatePaymentMethodProvider.of();
     }
 
     @Test
@@ -46,7 +46,7 @@ public class PayonePaypalCreatePaymentMethodProviderTest extends BasePayoneCreat
 
         // tested function createPaymentDraft(Cart)
         // because we test protected method, we should make explicit down casting of provider property
-        PaymentDraft paymentDraft = ((PayonePaypalCreatePaymentMethodProvider) provider)
+        PaymentDraft paymentDraft = ((PayoneWalletCreatePaymentMethodProvider) provider)
                 .createPaymentDraft(cpd).build();
 
         // asserts

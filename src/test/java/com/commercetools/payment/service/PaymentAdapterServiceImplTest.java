@@ -53,7 +53,7 @@ public class PaymentAdapterServiceImplTest {
     public void findAvailablePaymentMethods_all() throws Exception {
         List<PaymentMethodInfo> availablePaymentMethods = pas.findAvailablePaymentMethods();
         assertThat(availablePaymentMethods).isNotNull();
-        assertThat(availablePaymentMethods.size()).isEqualTo(7 + 1); // 7 PAYONE methods + 1 INTERNAL:FREE
+        assertThat(availablePaymentMethods.size()).isEqualTo(8 + 1); // 8 PAYONE methods + 1 INTERNAL:FREE
 
         PaymentMethodInfo payoneCc = getByInterfaceAndMethod(availablePaymentMethods, PAYONE_INTERFACE_ID, CREDIT_CARD);
         assertThat(payoneCc).isNotNull();
@@ -96,6 +96,14 @@ public class PaymentAdapterServiceImplTest {
         assertThat(paypal.getName()).isNotNull();
         assertThat(paypal.getName().get("de")).isEqualTo("Paypal");
         assertThat(paypal.getName().get("en")).isEqualTo("Paypal");
+
+        PaymentMethodInfo paydirekt = pas.getPaymentMethodInfo(PAYONE_INTERFACE_ID, WALLET_PAYDIREKT)
+                .orElse(null);
+        assertThat(paydirekt).isNotNull();
+        assertThat(paydirekt.getMethod()).isEqualTo(WALLET_PAYDIREKT);
+        assertThat(paydirekt.getName()).isNotNull();
+        assertThat(paydirekt.getName().get("de")).isEqualTo("Paydirekt");
+        assertThat(paydirekt.getName().get("en")).isEqualTo("Paydirekt");
 
         PaymentMethodInfo free = pas.getPaymentMethodInfo("INTERNAL", "FREE")
                                                             .orElse(null);

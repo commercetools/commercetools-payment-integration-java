@@ -53,7 +53,9 @@ public class PayonePaymentServiceProvider implements PaymentServiceProvider {
             throws UnsupportedOperationException {
         switch (methodId) {
             case CREDIT_CARD: return PayoneCreditCardCreatePaymentMethodProvider.of().create();
-            case WALLET_PAYPAL: return PayonePaypalCreatePaymentMethodProvider.of().create();
+            case WALLET_PAYPAL:
+            case WALLET_PAYDIREKT:
+                return PayoneWalletCreatePaymentMethodProvider.of().create();
             case BANK_TRANSFER_ADVANCE : return PayoneBanktransferInAdvanceCreatePaymentProvider.of().create();
             case BANK_TRANSFER_SOFORTUEBERWEISUNG:
             case BANK_TRANSFER_POSTFINANCE_EFINANCE:
@@ -70,7 +72,9 @@ public class PayonePaymentServiceProvider implements PaymentServiceProvider {
             throws UnsupportedOperationException {
         switch (methodId) {
             case CREDIT_CARD: return PayoneCreditCardCreatePaymentTransactionMethodProvider.of().create();
-            case WALLET_PAYPAL: return PayonePaypalCreatePaymentTransactionMethodProvider.of().create();
+            case WALLET_PAYPAL:
+            case WALLET_PAYDIREKT:
+                return PayoneWalletCreatePaymentTransactionMethodProvider.of().create();
             case BANK_TRANSFER_ADVANCE : return PayoneBanktransferInAdvancePaymentTransactionMethodProvider.of().create();
             case BANK_TRANSFER_SOFORTUEBERWEISUNG:
             case BANK_TRANSFER_POSTFINANCE_EFINANCE :

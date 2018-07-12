@@ -12,13 +12,13 @@ import static com.commercetools.payment.payone.config.PayonePaymentMethodKeys.WA
 import static io.sphere.sdk.payments.TransactionType.CHARGE;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PayonePaypalCreatePaymentTransactionMethodProviderTest
+public class PayoneWalletCreatePaymentTransactionMethodProviderTest
         extends BasePayoneRedirectTransactionMethodProviderTest {
 
     @Before
     public void setUp() throws Exception {
         applyCustomFieldStubbing();
-        transactionMethod = PayonePaypalCreatePaymentTransactionMethodProvider.of();
+        transactionMethod = PayoneWalletCreatePaymentTransactionMethodProvider.of();
     }
 
     @Test

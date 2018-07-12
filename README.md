@@ -192,6 +192,7 @@ Following payment methods are supported
 |------------------|------------------------------------|-------------------------|----------------------------------------|
 | PAYONE           | CREDIT_CARD                        | Creditcard              | 3x URLs PseudoPan & TrunctatedcardPan  |
 | PAYONE           | WALLET-PAYPAL                      | Paypal                  | 3x URLs                                |
+| PAYONE           | WALLET-PAYDIREkT                   | Paydirekt               | 3x URLs                                |
 | PAYONE           | BANK_TRANSFER-SOFORTUEBERWEISUNG   | Sofortüberweisung       | 3x URLs                                |
 | PAYONE           | BANK_TRANSFER-POSTFINANCE_EFINANCE | Postfinance E-Finance   | 3x URLs                                |
 | PAYONE           | BANK_TRANSFER-POSTFINANCE_CARD     | Postfinance Card        | 3x URLs                                |

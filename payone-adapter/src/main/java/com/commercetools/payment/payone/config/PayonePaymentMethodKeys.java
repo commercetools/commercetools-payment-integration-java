@@ -21,6 +21,13 @@ public class PayonePaymentMethodKeys {
     public static final String WALLET_PAYPAL = "WALLET-PAYPAL";
 
     /**
+     * Paydirekt
+     * The Paydirekt Wallet
+     */
+    public static final String WALLET_PAYDIREKT = "WALLET-PAYDIREKT";
+
+
+    /**
      * Money received by merchant before delivery via Bank Transfer
      */
     public static final String BANK_TRANSFER_ADVANCE = "BANK_TRANSFER-ADVANCE";

@@ -20,7 +20,7 @@
 Commercetools Payment Integration Java
 ==================
 
-[![Build Status](https://travis-ci.org/commercetools/commercetools-payment-integration-java.svg?branch=master)](https://travis-ci.com/commercetools/project-payment) 
+[![Build Status](https://travis-ci.org/commercetools/commercetools-payment-integration-java.svg?branch=master)](https://travis-ci.org/commercetools/commercetools-payment-integration-java) 
 
 Java modules to create and handle payments and payment transactions in different _payment integration services (providers)_, 
 like [`commercetools Payone Integration Service`](https://github.com/commercetools/commercetools-payone-integration). 

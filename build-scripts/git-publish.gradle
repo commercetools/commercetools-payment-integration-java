@@ -68,7 +68,7 @@ gitPublishCommit {
      * Before commit - list content of documentation versions (directories) in index.html
      */
     doFirst {
-        final docVDir = "${gitPublish.repoDir}/$javadocVersionPath".toString()
+        final docVDir = "$buildDir/gitPublish/$javadocVersionPath".toString()
         def subdirsListing = ""
         new File(docVDir).eachDir {
             println "\tInclude documentation reference for version ${it.name}".toString()

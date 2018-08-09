@@ -52,7 +52,7 @@ gitPublishReset {
             if (!githubToken?.trim()) {
                 throw new InvalidUserDataException('For github publish GRGIT_USER or GH_TOKEN environment variable\n' +
                         "or $authProperty Java runtime property must be set\n" +
-                        "or set $authProperty in gradle.properties file")
+                        "or set $authProperty in gradle.properties file".toString())
             }
 
             System.setProperty(authProperty, githubToken)
@@ -68,19 +68,19 @@ gitPublishCommit {
      * Before commit - list content of documentation versions (directories) in index.html
      */
     doFirst {
-        final docVDir = "${gitPublish.repoDir}/$javadocVersionPath"
+        final docVDir = "${gitPublish.repoDir}/$javadocVersionPath".toString()
         def subdirsListing = ""
         new File(docVDir).eachDir {
-            println "\tInclude documentation reference for version ${it.name}"
-            subdirsListing += "<li><a href=\"${it.name}\" title=\"${it.name}\">${it.name}</a></li>\n"
+            println "\tInclude documentation reference for version ${it.name}".toString()
+            subdirsListing += "<li><a href=\"${it.name}\" title=\"${it.name}\">${it.name}</a></li>\n".toString()
         }
-        final indexHtml = new File("$docVDir/index.html")
+        final indexHtml = new File("$docVDir/index.html".toString())
         indexHtml.text = "<html><body><h1>Documentation versions:</h1><pre id=\"contents\"><ul>$subdirsListing</ul></pre></body></html>"
     }
 }
 
 gitPublishPush {
     doLast {
-        println "Published javadoc to https://commercetools.github.io/$scmProjectName/$javadocVersionPath/$rootProject.version"
+        println "Published javadoc to https://commercetools.github.io/$scmProjectName/$javadocVersionPath/$rootProject.version".toString()
     }
 }

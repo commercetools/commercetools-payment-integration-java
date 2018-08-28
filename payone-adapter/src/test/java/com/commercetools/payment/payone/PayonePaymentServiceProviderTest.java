@@ -34,58 +34,67 @@ public class PayonePaymentServiceProviderTest {
         PaymentMethodInfo pmi = psp.getAvailablePaymentMethods().get(0); // credit card
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
         assertThat(pmi.getMethod()).isEqualTo(CREDIT_CARD);
-        assertThat(pmi.getName().getLocales().size()).isEqualTo(2);
+        assertThat(pmi.getName().getLocales().size()).isEqualTo(3);
         assertThat(pmi.getName().get("en")).isEqualTo("Credit Card");
         assertThat(pmi.getName().get("de")).isEqualTo("Kreditkarte");
+        assertThat(pmi.getName().get("fr")).isEqualTo("Carte bancaire");
 
         pmi = psp.getAvailablePaymentMethods().get(1); // paypal
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
         assertThat(pmi.getMethod()).isEqualTo(WALLET_PAYPAL);
-        assertThat(pmi.getName().getLocales().size()).isEqualTo(2);
+        assertThat(pmi.getName().getLocales().size()).isEqualTo(3);
         assertThat(pmi.getName().get("en")).isEqualTo("Paypal");
+        assertThat(pmi.getName().get("de")).isEqualTo("Paypal");
+        assertThat(pmi.getName().get("fr")).isEqualTo("Paypal");
 
 
         pmi = psp.getAvailablePaymentMethods().get(2); // paydirekt
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
         assertThat(pmi.getMethod()).isEqualTo(WALLET_PAYDIREKT);
-        assertThat(pmi.getName().getLocales().size()).isEqualTo(2);
+        assertThat(pmi.getName().getLocales().size()).isEqualTo(3);
         assertThat(pmi.getName().get("en")).isEqualTo("Paydirekt");
         assertThat(pmi.getName().get("de")).isEqualTo("Paydirekt");
+        assertThat(pmi.getName().get("fr")).isEqualTo("Paydirekt");
 
         pmi = psp.getAvailablePaymentMethods().get(3); // sofort ueberweisung
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
         assertThat(pmi.getMethod()).isEqualTo(BANK_TRANSFER_SOFORTUEBERWEISUNG);
-        assertThat(pmi.getName().getLocales().size()).isEqualTo(2);
+        assertThat(pmi.getName().getLocales().size()).isEqualTo(3);
         assertThat(pmi.getName().get("en")).isEqualTo("Sofortüberweisung");
         assertThat(pmi.getName().get("de")).isEqualTo("Sofortüberweisung");
+        assertThat(pmi.getName().get("fr")).isEqualTo("Sofortüberweisung");
 
         pmi = psp.getAvailablePaymentMethods().get(4); // prepaid
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
         assertThat(pmi.getMethod()).isEqualTo(BANK_TRANSFER_ADVANCE);
-        assertThat(pmi.getName().getLocales().size()).isEqualTo(2);
+        assertThat(pmi.getName().getLocales().size()).isEqualTo(3);
         assertThat(pmi.getName().get("de")).isEqualTo("Vorkasse");
         assertThat(pmi.getName().get("en")).isEqualTo("Prepaid");
+        assertThat(pmi.getName().get("fr")).isEqualTo("Paiement à l’avance");
 
         pmi = psp.getAvailablePaymentMethods().get(5); // post finance efinance
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
         assertThat(pmi.getMethod()).isEqualTo(BANK_TRANSFER_POSTFINANCE_EFINANCE);
-        assertThat(pmi.getName().getLocales().size()).isEqualTo(2);
+        assertThat(pmi.getName().getLocales().size()).isEqualTo(3);
         assertThat(pmi.getName().get("en")).isEqualTo("Postfinance E-Finance");
         assertThat(pmi.getName().get("de")).isEqualTo("Postfinance E-Finance");
+        assertThat(pmi.getName().get("fr")).isEqualTo("Postfinance E-Finance");
 
         pmi = psp.getAvailablePaymentMethods().get(6); // postfinance e-card
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
         assertThat(pmi.getMethod()).isEqualTo(BANK_TRANSFER_POSTFINANCE_CARD);
-        assertThat(pmi.getName().getLocales().size()).isEqualTo(2);
+        assertThat(pmi.getName().getLocales().size()).isEqualTo(3);
         assertThat(pmi.getName().get("en")).isEqualTo("Postfinance Card");
         assertThat(pmi.getName().get("de")).isEqualTo("Postfinance Card");
+        assertThat(pmi.getName().get("fr")).isEqualTo("Postfinance Card");
 
         pmi = psp.getAvailablePaymentMethods().get(7); // klarna
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
         assertThat(pmi.getMethod()).isEqualTo(INVOICE_KLARNA);
-        assertThat(pmi.getName().getLocales().size()).isEqualTo(2);
+        assertThat(pmi.getName().getLocales().size()).isEqualTo(3);
         assertThat(pmi.getName().get("en")).isEqualTo("Pay on delivery");
         assertThat(pmi.getName().get("de")).isEqualTo("Kauf auf Rechnung");
+        assertThat(pmi.getName().get("fr")).isEqualTo("Paiement sur facture");
     }
 
     @Test

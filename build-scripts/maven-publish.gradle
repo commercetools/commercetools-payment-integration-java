@@ -26,6 +26,12 @@ def pomConfig = {
             email 'andreas.halberkamp@commercetools.de'
         }
         developer {
+            id 'lojzatran'
+            name 'Lam Tran'
+            url 'https://github.com/lojzatran'
+            email 'lam.tran@commercetools.de'
+        }
+        developer {
             id 'MGA-dotSource'
             name 'Mirco'
             url 'https://github.com/MGA-dotSource'

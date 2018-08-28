@@ -17,7 +17,8 @@
       "name":
       {
         "de": "Kreditkarte",
-        "en": "Credit Card"
+        "en": "Credit Card",
+        "fr": "Carte bancaire"
       }
     },
     "WALLET-PAYPAL" : {
@@ -26,7 +27,8 @@
       "name":
       {
         "de": "Paypal",
-        "en": "Paypal"
+        "en": "Paypal",
+        "fr": "Paypal"
       }
     },
     "WALLET-PAYDIREKT" : {
@@ -35,7 +37,8 @@
       "name":
       {
         "de": "Paydirekt",
-        "en": "Paydirekt"
+        "en": "Paydirekt",
+        "fr": "Paydirekt"
       }
     },
     "BANK_TRANSFER-SOFORTUEBERWEISUNG" : {
@@ -44,7 +47,8 @@
       "name":
       {
         "de": "Sofortüberweisung",
-        "en": "Sofortüberweisung"
+        "en": "Sofortüberweisung",
+        "fr": "Sofortüberweisung"
       }
     },
     "BANK_TRANSFER-ADVANCE" : {
@@ -53,7 +57,8 @@
      "name":
      {
        "de": "Vorkasse",
-       "en": "Prepaid"
+       "en": "Prepaid",
+       "fr": "Paiement à l’avance"
      }
     },
     "BANK_TRANSFER-POSTFINANCE_EFINANCE" : {
@@ -62,7 +67,8 @@
       "name":
       {
         "de": "Postfinance E-Finance",
-        "en": "Postfinance E-Finance"
+        "en": "Postfinance E-Finance",
+        "fr": "Postfinance E-Finance"
       }
     },
     "BANK_TRANSFER-POSTFINANCE_CARD" : {
@@ -71,7 +77,8 @@
       "name":
       {
         "de": "Postfinance Card",
-        "en": "Postfinance Card"
+        "en": "Postfinance Card",
+        "fr": "Postfinance Card"
       }
     },
     "INVOICE-KLARNA" : {
@@ -80,7 +87,8 @@
       "name":
       {
         "de": "Kauf auf Rechnung",
-        "en": "Pay on delivery"
+        "en": "Pay on delivery",
+        "fr": "Paiement sur facture"
       }
     }
   },

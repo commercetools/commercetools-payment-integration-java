@@ -18,6 +18,7 @@ final depVersions = [
         slf4j              : '1.7.25'
 ]
 
+
 // these properties reused by external configurations in build-script directory,
 // that's why we use ext. global prefix
 ext.scmProjectName = rootProject.name

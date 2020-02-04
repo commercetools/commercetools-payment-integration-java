@@ -5,7 +5,9 @@ import io.sphere.sdk.cartdiscounts.CartDiscount;
 import io.sphere.sdk.customergroups.CustomerGroup;
 import io.sphere.sdk.discountcodes.DiscountCodeInfo;
 import io.sphere.sdk.models.Address;
+import io.sphere.sdk.models.KeyReference;
 import io.sphere.sdk.models.Reference;
+import io.sphere.sdk.stores.Store;
 import io.sphere.sdk.types.CustomFields;
 
 import javax.annotation.Nullable;
@@ -95,6 +97,11 @@ public class CartTestImpl implements Cart {
     }
 
     @Override
+    public TaxCalculationMode getTaxCalculationMode() {
+        return null;
+    }
+
+    @Override
     public MonetaryAmount getTotalPrice() {
         return totalPrice;
     }
@@ -167,6 +174,28 @@ public class CartTestImpl implements Cart {
     @Nullable
     @Override
     public List<Reference<CartDiscount>> getRefusedGifts() {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public ShippingRateInput getShippingRateInput() {
+        return null;
+    }
+
+    @Override
+    public CartOrigin getOrigin() {
+        return null;
+    }
+
+    @Override
+    public List<Address> getItemShippingAddresses() {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public KeyReference<Store> getStore() {
         return null;
     }
 

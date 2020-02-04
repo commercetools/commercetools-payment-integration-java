@@ -2,6 +2,8 @@ package com.commercetools.payment.payone.utils;
 
 import com.commercetools.payment.domain.CreatePaymentDataBuilder;
 import com.commercetools.payment.model.PaymentInteractionData;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
+import com.fasterxml.jackson.databind.node.NullNode;
 import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.client.SphereClient;
 import io.sphere.sdk.types.CustomFieldsDraft;
@@ -27,9 +29,10 @@ public class PaymentMappingUtilTest {
 
     private CreatePaymentDataBuilder cpdb;
     private PaymentInteractionData pid;
-
+    JsonNodeType nullNodeType;
     @Before
     public void setUp() throws Exception {
+        nullNodeType = NullNode.getInstance().getNodeType();
         cpdb = CreatePaymentDataBuilder.of(sphereClient, "testInterface", "testMethod", cart, "testReference");
         pid = cpdb.build();
     }
@@ -53,9 +56,9 @@ public class PaymentMappingUtilTest {
         assertThat(fieldsDraft.getFields().size()).isEqualTo(4);
         assertThat(fieldsDraft.getFields().get("a").asText()).isEqualTo("b");
         assertThat(fieldsDraft.getFields().get("itWasHere").asText()).isEqualTo("forever");
-        assertThat(fieldsDraft.getFields().get("woot")).isNull();
+        assertThat(fieldsDraft.getFields().get("woot").getNodeType()).isEqualTo(nullNodeType);
         assertThat(fieldsDraft.getFields().get("foo")).isNull();
-        assertThat(fieldsDraft.getFields().get("someMissingField")).isNull();
+        assertThat(fieldsDraft.getFields().get("someMissingField").getNodeType()).isEqualTo(nullNodeType);
     }
 
     @Test
@@ -112,7 +115,7 @@ public class PaymentMappingUtilTest {
         assertThat(fieldsDraft.getFields().get("foo").asText()).isEqualTo("BAR");
         assertThat(fieldsDraft.getFields().get("woot").asText()).isEqualTo("HACK");
         assertThat(fieldsDraft.getFields().get("empty").asText()).isEqualTo("");
-        assertThat(fieldsDraft.getFields().get("likeNull")).isNull();
+        assertThat(fieldsDraft.getFields().get("likeNull").getNodeType()).isEqualTo(nullNodeType);
         assertThat(fieldsDraft.getFields().get("itWasHere").asText()).isEqualTo("so won't be formatted");
 
     }

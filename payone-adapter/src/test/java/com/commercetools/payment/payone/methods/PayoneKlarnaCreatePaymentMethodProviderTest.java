@@ -2,6 +2,7 @@ package com.commercetools.payment.payone.methods;
 
 import com.commercetools.payment.model.impl.CreatePaymentDataImpl;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.NullNode;
 import io.sphere.sdk.carts.CartTestImpl;
 import io.sphere.sdk.payments.PaymentDraft;
 import io.sphere.sdk.types.CustomFieldsDraft;
@@ -124,10 +125,10 @@ public class PayoneKlarnaCreatePaymentMethodProviderTest extends BasePayoneCreat
         sa.assertThat(customFields.containsKey(key))
                 .withFailMessage(format("Custom fields must contain key [%s]", key))
                 .isTrue();
-        sa.assertThat(customFields.get(key))
-                .withFailMessage(format("Custom field [%s] expected to be: null,%n      "
+        sa.assertThat(customFields.get(key).getNodeType())
+                .withFailMessage(format("Custom field [%s] expected to be: Nullnode,%n      "
                                       + "but was: %s", key, customFields.get(key)))
-                .isNull();
+                .isEqualTo(NullNode.getInstance().getNodeType());
     }
 
 }

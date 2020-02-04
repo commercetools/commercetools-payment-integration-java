@@ -11,12 +11,13 @@ buildscript {
 }
 
 final depVersions = [
-        commercetoolsSdkJvm: '1.24.0',
+        commercetoolsSdkJvm: '1.49.0',
         assertJ            : '3.6.2',
         mockito            : '2.7.22',
         junit              : '4.12',
         slf4j              : '1.7.25'
 ]
+
 
 // these properties reused by external configurations in build-script directory,
 // that's why we use ext. global prefix

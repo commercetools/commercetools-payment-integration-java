@@ -38,6 +38,14 @@ public class PayonePaymentMethodKeys {
     public static final String BANK_TRANSFER_SOFORTUEBERWEISUNG = "BANK_TRANSFER-SOFORTUEBERWEISUNG";
 
     /**
+     * pay via iDEAL
+     */
+    public static final String BANK_TRANSFER_IDEAL = "BANK_TRANSFER-IDEAL";
+    /**
+     * pay via BANCONTACT
+     */
+    public static final String BANK_TRANSFER_BANCONTACT = "BANK_TRANSFER-BANCONTACT";
+    /**
      * Switzerland specific
      */
     public static final String BANK_TRANSFER_POSTFINANCE_EFINANCE = "BANK_TRANSFER-POSTFINANCE_EFINANCE";

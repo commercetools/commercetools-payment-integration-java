@@ -58,8 +58,11 @@ public class PayonePaymentServiceProvider implements PaymentServiceProvider {
                 return PayoneWalletCreatePaymentMethodProvider.of().create();
             case BANK_TRANSFER_ADVANCE : return PayoneBanktransferInAdvanceCreatePaymentProvider.of().create();
             case BANK_TRANSFER_SOFORTUEBERWEISUNG:
+            case BANK_TRANSFER_IDEAL:
+            case BANK_TRANSFER_BANCONTACT:
             case BANK_TRANSFER_POSTFINANCE_EFINANCE:
             case BANK_TRANSFER_POSTFINANCE_CARD:
+
                 return PayoneBankTransferCreatePaymentMethodProvider.of().create();
             case INVOICE_KLARNA: return PayoneKlarnaCreatePaymentMethodProvider.of().create();
         }
@@ -77,6 +80,8 @@ public class PayonePaymentServiceProvider implements PaymentServiceProvider {
                 return PayoneWalletCreatePaymentTransactionMethodProvider.of().create();
             case BANK_TRANSFER_ADVANCE : return PayoneBanktransferInAdvancePaymentTransactionMethodProvider.of().create();
             case BANK_TRANSFER_SOFORTUEBERWEISUNG:
+            case BANK_TRANSFER_IDEAL:
+            case BANK_TRANSFER_BANCONTACT:
             case BANK_TRANSFER_POSTFINANCE_EFINANCE :
             case BANK_TRANSFER_POSTFINANCE_CARD:
                 return PayoneBankTransferCreateTransactionMethodProvider.of().create();

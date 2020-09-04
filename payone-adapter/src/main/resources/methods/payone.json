@@ -5,9 +5,12 @@
                       "WALLET-PAYPAL",
                       "WALLET-PAYDIREKT",
                       "BANK_TRANSFER-SOFORTUEBERWEISUNG",
+                      "BANK_TRANSFER-IDEAL",
+                      "BANK_TRANSFER-BANCONTACT",
                       "BANK_TRANSFER-ADVANCE",
                       "BANK_TRANSFER-POSTFINANCE_EFINANCE",
                       "BANK_TRANSFER-POSTFINANCE_CARD",
+
                       "INVOICE-KLARNA"
   ],
   "availableMethods" : {
@@ -51,7 +54,27 @@
         "fr": "Sofortüberweisung"
       }
     },
-    "BANK_TRANSFER-ADVANCE" : {
+    "BANK_TRANSFER-IDEAL" : {
+      "paymentInterface": "PAYONE",
+      "method": "BANK_TRANSFER-IDEAL",
+      "name":
+      {
+        "de": "iDEAL",
+        "en": "iDEAL",
+        "fr": "iDEAL"
+      }
+    },
+    "BANK_TRANSFER-BANCONTACT" : {
+      "paymentInterface": "PAYONE",
+      "method": "BANK_TRANSFER-BANCONTACT",
+      "name":
+      {
+        "de": "Bancontact",
+        "en": "Bancontact",
+        "fr": "Bancontact"
+      }
+    },
+   "BANK_TRANSFER-ADVANCE" : {
      "paymentInterface": "PAYONE",
      "method": "BANK_TRANSFER-ADVANCE",
      "name":
@@ -97,6 +120,8 @@
     "WALLET-PAYPAL" : "Charge",
     "WALLET-PAYDIREKT" : "Charge",
     "BANK_TRANSFER-SOFORTUEBERWEISUNG" : "Charge",
+    "BANK_TRANSFER-IDEAL" : "Charge",
+    "BANK_TRANSFER-BANCONTACT" : "Charge",
     "BANK_TRANSFER-ADVANCE" : "Charge",
     "BANK_TRANSFER-POSTFINANCE_EFINANCE" : "Charge",
     "BANK_TRANSFER-POSTFINANCE_CARD" : "Charge",

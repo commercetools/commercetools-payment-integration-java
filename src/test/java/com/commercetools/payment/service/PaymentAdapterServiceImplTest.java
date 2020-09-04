@@ -53,7 +53,7 @@ public class PaymentAdapterServiceImplTest {
     public void findAvailablePaymentMethods_all() throws Exception {
         List<PaymentMethodInfo> availablePaymentMethods = pas.findAvailablePaymentMethods();
         assertThat(availablePaymentMethods).isNotNull();
-        assertThat(availablePaymentMethods.size()).isEqualTo(8 + 1); // 8 PAYONE methods + 1 INTERNAL:FREE
+        assertThat(availablePaymentMethods.size()).isEqualTo(10 + 1); // 8 PAYONE methods + 1 INTERNAL:FREE
 
         PaymentMethodInfo payoneCc = getByInterfaceAndMethod(availablePaymentMethods, PAYONE_INTERFACE_ID, CREDIT_CARD);
         assertThat(payoneCc).isNotNull();
@@ -76,7 +76,7 @@ public class PaymentAdapterServiceImplTest {
                         .collect(Collectors.toList()));
 
         assertThat(onlyBankPayments).isNotNull();
-        assertThat(onlyBankPayments.size()).isEqualTo(4); // 4 payone bank transfer methods
+        assertThat(onlyBankPayments.size()).isEqualTo(6); // 4 payone bank transfer methods
 
         List<PaymentMethodInfo> onlyFree = pas.findAvailablePaymentMethods(
                 allMethods -> allMethods.stream()

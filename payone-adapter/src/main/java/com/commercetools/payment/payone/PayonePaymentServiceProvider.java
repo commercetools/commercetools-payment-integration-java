@@ -62,8 +62,7 @@ public class PayonePaymentServiceProvider implements PaymentServiceProvider {
             case BANK_TRANSFER_BANCONTACT:
             case BANK_TRANSFER_POSTFINANCE_EFINANCE:
             case BANK_TRANSFER_POSTFINANCE_CARD:
-
-                return PayoneBankTransferCreatePaymentMethodProvider.of().create();
+                 return PayoneBankTransferCreatePaymentMethodProvider.of().create();
             case INVOICE_KLARNA: return PayoneKlarnaCreatePaymentMethodProvider.of().create();
         }
 

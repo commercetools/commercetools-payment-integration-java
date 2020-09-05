@@ -23,6 +23,7 @@ before_script:
   - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 
 script:
+  - heroku version
   - /usr/local/bin/heroku restart --app ct-payment-integration-java # requires HEROKU_API_KEY env variable
   - set -e
   - ./gradlew --info build || travis_terminate 1

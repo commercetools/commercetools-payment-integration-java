@@ -194,6 +194,8 @@ Following payment methods are supported
 | PAYONE           | WALLET-PAYPAL                      | Paypal                  | 3x URLs                                |
 | PAYONE           | WALLET-PAYDIREkT                   | Paydirekt               | 3x URLs                                |
 | PAYONE           | BANK_TRANSFER-SOFORTUEBERWEISUNG   | Sofortüberweisung       | 3x URLs                                |
+| PAYONE           | BANK_TRANSFER-IDEAL                | Ideal                   | 3x URLs & bankGroupType                |
+| PAYONE           | BANK_TRANSFER-BANCONTACT           | Bancontact              | 3x URLs                                |
 | PAYONE           | BANK_TRANSFER-POSTFINANCE_EFINANCE | Postfinance E-Finance   | 3x URLs                                |
 | PAYONE           | BANK_TRANSFER-POSTFINANCE_CARD     | Postfinance Card        | 3x URLs                                |
 | PAYONE           | BANK_TRANSFER-ADVANCE              | Prepayment              | -------                                |

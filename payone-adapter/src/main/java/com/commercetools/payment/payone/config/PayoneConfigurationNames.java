@@ -20,6 +20,7 @@ public interface PayoneConfigurationNames {
     static final String PAID_TO_IBAN = "paidToIBAN";
     static final String PAID_TO_BIC = "paidToBIC";
     static final String PAID_TO_NAME = "paidToAccountHolderName";
+    static final String BANK_GROUP_TYPE ="bankGroupType";
 
     /**
      * Customer's gender. Single character {@code m} or {@code f}. Mandatory for <i>Klarna</i>.

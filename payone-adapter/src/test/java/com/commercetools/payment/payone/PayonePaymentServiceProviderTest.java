@@ -29,7 +29,7 @@ public class PayonePaymentServiceProviderTest {
 
     @Test
     public void getAvailablePaymentMethods() throws Exception {
-        assertThat(psp.getAvailablePaymentMethods().size()).isEqualTo(8);
+        assertThat(psp.getAvailablePaymentMethods().size()).isEqualTo(10);
 
         PaymentMethodInfo pmi = psp.getAvailablePaymentMethods().get(0); // credit card
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
@@ -64,7 +64,23 @@ public class PayonePaymentServiceProviderTest {
         assertThat(pmi.getName().get("de")).isEqualTo("Sofortüberweisung");
         assertThat(pmi.getName().get("fr")).isEqualTo("Sofortüberweisung");
 
-        pmi = psp.getAvailablePaymentMethods().get(4); // prepaid
+        pmi = psp.getAvailablePaymentMethods().get(4); // ideal
+        assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
+        assertThat(pmi.getMethod()).isEqualTo(BANK_TRANSFER_IDEAL);
+        assertThat(pmi.getName().getLocales().size()).isEqualTo(3);
+        assertThat(pmi.getName().get("en")).isEqualTo("iDEAL");
+        assertThat(pmi.getName().get("de")).isEqualTo("iDEAL");
+        assertThat(pmi.getName().get("fr")).isEqualTo("iDEAL");
+
+        pmi = psp.getAvailablePaymentMethods().get(5); // Banconcat
+        assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
+        assertThat(pmi.getMethod()).isEqualTo(BANK_TRANSFER_BANCONTACT);
+        assertThat(pmi.getName().getLocales().size()).isEqualTo(3);
+        assertThat(pmi.getName().get("en")).isEqualTo("Bancontact");
+        assertThat(pmi.getName().get("de")).isEqualTo("Bancontact");
+        assertThat(pmi.getName().get("fr")).isEqualTo("Bancontact");
+
+        pmi = psp.getAvailablePaymentMethods().get(6); // prepaid
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
         assertThat(pmi.getMethod()).isEqualTo(BANK_TRANSFER_ADVANCE);
         assertThat(pmi.getName().getLocales().size()).isEqualTo(3);
@@ -72,7 +88,7 @@ public class PayonePaymentServiceProviderTest {
         assertThat(pmi.getName().get("en")).isEqualTo("Prepaid");
         assertThat(pmi.getName().get("fr")).isEqualTo("Paiement à l’avance");
 
-        pmi = psp.getAvailablePaymentMethods().get(5); // post finance efinance
+        pmi = psp.getAvailablePaymentMethods().get(7); // post finance efinance
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
         assertThat(pmi.getMethod()).isEqualTo(BANK_TRANSFER_POSTFINANCE_EFINANCE);
         assertThat(pmi.getName().getLocales().size()).isEqualTo(3);
@@ -80,7 +96,7 @@ public class PayonePaymentServiceProviderTest {
         assertThat(pmi.getName().get("de")).isEqualTo("Postfinance E-Finance");
         assertThat(pmi.getName().get("fr")).isEqualTo("Postfinance E-Finance");
 
-        pmi = psp.getAvailablePaymentMethods().get(6); // postfinance e-card
+        pmi = psp.getAvailablePaymentMethods().get(8); // postfinance e-card
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
         assertThat(pmi.getMethod()).isEqualTo(BANK_TRANSFER_POSTFINANCE_CARD);
         assertThat(pmi.getName().getLocales().size()).isEqualTo(3);
@@ -88,7 +104,7 @@ public class PayonePaymentServiceProviderTest {
         assertThat(pmi.getName().get("de")).isEqualTo("Postfinance Card");
         assertThat(pmi.getName().get("fr")).isEqualTo("Postfinance Card");
 
-        pmi = psp.getAvailablePaymentMethods().get(7); // klarna
+        pmi = psp.getAvailablePaymentMethods().get(9); // klarna
         assertThat(pmi.getPaymentInterface()).isEqualTo(METHOD_ID);
         assertThat(pmi.getMethod()).isEqualTo(INVOICE_KLARNA);
         assertThat(pmi.getName().getLocales().size()).isEqualTo(3);

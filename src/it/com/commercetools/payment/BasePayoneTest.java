@@ -4,6 +4,7 @@ import com.commercetools.payment.actions.OperationResult;
 import com.commercetools.payment.actions.ShopAction;
 import com.commercetools.payment.model.PaymentCreationResult;
 import com.commercetools.payment.model.PaymentTransactionCreationResult;
+import com.neovisionaries.i18n.CountryCode;
 import io.sphere.sdk.carts.Cart;
 import io.sphere.sdk.client.BlockingSphereClient;
 import io.sphere.sdk.payments.Payment;
@@ -21,7 +22,9 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.REFERENCE;
-import static com.commercetools.util.IntegrationTestUtils.*;
+import static com.commercetools.util.IntegrationTestUtils.createClient;
+import static com.commercetools.util.IntegrationTestUtils.createTestCartFromProduct;
+import static com.commercetools.util.IntegrationTestUtils.removeCart;
 import static io.sphere.sdk.payments.TransactionState.INITIAL;
 import static java.util.Optional.ofNullable;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,10 +34,14 @@ public class BasePayoneTest {
     protected Cart cart;
 
     protected void setup(int cartSize) throws ExecutionException, InterruptedException {
+        setup(cartSize, CountryCode.DE);
+    }
+
+
+    protected void setup(int cartSize, CountryCode countryCode) throws ExecutionException, InterruptedException {
         Monetary.getDefaultRounding().apply(MoneyImpl.ofCents(123, "EUR"));
         this.client = createClient();
-        this.cart = createTestCartFromProduct(client, cartSize);
-
+        this.cart = createTestCartFromProduct(countryCode, client, cartSize);
         assertPreconditions(cartSize);
     }
 

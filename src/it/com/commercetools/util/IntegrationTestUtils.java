@@ -73,8 +73,9 @@ public class IntegrationTestUtils {
      * @param client the client handling the connection
      * @return the created cart
      */
-    public static Cart createTestCartFromProduct(BlockingSphereClient client, Integer productNumber) throws ExecutionException, InterruptedException {
-        Address address = AddressBuilder.of(CountryCode.DE).firstName("FN").lastName("LN").streetName("sname").streetNumber("1").postalCode("12345").city("city").build();
+    public static Cart createTestCartFromProduct(CountryCode countryCode, BlockingSphereClient client,
+                                                 Integer productNumber) throws ExecutionException, InterruptedException {
+        Address address = AddressBuilder.of(countryCode).firstName("FN").lastName("LN").streetName("sname").streetNumber("1").postalCode("12345").city("city").build();
 
         List<LineItemDraft> lineItemDrafts = new ArrayList<>();
         for (int i = 0; i < productNumber; i++) {
@@ -84,13 +85,25 @@ public class IntegrationTestUtils {
         }
 
         CartDraft cartDraft = CartDraftBuilder.of(DefaultCurrencyUnits.EUR)
-                .country(CountryCode.DE)
+                .country(countryCode)
                 .locale(Locale.GERMAN)
                 .lineItems(lineItemDrafts)
                 .billingAddress(address).shippingAddress(address)
                 .build();
 
         return client.executeBlocking(CartCreateCommand.of(cartDraft));
+    }
+
+
+
+    /**
+     * Creates a new cart and adds the passed product as a new line item using a random quantiy between 1 and 10.
+     *
+     * @param client the client handling the connection
+     * @return the created cart
+     */
+    public static Cart createTestCartFromProduct(BlockingSphereClient client, Integer productNumber) throws ExecutionException, InterruptedException {
+       return  createTestCartFromProduct(CountryCode.DE, client,productNumber);
     }
 
     public static void removeCart(BlockingSphereClient client, Cart cart) throws ExecutionException, InterruptedException {

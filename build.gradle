@@ -66,9 +66,7 @@ subprojects {
 
     apply plugin: 'maven'
     apply plugin: 'maven-publish'
-
-    // this is an important plugin for maven/bintray publishing to avoid "all dependencies are runtime scope":
-    // see https://github.com/bintray/gradle-bintray-plugin#maven-publications and https://github.com/gradle/gradle/issues/1118
+    apply plugin: 'signing'
     apply plugin: 'java-library'
 
     apply plugin: 'com.jfrog.bintray'

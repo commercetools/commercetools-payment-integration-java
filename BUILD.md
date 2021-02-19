@@ -2,20 +2,22 @@ Build and publish workflow
 ===========================
 
 The main goal of the build process is to publish the artifacts to public repositories, 
-like [JCenter](https://jcenter.bintray.com/) and [Maven Central](https://search.maven.org/).
+like [Maven Central](https://search.maven.org/).
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents** 
+**Tablex of Contents** 
 
 - [Build and deploy a new version](#build-and-deploy-a-new-version)
 - [Integration tests](#integration-tests)
 - [Publish workflow](#publish-workflow)
-  - [Full build with tests, documentation publishing and Bintray upload](#full-build-with-tests-documentation-publishing-and-bintray-upload)
+  - [Full build with tests and documentation publishing](#full-build-with-tests-and-documentation-publishing)
   - [Publish to local maven repo](#publish-to-local-maven-repo)
-  - [Publish snapshots to oss.sonatype.org](#publish-snapshots-to-osssonatypeorg)
-  - [Publish to Bintray](#publish-to-bintray)
-  - [Publish to Maven](#publish-to-maven)
+  - [Release the library](#release-the-library)
+    - [Publish to Maven central](#publish-to-maven-central)
+      - [Login into nexus repository manager](#login-into-nexus-repository-manager)
+      - [Locate and examine your staging repository](#locate-and-examine-your-staging-repository)
+      - [Close and drop or release your staging repository](#close-and-drop-or-release-your-staging-repository)
 - [All in one publish script](#all-in-one-publish-script)
 - [Known issues](#known-issues)
     - [`PayonePrepaidTest.testPaymentFlow`](#payoneprepaidtesttestpaymentflow)
@@ -23,18 +25,6 @@ like [JCenter](https://jcenter.bintray.com/) and [Maven Central](https://search.
     - [Aggregated Javadoc may fail without visible reason](#aggregated-javadoc-may-fail-without-visible-reason)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Build and deploy a new version
-
-If the project and CI tools (like Travis) are completely configured, to perform a new version deploy push a new git tag:
-```
-git tag X.X.X
-git push --tags
-```
-
-This will initiate [respective Travis build](https://travis-ci.org/commercetools/commercetools-payment-integration-java)
-and upload the artifacts to Bintray. Then one have to promote/publish them 
-from Bintray to _JCenter_ and/or _Maven Central_. See [Publish workflow](#publish-workflow) below for more details.
 
 # Integration tests
  
@@ -91,12 +81,12 @@ Because of the [known issues](#known-issues) some tests may fail.
 
 # Publish workflow
 
-## Full build with tests, documentation publishing and Bintray upload
+## Full build with tests and documentation publishing
 
 Replace `X.X.X` in the snippet:
 
 ```
-./gradlew clean build aggregateJavaDoc gitPublishPush bintrayUpload -Dbuild.version=X.X.X
+./gradlew clean build aggregateJavaDoc gitPublishPush -Dbuild.version=X.X.X
 ```
 
 ## Publish to local maven repo
@@ -117,78 +107,32 @@ plugin.
 
 Use [publish-to-maven-local.sh](./publish-to-maven-local.sh) script for easier publishing process.
 
-## Publish snapshots to oss.sonatype.org
+##  Release the library
+To release the library, you need to ["create a new release"](https://github.com/commercetools/commercetools-payment-integration-java/releases/new) with Github, 
+describe the new release and publish it. 
+The creation of a github release triggers a github action, which will deploy the library to  the staging repository
+ of the [nexus repository manager](https://oss.sonatype.org/).
 
-**Note:** this expected to be changed to https://oss.jfrog.org in the future.
+###  Publish to Maven central
 
-To publish to [OSS Sonatype snapshots](https://oss.sonatype.org/content/repositories/snapshots/com/commercetools/)
-repo the following command is used:
+#### Login into nexus repository manager
+You need to login to [nexus repository manager](https://oss.sonatype.org/) in order to access and work with your staging repositories. 
 
-```bash
-./gradlew clean build uploadArchives -Dbuild.version=X.X.X-SNAPSHOT
-```
+#### Locate and examine your staging repository
+Once you are logged in you will be able to access the build promotion menu in the left hand navigation and select the
+staging repository. The staging repository you created during the deployment will have a name starting with the
+groupId for your projects with the dots removed appended with a dash and a 4 digit number. E.g. if your project groupId
+is com.example.applications, your staging profile name would start with comexampleapplications. The sequential numbers 
+start at 1000 and are incremented per deployment so you could e.g. have a staging repository name of comexampleapplication-1010.
 
-The `-SNAPSHOT` suffix is mandatory. 
+Select the staging repository and the panel below the list will display further details about the repository.
 
-**Note**: for publishing to OSS Sonatype you need specify **API** User/Key (not login credentials) for  
-`OSS_USER`/`OSS_KEY` environment variables or `ossUser`/`ossKey` gradle build properties 
-(the properties have precedence over environment variables). 
+#### Close and drop or release your staging repository
+After your deployment the repository will be in an open status. You can evaluate the deployed components in the
+repository using the Contents tab. If you believe everything is correct, you can press the close button above the list.
+This will trigger the evaluations of the components against the requirements.Once you have successfully closed the staging repository, you can release it by pressing the Release button. 
+This will move the components into the release repository of [nexus repository manager](https://oss.sonatype.org/)  where it will be synced to the Central Repository.
 
-See more configuration details of the oss uploading in [oss-upload.gradle](./build-scripts/oss-upload.gradle) file.
-
-Use [publish-to-oss.sh](./publish-to-oss.sh) script for easier publishing process.
-
-## Publish to Bintray
-
-[Bintray documentation about publish process](https://blog.bintray.com/2014/02/11/bintray-as-pain-free-gateway-to-maven-central/)
-
-Bintray publish is performed by [`gradle-bintray-plugin`](https://github.com/bintray/gradle-bintray-plugin). 
-The artifacts are published to [bintray commercetools maven repo](https://bintray.com/commercetools/maven/payment).
-
-If you are a new developer in the project - update contributors list in 
-[`build.gradle`](/build.gradle)`-> subprojects -> pomConfig ->developers`.
-
-To initiate publish call:
-```
-./gradlew clean build bintrayUpload -Dbuild.version=X.X.X
-```
-
-**NOTE**: Bintray does not allow to publish snapshots thus `X.X.X` should not contain _SNAPSHOT_.
-If you wish to use snapshots, https://oss.jfrog.com account should be configured.
-See https://blog.bintray.com/2014/02/11/bintray-as-pain-free-gateway-to-maven-central/ for more info.
-
-Snapshots could be published to oss using [Publish snapshots](#publish-snapshots-to-osssonatypeorg) guides. 
-If you need to publish test versions to bintray - use _alpha_, _beta_ etc suffixes.
-
-Use [publish-to-bintray.sh](./publish-to-bintray.sh) script for easier publishing process.
-
-After publishing to Bintray artifacts are available in [Bintray Download](http://dl.bintray.com/commercetools/maven/com/commercetools/payment/)
-but still not available in [JCenter](https://jcenter.bintray.com/com/commercetools/payment/). 
-
-To publish the artifacts to JCenter do the next:
-  1. Go to https://bintray.com/commercetools/maven/payment
-  1. You will see something like _Notice: You have 24 unpublished item(s) for this package (expiring in 6 days and 22 hours)_
-  1. Click _Publish_
-  1. Check [JCenter Payment](https://jcenter.bintray.com/com/commercetools/payment/) reference.
-
-## Publish to Maven
-
-Publishing to Maven Central requires the following steps:
-
- 1. Build the app and upload to Bintray (see the steps above for integration tests)
- 1. [Signing up the app with PGP key](https://blog.bintray.com/2013/08/06/fight-crime-with-gpg/): for now we use Bintray's 
-    "a stock built-in key-pair so that it can auto-sign every file you upload"
- 1. [Manually release from Bintray web page to Maven Central](https://blog.bintray.com/2015/09/17/publishing-your-maven-project-to-bintray/)
- 
-**Note**: Maven Central has much stricter requirements to published artifacts, e.g. the should have mandatory POM fields 
-(like developers list, SCM references; this is configured in the [build script](/build.gradle)) 
-and mandatory signed by GPG key (could be performed by Bintray settings). For more info about Maven Central 
-requirements see [Requirements](http://central.sonatype.org/pages/requirements.html) page.
-
-As soon as artifacts are synced you will be able to find them in the Maven Central repo and mirrors:
-
-https://repo1.maven.org/maven2/com/commercetools/payment/
-http://repo2.maven.org/maven2/com/commercetools/payment/
 
 # All in one publish script
 

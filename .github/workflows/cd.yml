@@ -1,0 +1,28 @@
+name: CD
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+  deployment:
+    name: deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v2
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - name: Set up Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Publish package
+        run: ./gradlew -Dbuild.version="${{ steps.vars.outputs.tag }}" publish
+        env:
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+          PGP_KEY: ${{ secrets.PGP_KEY }}
+          PGP_PASSWORD: ${{ secrets.PGP_PASSWORD }}

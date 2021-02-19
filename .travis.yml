@@ -27,7 +27,6 @@ script:
   - ´heroku restart --app ct-payment-integration-java # requires HEROKU_API_KEY env variable
   - set -e
   - ./gradlew --info build || travis_terminate 1
-  - ./travis-build-publish.sh || travis_terminate 1
 
 notifications:
   email:

@@ -15,6 +15,11 @@ id 'org.ajoberstar.git-publish' version '3.0.0'
 id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }
 
+apply from: "$rootDir/build-scripts/extensions.gradle"
+apply from: "$rootDir/build-scripts/plugins.gradle"
+apply from: "$rootDir/build-scripts/package.gradle"
+apply from: "$rootDir/build-scripts/maven-publish.gradle"
+apply from: "$rootDir/build-scripts/nexus-publish.gradle"
 
 final depVersions = [
         commercetoolsSdkJvm: '1.53.0',
@@ -72,37 +77,13 @@ subprojects {
 
     apply plugin: 'maven'
     apply plugin: 'maven-publish'
-
-    // this is an important plugin for maven/bintray publishing to avoid "all dependencies are runtime scope":
-    // see https://github.com/bintray/gradle-bintray-plugin#maven-publications and https://github.com/gradle/gradle/issues/1118
     apply plugin: 'java-library'
-
-    apply plugin: 'com.jfrog.bintray'
-
-    // package sources and javadoc to jar
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
-
-    task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
-        from javadoc.destinationDir
-    }
-
-    artifacts {
-        archives sourcesJar
-        archives javadocJar
-    }
-
     install.dependsOn build
 
     build.doLast {
         println "\nEffective project \"${project.version}\" built version: ${project.version}\n"
     }
-    apply from: "$rootDir/build-scripts/plugins.gradle"
-    apply from: "$rootDir/build-scripts/maven-publish.gradle"
-    apply from: "$rootDir/build-scripts/nexus-publish.gradle"
+
 }
 
 project(':common') {

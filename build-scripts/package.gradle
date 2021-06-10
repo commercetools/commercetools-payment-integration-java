@@ -1,0 +1,26 @@
+/**
+ * Package sources to JARs
+ */
+jar {
+    manifest {
+        // These attribute are used in the SyncSolutionInfo.java. Please don't remove!
+        attributes("Implementation-Title": rootProject.name, "Implementation-Version": rootProject.version)
+    }
+}
+
+
+// package sources and javadoc to jar
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}

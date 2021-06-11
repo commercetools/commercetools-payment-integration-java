@@ -69,4 +69,4 @@ jobs:
           SLACK_CHANNEL: payment
         uses: Ilshidur/action-slack@master
         with:
-          args: 'Version: <https://github.com/commercetools/commercetools-payment-integration-java/releases/tag/${{ steps.vars.outputs.tag }}|${{ steps.vars.outputs.tag }}> of the commercetools-payment-integration-java library has been published to the <https://repo1.maven.org/maven2/com/commercetools/payment/nopsp-adapter/|Maven Central>.'
+          args: 'Version: <https://github.com/commercetools/commercetools-payment-integration-java/releases/tag/${{ steps.vars.outputs.tag }}|${{ steps.vars.outputs.tag }}> of the commercetools-payment-integration-java library has been published to the <https://repo1.maven.org/maven2/com/commercetools/payment/|Maven Central>.'

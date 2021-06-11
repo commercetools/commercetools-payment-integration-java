@@ -1,3 +1,5 @@
+group = rootProject.group
+version = rootProject.version
 // maven publish settings
 def pomConfig = {
     licenses {
@@ -41,8 +43,6 @@ publishing {
             artifact sourcesJar
             artifact javadocJar
 
-            groupId rootProject.group
-            artifactId project.name
             version rootProject.version
 
             pom.withXml {

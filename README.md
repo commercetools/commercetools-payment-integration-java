@@ -77,7 +77,7 @@ Take the dependencies from Maven central
 
 ### SBT
 
-  1. [Configure _JCenter_ and/or _Bintray_ repositories](http://www.scala-sbt.org/0.13/docs/Resolvers.html)
+  1. [Configure _JCenter_ repositories](http://www.scala-sbt.org/0.13/docs/Resolvers.html)
   
   2. Add to `build.sbt`
   

@@ -1,39 +1,63 @@
-group = rootProject.group
-version = rootProject.version
+/ library bintray/maven publish settings
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    scm {
+        connection "scm:git:$scmHttpsUrl"
+        developerConnection "scm:git:$scmSshUrl"
+        url "$scmProjectUrl"
+    }
+    developers {
+        developer {
+            id 'andrii-kovalenko-ct'
+            name 'Andrii Kovalenko'
+            url 'https://github.com/andrii-kovalenko-ct'
+            email 'andrii.kovalenko@commercetools.com'
+        }
+        developer {
+            id 'ahalberkamp'
+            name 'Andreas Halberkamp'
+            url 'https://github.com/ahalberkamp'
+            email 'andreas.halberkamp@commercetools.de'
+        }
+        developer {
+            id 'MGA-dotSource'
+            name 'Mirco'
+            url 'https://github.com/MGA-dotSource'
+        }
+        developer {
+            id 'mht-dotsource'
+            name 'Martin Horatschek'
+            url 'https://github.com/mht-dotsource'
+        }
+    }
+}
 
-
+// maven-specific publishing settings
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            artifactId = project.name
+        paymentPublication(MavenPublication) {
             from components.java
+
             artifact sourcesJar
             artifact javadocJar
 
-            pom {
-                name = project.name
-                description = "Java modules to create and handle payments and payment transactions"
-                url = scmHttpsUrl
-                licenses {
-                    license {
-                        name = "The Apache Software License, Version 2.0"
-                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
-                        distribution = "repo"
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'commercetools'
-                        name = 'commercetools Professional Services'
-                        url = 'https://github.com/commercetools'
-                        email = 'ps-dev@commercetools.com'
-                    }
-                }
-                scm {
-                    connection = "scm:git:$scmHttpsUrl"
-                    developerConnection = "scm:git:$scmSshUrl"
-                    url = "$scmProjectUrl"
-                }
+            groupId rootProject.group
+            artifactId project.name
+            version rootProject.version
+
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'The commercetools java payment project intend is to make payment integration easy')
+                root.appendNode('name', project.name)
+                root.appendNode('url', scmHttpsUrl)
+
+                root.children().last() + pomConfig
             }
         }
     }

@@ -6,7 +6,6 @@ buildscript {
     dependencies {
         classpath 'com.netflix.nebula:gradle-aggregate-javadocs-plugin:2.2.+'
         classpath 'org.ajoberstar:gradle-git-publish:1.0.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
 }
 
@@ -15,7 +14,7 @@ id 'org.ajoberstar.git-publish' version '3.0.0'
 id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }
 
-apply from: "$rootDir/build-scripts/extensions.gradle"
+
 apply from: "$rootDir/build-scripts/plugins.gradle"
 apply from: "$rootDir/build-scripts/package.gradle"
 apply from: "$rootDir/build-scripts/maven-publish.gradle"

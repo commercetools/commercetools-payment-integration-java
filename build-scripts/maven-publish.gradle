@@ -12,7 +12,7 @@ publishing {
 
             pom {
                 name = project.name
-                description = project.description
+                description = "Java modules to create and handle payments and payment transactions"
                 url = scmHttpsUrl
                 licenses {
                     license {

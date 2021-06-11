@@ -51,46 +51,15 @@ Create **JAR** files and test:
 Install to local maven repo:
 `./gradlew clean install`
 
-Publish to Bintray:
-`./gradlew clean -Dbuild.version=$TRAVIS_TAG bintrayUpload`
 
 For more info about build and publish process see [BUILD](BUILD.md) documentation
 
 ## Project configuration:
-Take the dependencies from Maven central, Bintray/JCenter.
+Take the dependencies from Maven central
 
 ### Maven
 
-  1. Add _JCenter_ and/or _Bintray_ repositories references in the project `pom.xml` or in common maven `settings.xml`.
-  An Example of `pom.xml` configuration:
-  ```
-    <repositories>
-      <repository>
-        <snapshots>
-          <enabled>false</enabled>
-        </snapshots>
-        <id>jcenter</id>
-        <url>https://jcenter.bintray.com/</url>
-        <name>jcenter</name>
-      </repository>
-      
-      <repository>
-        <snapshots>
-          <enabled>false</enabled>
-        </snapshots>
-        <id>bintray-commercetools-maven</id>
-        <name>bintray-commercetools-maven</name>
-        <url>https://dl.bintray.com/commercetools/maven</url>
-      </repository>
-    </repositories>
-  ```
-  
-  - **Note the difference**: [_JCenter_](https://bintray.com/bintray/jcenter) is a public common repository 
-  (almost the same as _Maven Central_), where the artifacts are published **forever** (almost). 
-  Opposite to this, [_bintray-commercetools-maven_](https://bintray.com/commercetools/maven/) 
-  is a corporate account storage, where temporary artifacts for development are stored and could be removed 
-  (almost like `SNAPSHOT`s in _OSS Sonatype_ repo)
-  
+  1. Add _JCenter_ repositories references in the project `pom.xml` or in common maven `settings.xml`.
   - See [Setting up Multiple Repositories](https://maven.apache.org/guides/mini/guide-multiple-repositories.html)
   guide for more details how to configure third party maven repositories.
 

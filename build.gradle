@@ -14,7 +14,7 @@ id 'org.ajoberstar.git-publish' version '3.0.0'
 id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }
 
-
+apply from: "$rootDir/build-scripts/extensions.gradle"
 apply from: "$rootDir/build-scripts/plugins.gradle"
 apply from: "$rootDir/build-scripts/package.gradle"
 apply from: "$rootDir/build-scripts/maven-publish.gradle"
@@ -33,12 +33,6 @@ final depVersions = [
 // that's why we use ext. global prefix
 ext.scmProjectName = rootProject.name
 ext.scmRepo = 'github.com'
-
-ext.scmProjectPath = "commercetools/${scmProjectName}.git"  // github relative path with .git extension
-ext.scmProjectUrl = "https://$scmRepo/$scmProjectPath"      // just as web-page
-ext.scmHttpsUrl = "https://$scmRepo/$scmProjectPath"        // common VCS read access
-ext.scmSshUrl = "git@$scmRepo:$scmProjectPath"              // developers VCS read-write repo
-
 ext.SNAPSHOT = 'SNAPSHOT'
 ext.SNAPSHOT_SUFFIX = "-$SNAPSHOT"
 

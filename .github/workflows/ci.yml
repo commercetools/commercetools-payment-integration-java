@@ -20,7 +20,7 @@ jobs:
       - name: Restart Heroku
         uses: actions/heroku@master
         with:
-          args: container:restart --app ct-payment-integration-java
+          args: heroku ps:restart --app ct-payment-integration-java
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       - name: Build with Gradle

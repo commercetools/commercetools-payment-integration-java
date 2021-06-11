@@ -1,4 +1,4 @@
-/ library bintray/maven publish settings
+// maven publish settings
 def pomConfig = {
     licenses {
         license {
@@ -13,12 +13,6 @@ def pomConfig = {
         url "$scmProjectUrl"
     }
     developers {
-        developer {
-            id 'andrii-kovalenko-ct'
-            name 'Andrii Kovalenko'
-            url 'https://github.com/andrii-kovalenko-ct'
-            email 'andrii.kovalenko@commercetools.com'
-        }
         developer {
             id 'ahalberkamp'
             name 'Andreas Halberkamp'

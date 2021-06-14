@@ -6,10 +6,12 @@ buildscript {
     dependencies {
         classpath 'com.netflix.nebula:gradle-aggregate-javadocs-plugin:2.2.+'
         classpath 'org.ajoberstar:gradle-git-publish:1.0.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
 }
-
+plugins {
+    id 'org.ajoberstar.git-publish' version '3.0.0'
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+}
 final depVersions = [
         commercetoolsSdkJvm: '1.53.0',
         assertJ            : '3.6.2',
@@ -40,6 +42,8 @@ version = System.getProperty('build.version') ?: versionWIP
 
 println "\nEffective entire project build version: ${version}\n"
 
+apply from: "$rootDir/build-scripts/nexus-publish.gradle"
+
 allprojects {
     repositories {
         jcenter()
@@ -66,13 +70,11 @@ subprojects {
 
     apply plugin: 'maven'
     apply plugin: 'maven-publish'
+    apply plugin: 'signing'
 
-    // this is an important plugin for maven/bintray publishing to avoid "all dependencies are runtime scope":
-    // see https://github.com/bintray/gradle-bintray-plugin#maven-publications and https://github.com/gradle/gradle/issues/1118
+    // this is an important plugin for maven publishing to avoid "all dependencies are runtime scope":
+    // see  https://github.com/gradle/gradle/issues/1118
     apply plugin: 'java-library'
-
-    apply plugin: 'com.jfrog.bintray'
-
     // package sources and javadoc to jar
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'
@@ -97,9 +99,6 @@ subprojects {
 
     apply from: "$rootDir/build-scripts/maven-publish.gradle"
 
-    apply from: "$rootDir/build-scripts/bintray-upload.gradle"
-
-    apply from: "$rootDir/build-scripts/oss-upload.gradle"
 }
 
 project(':common') {
@@ -143,7 +142,7 @@ project(':') {
     // see https://github.com/nebula-plugins/gradle-aggregate-javadocs-plugin
     apply plugin: 'nebula-aggregate-javadocs'
     apply plugin: 'org.ajoberstar.git-publish'
-
+    apply plugin: 'org.ajoberstar.git-publish'
     // Integration tests configuration
     // TODO: carry out to a separate sub-project or task
 
@@ -160,8 +159,8 @@ project(':') {
     configure(subprojects) { subProj ->
         subProj.tasks.findAll { it.name.endsWith("build") }
                 .each { subProjTask ->
-            rootProject.compileJava.mustRunAfter.add(subProjTask)
-        }
+                    rootProject.compileJava.mustRunAfter.add(subProjTask)
+                }
     }
 
     sourceSets {
@@ -181,7 +180,7 @@ project(':') {
     }
 
     task integrationTest(type: Test) {
-        testClassesDir = sourceSets.integrationTest.output.classesDir
+        testClassesDirs = sourceSets.integrationTest.output.classesDirs
         classpath = sourceSets.integrationTest.runtimeClasspath
         //outputs.upToDateWhen { false } // uncommect this section if you want re-run the tests every build, even when no changes have been done
     }
@@ -197,6 +196,6 @@ void validateVersion(String prefix) throws InvalidUserDataException {
     if (!rootProject.version?.trim() || rootProject.version == versionWIP) {
         throw new InvalidUserDataException(
                 "$prefix.\nPls, specify -Dbuild.version=<version-name> as the build argument.\n" +
-                "Current version is \"$rootProject.version\"")
+                        "Current version is \"$rootProject.version\"")
     }
 }

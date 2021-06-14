@@ -1,0 +1,33 @@
+name: CI
+
+on: [push]
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: serializing workflow runs
+        uses: softprops/turnstyle@v1
+        with:
+          same-branch-only: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Restart Heroku
+        uses: actions/heroku@master
+        with:
+          args: ps:restart --app ct-payment-integration-java
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      - name: Build with Gradle
+        run: ./gradlew --info build
+        env:
+          CT_PROJECT_KEY:  project-payment-21
+          CT_CLIENT_ID: ${{ secrets.CT_CLIENT_ID }}
+          CT_CLIENT_SECRET: ${{ secrets.CT_CLIENT_SECRET }}
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          CT_PAYONE_INTEGRATION_URL: https://ct-payment-integration-java.herokuapp.com/PAYMENT/commercetools/handle/payments/

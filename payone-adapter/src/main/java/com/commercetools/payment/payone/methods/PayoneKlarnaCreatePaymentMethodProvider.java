@@ -13,7 +13,7 @@ import static java.util.Arrays.asList;
 
 public class PayoneKlarnaCreatePaymentMethodProvider extends PayoneCreatePaymentMethodBase {
 
-    public static final String KLARNA_ACTION_START = "start_session";
+    public static final String KLARNA_ADD_PAYDATA_ACTION_VALUE = "start_session";
     public static final String KLARNA_ACTION = "add_paydata[action]";
     private PayoneKlarnaCreatePaymentMethodProvider() {
     }

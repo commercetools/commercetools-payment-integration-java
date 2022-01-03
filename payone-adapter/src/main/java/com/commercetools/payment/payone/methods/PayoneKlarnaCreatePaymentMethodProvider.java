@@ -6,12 +6,12 @@ import io.sphere.sdk.types.CustomFieldsDraftBuilder;
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
 import static com.commercetools.payment.payone.methods.PayonePaymentMethodType.PAYMENT_INVOICE_KLARNA;
 import static com.commercetools.payment.payone.utils.PaymentMappingUtil.mapDraftCustomFields;
+import static com.commercetools.payment.payone.utils.PaymentMappingUtil.mapDraftCustomFieldsIfExist;
 import static java.util.Arrays.asList;
 
 public class PayoneKlarnaCreatePaymentMethodProvider extends PayoneCreatePaymentMethodBase {
 
-    public static final String KLARNA_ADD_PAYDATA_ACTION_VALUE = "start_session";
-    public static final String KLARNA_ADD_PAYDATA_ACTION_KEY = "add_paydata";
+
     private PayoneKlarnaCreatePaymentMethodProvider() {
     }
 
@@ -28,8 +28,7 @@ public class PayoneKlarnaCreatePaymentMethodProvider extends PayoneCreatePayment
     protected PaymentDraftBuilder createPaymentDraft(CreatePaymentData cpd) {
 
         CustomFieldsDraftBuilder customFieldsDraftBuilder = createCustomFieldsBuilder(cpd);
-        mapDraftCustomFields(customFieldsDraftBuilder, cpd, asList(GENDER, IP, BIRTHDAY, TELEPHONENUMBER));
-        customFieldsDraftBuilder.addObject(KLARNA_ADD_PAYDATA_ACTION_KEY, KLARNA_ADD_PAYDATA_ACTION_VALUE);
+        mapDraftCustomFieldsIfExist(customFieldsDraftBuilder, cpd, asList(GENDER, IP, BIRTHDAY, TELEPHONENUMBER));
         return super.createPaymentDraft(cpd)
                 .custom(customFieldsDraftBuilder.build());
     }

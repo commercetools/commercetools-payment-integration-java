@@ -3,8 +3,8 @@ name: CI
 on: [push]
 
 jobs:
-  tests:
-    name: Tests
+  job-setup:
+    name: job-setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -20,6 +20,11 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
+  tests:
+    name: Tests
+    needs: job-setup
+    runs-on: ubuntu-latest
+    steps:
       - name: Restart Heroku
         uses: actions/heroku@master
         with:

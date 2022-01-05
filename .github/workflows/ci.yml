@@ -21,6 +21,8 @@ jobs:
         run: sudo apt install snapd
       - name: Install heroku cli
         run: sudo snap install heroku --classic
+        env:
+          HOME: ${{ GITHUB_WORKSPACE }}
       - name: Restart Heroku
         run: heroku ps:restart --app ct-payment-integration-java
         env:

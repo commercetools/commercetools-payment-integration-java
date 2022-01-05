@@ -20,7 +20,7 @@ jobs:
       - name: Install snap
         run: sudo apt install snapd
       - name: Install heroku cli
-        run: sudo snap install heroku --classic
+        run: sudo snap install --classic heroku
         env:
           HOME: ${GITHUB_WORKSPACE}
       - name: Restart Heroku

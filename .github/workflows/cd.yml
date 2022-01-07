@@ -20,14 +20,11 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 1.8
-    - name: download heroku cli
-      uses: wei/curl@master
-      with:
-        args: https://cli-assets.heroku.com/install.sh >> ./.github/heroku_install.sh
       - name: Install heroku cli
         run: |
-          sudo chmod u+x ./.github/heroku_install.sh
-          sudo bash ./.github/heroku_install.sh
+          curl https://cli-assets.heroku.com/install.sh >> install.sh
+          sudo chmod u+x install.sh
+          sudo bash install.sh
         shell: bash
       - name: Restart Heroku
         run: heroku ps:restart --app ct-payment-integration-java

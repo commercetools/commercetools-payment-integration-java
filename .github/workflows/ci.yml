@@ -17,10 +17,14 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: Install heroku cli
+        run: |
+             curl https://cli-assets.heroku.com/install.sh >> install.sh
+             sudo chmod u+x install.sh
+             sudo bash install.sh
+        shell: bash
       - name: Restart Heroku
-        uses: actions/heroku@master
-        with:
-          args: ps:restart --app ct-payment-integration-java
+        run: heroku ps:restart --app ct-payment-integration-java
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       - name: Build with Gradle

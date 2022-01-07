@@ -17,14 +17,12 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Install snap
-        run: sudo apt install snapd
-      - name: Install heroku cli
+      - name: download heroku cli
         uses: wei/curl@master
         with:
-          args: https://cli-assets.heroku.com/install.sh
-      - name: Run build script
-        run: ./.github/install.sh
+          args: https://cli-assets.heroku.com/install.sh >>./.github/heroku_install.sh
+      - name: Install heroku cli
+        run: ./.github/heroku_install.sh
         shell: bash
       - name: Restart Heroku
         run: heroku ps:restart --app ct-payment-integration-java

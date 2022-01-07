@@ -23,8 +23,9 @@ jobs:
           args: https://cli-assets.heroku.com/install.sh >>./.github/heroku_install.sh
       - name: Install heroku cli
         run: |
+              sudo chmod u+x ./.github/heroku_install.sh
               ls -al ./.github/
-              sudo ./.github/heroku_install.sh
+              ./.github/heroku_install.sh
         shell: bash
       - name: Restart Heroku
         run: heroku ps:restart --app ct-payment-integration-java

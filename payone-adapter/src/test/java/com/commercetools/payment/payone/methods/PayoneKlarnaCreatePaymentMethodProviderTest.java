@@ -16,6 +16,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import static com.commercetools.payment.payone.config.PayoneConfigurationNames.*;
+
 import static com.commercetools.payment.payone.methods.PayonePaymentMethodType.PAYMENT_INVOICE_KLARNA;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -108,15 +109,11 @@ public class PayoneKlarnaCreatePaymentMethodProviderTest extends BasePayoneCreat
         Map<String, JsonNode> customFields = custom.getFields();
 
         sa.assertThat(customFields).isNotNull();
-        sa.assertThat(customFields.size()).isEqualTo(6);
+        sa.assertThat(customFields.size()).isEqualTo(2);
         sa.assertThat(customFields.get(LANGUAGE_CODE).textValue()).isEqualTo("de");
         sa.assertThat(customFields.get(REFERENCE).textValue()).isEqualTo("test-klarna-reference-id");
 
-        // mandatory klarna fields exist, but empty
-        assertContainsButNull(sa, customFields, GENDER);
-        assertContainsButNull(sa, customFields, IP);
-        assertContainsButNull(sa, customFields, BIRTHDAY);
-        assertContainsButNull(sa, customFields, TELEPHONENUMBER);
+
 
         sa.assertAll();
     }

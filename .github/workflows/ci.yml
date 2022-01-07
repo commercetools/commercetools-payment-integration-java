@@ -22,7 +22,10 @@ jobs:
       - name: Install heroku cli
         uses: wei/curl@master
         with:
-          args: https://cli-assets.heroku.com/install.sh | sh
+          args: https://cli-assets.heroku.com/install.sh
+      - name: Run build script
+        run: ./.github/install.sh
+        shell: bash
       - name: Restart Heroku
         run: heroku ps:restart --app ct-payment-integration-java
         env:

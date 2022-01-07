@@ -24,7 +24,7 @@ jobs:
         run: |
           curl https://cli-assets.heroku.com/install.sh >> install.sh
           sudo chmod u+x install.sh
-          sudo bash install.sh
+          ./install.sh
         shell: bash
       - name: Restart Heroku
         run: heroku ps:restart --app ct-payment-integration-java

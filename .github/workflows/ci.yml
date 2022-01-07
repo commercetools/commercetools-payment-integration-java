@@ -23,7 +23,7 @@ jobs:
           args: https://cli-assets.heroku.com/install.sh >>./.github/heroku_install.sh
       - name: Install heroku cli
         run: |
-              chmod u+x ./.github/heroku_install.sh
+              sudo chmod u+x ./.github/heroku_install.sh
               ./.github/heroku_install.sh
         shell: bash
       - name: Restart Heroku

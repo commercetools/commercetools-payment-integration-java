@@ -22,7 +22,7 @@ jobs:
           java-version: 1.8
       - name: Install heroku cli
         run: |
-          curl --silent --show-error --fail -O  https://cli-assets.heroku.com/install.sh
+          curl --silent --show-error --fail -O https://cli-assets.heroku.com/install.sh
           sudo chmod u+x install.sh
           ./install.sh
         shell: bash
